@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>إدارة الطلبات - RabieMetal</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* أنماط عامة */
+    :root {
+      --primary-color: #2c3e50;
+      --secondary-color: #e74c3c;
+      --accent-color: #3498db;
+      --light-color: #ecf0f1;
+      --dark-color: #2c3e50;
+      --text-color: #333;
+      --background-color: #f9f9f9;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Cairo', 'Tahoma', sans-serif;
+    }
+    
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+    
+    /* الهيدر */
+    header {
+      background: linear-gradient(135deg, var(--primary-color), #1a2530);
+      color: white;
+      padding: 1rem 0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo h1 {
+      font-size: 1.8rem;
+      margin-right: 0.5rem;
+    }
+    
+    .logo i {
+      color: var(--secondary-color);
+      font-size: 2rem;
+    }
+    
+    nav ul {
+      display: flex;
+      list-style: none;
+    }
+    
+    nav ul li {
+      margin: 0 0.5rem;
+    }
+    
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
+    
+    nav ul li a:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    
+    /* المحتوى الرئيسي */
+    main {
+      max-width: 1400px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    
+    .admin-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+    .admin-header h2 {
+      font-size: 2.2rem;
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+    }
+    
+    .admin-header p {
+      color: #666;
+      font-size: 1.1rem;
+    }
+    
+    /* فلاتر البحث والتصفية */
+    .filters {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      margin-bottom: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+    }
+    
+    .filter-group {
+      flex: 1;
+      min-width: 200px;
+    }
+    
+    .filter-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+    
+    .filter-group input,
+    .filter-group select {
+      width: 100%;
+      padding: 0.7rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+    
+    .search-btn {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-top: 1.6rem;
+    }
+    
+    /* إحصائيات سريعة */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .stat-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      text-align: center;
+    }
+    
+    .stat-card i {
+      font-size: 2.5rem;
+      color: var(--accent-color);
+      margin-bottom: 1rem;
+    }
+    
+    .stat-card h3 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      color: var(--primary-color);
+    }
+    
+    .stat-card p {
+      color: #666;
+    }
+    
+    /* جدول الطلبات */
+    .orders-table {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+    }
+    
+    .table-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .table-header h3 {
+      color: var(--primary-color);
+    }
+    
+    .table-container {
+      overflow-x: auto;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    th, td {
+      padding: 1rem;
+      text-align: right;
+      border-bottom: 1px solid #eee;
+    }
+    
+    th {
+      background-color: #f8f9fa;
+      font-weight: bold;
+      color: var(--primary-color);
+    }
+    
+    tr:hover {
+      background-color: #f8f9fa;
+    }
+    
+    .status {
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: bold;
+    }
+    
+    .status.new {
+      background: #e3f2fd;
+      color: #1565c0;
+    }
+    
+    .status.processing {
+      background: #fff3e0;
+      color: #ef6c00;
+    }
+    
+    .status.completed {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+    
+    .action-btn {
+      padding: 0.4rem 0.8rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      margin-left: 0.3rem;
+    }
+    
+    .view-btn {
+      background: var(--accent-color);
+      color: white;
+    }
+    
+    .edit-btn {
+      background: var(--primary-color);
+      color: white;
+    }
+    
+    .delete-btn {
+      background: var(--secondary-color);
+      color: white;
+    }
+    
+    /* حالة عدم وجود طلبات */
+    .empty-state {
+      text-align: center;
+      padding: 3rem;
+      color: #666;
+    }
+    
+    .empty-state i {
+      font-size: 4rem;
+      color: #ddd;
+      margin-bottom: 1rem;
+    }
+    
+    .empty-state p {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    /* نموذج عرض الطلب */
+    .order-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .modal-content {
+      background: white;
+      width: 90%;
+      max-width: 700px;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    .modal-header {
+      background: var(--primary-color);
+      color: white;
+      padding: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .modal-header h3 {
+      margin: 0;
+    }
+    
+    .close-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    
+    .modal-body {
+      padding: 1.5rem;
+      max-height: 70vh;
+      overflow-y: auto;
+    }
+    
+    .order-details {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    
+    .detail-group {
+      margin-bottom: 1rem;
+    }
+    
+    .detail-group h4 {
+      margin-bottom: 0.5rem;
+      color: var(--primary-color);
+    }
+    
+    .detail-group p {
+      color: #666;
+    }
+    
+    .modal-footer {
+      padding: 1rem 1.5rem;
+      background: #f8f9fa;
+      text-align: left;
+    }
+    
+    /* الفوتر */
+    footer {
+      background: var(--dark-color);
+      color: white;
+      text-align: center;
+      padding: 2rem 1rem;
+      margin-top: 3rem;
+    }
+    
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      text-align: right;
+    }
+    
+    .footer-section h3 {
+      margin-bottom: 1rem;
+      color: var(--secondary-color);
+    }
+    
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .social-icons a {
+      color: white;
+      font-size: 1.5rem;
+      transition: color 0.3s;
+    }
+    
+    .social-icons a:hover {
+      color: var(--accent-color);
+    }
+    
+    .copyright {
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    /* تصميم متجاوب */
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+      }
+      
+      nav ul {
+        margin-top: 1rem;
+      }
+      
+      .filters {
+        flex-direction: column;
+      }
+      
+      .filter-group {
+        width: 100%;
+      }
+      
+      .order-details {
+        grid-template-columns: 1fr;
+      }
+      
+      th, td {
+        padding: 0.7rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <div class="logo">
+        <i class="fas fa-hard-hat"></i>
+        <h1>RabieMetal - لوحة التحكم</h1>
+      </div>
+      
+      <nav>
+        <ul>
+          <li><a href="index.html">الموقع الرئيسي</a></li>
+          <li><a href="#orders">الطلبات</a></li>
+          <li><a href="#stats">الإحصائيات</a></li>
+          <li>
+            <a href="#logout" style="color: #ff6b6b;">
+              <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="admin-header">
+      <h2>إدارة الطلبات</h2>
+      <p>عرض وإدارة جميع طلبات العملاء</p>
+    </div>
+
+    <!-- فلاتر البحث -->
+    <div class="filters">
+      <div class="filter-group">
+        <label for="search">بحث:</label>
+        <input type="text" id="search" placeholder="ابحث باسم العميل أو رقم الهاتف">
+      </div>
+      
+      <div class="filter-group">
+        <label for="status">حالة الطلب:</label>
+        <select id="status">
+          <option value="all">جميع الحالات</option>
+          <option value="new">جديد</option>
+          <option value="processing">قيد المعالجة</option>
+          <option value="completed">مكتمل</option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <label for="date">التاريخ:</label>
+        <input type="date" id="date">
+      </div>
+      
+      <button class="search-btn" id="search-btn">
+        <i class="fas fa-search"></i> بحث
+      </button>
+    </div>
+
+    <!-- إحصائيات سريعة -->
+    <div class="stats">
+      <div class="stat-card">
+        <i class="fas fa-shopping-cart"></i>
+        <h3 id="total-orders">0</h3>
+        <p>إجمالي الطلبات</p>
+      </div>
+      
+      <div class="stat-card">
+        <i class="fas fa-clock"></i>
+        <h3 id="new-orders">0</h3>
+        <p>طلبات جديدة</p>
+      </div>
+      
+      <div class="stat-card">
+        <i class="fas fa-truck"></i>
+        <h3 id="processing-orders">0</h3>
+        <p>قيد المعالجة</p>
+      </div>
+      
+      <div class="stat-card">
+        <i class="fas fa-check-circle"></i>
+        <h3 id="completed-orders">0</h3>
+        <p>طلبات مكتملة</p>
+      </div>
+    </div>
+
+    <!-- جدول الطلبات -->
+    <div class="orders-table">
+      <div class="table-header">
+        <h3>الطلبات</h3>
+        <button class="search-btn" id="export-btn">
+          <i class="fas fa-download"></i> تصدير البيانات
+        </button>
+      </div>
+      
+      <div class="table-container">
+        <table id="orders-table">
+          <thead>
+            <tr>
+              <th>رقم الطلب</th>
+              <th>العميل</th>
+              <th>تاريخ الطلب</th>
+              <th>المنتج</th>
+              <th>الكمية</th>
+              <th>المبلغ</th>
+              <th>الحالة</th>
+              <th>الإجراءات</th>
+            </tr>
+          </thead>
+          <tbody id="orders-body">
+            <!-- حالة عدم وجود طلبات -->
+            <tr>
+              <td colspan="8">
+                <div class="empty-state">
+                  <i class="fas fa-inbox"></i>
+                  <p>لا توجد طلبات حتى الآن</p>
+                  <p>سيظهر هنا أي طلبات جديدة من العملاء</p>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- نموذج عرض تفاصيل الطلب -->
+    <div class="order-modal" id="orderModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="modal-title">تفاصيل الطلب</h3>
+          <button class="close-btn" onclick="closeOrderModal()">&times;</button>
+        </div>
+        <div class="modal-body" id="modal-body">
+          <!-- سيتم ملء هذا القسم عند وجود طلبات -->
+        </div>
+        <div class="modal-footer">
+          <button class="action-btn edit-btn" id="edit-status-btn">
+            <i class="fas fa-edit"></i> تعديل الحالة
+          </button>
+          <button class="action-btn delete-btn" id="delete-order-btn">
+            <i class="fas fa-trash"></i> حذف الطلب
+          </button>
+          <button class="action-btn view-btn" id="print-order-btn">
+            <i class="fas fa-print"></i> طباعة
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>عن الشركة</h3>
+        <p>متخصصون في توريد المنتجات المعدنية والحديدية بجودة عالية وتوصيل سريع لجم أنحاء المملكة.</p>
+      </div>
+      
+      <div class="footer-section">
+        <h3>معلومات التواصل</h3>
+        <p><i class="fas fa-map-marker-alt"></i> العنوان: بريان، غرداية، الجزائر</p>
+        <p><i class="fas fa-phone"></i> الهاتف: 0559092993</p>
+        <p><i class="fas fa-envelope"></i> البريد: rabiesa47@gmail.com</p>
+      </div>
+      
+      <div class="footer-section">
+        <h3>تابعنا على</h3>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="copyright">
+      <p>&copy; 2025 RabieMetal. جميع الحقوق محفوظة.</p>
+    </div>
+  </footer>
+
+  <script>
+    // تهيئة الطلبات عند تحميل الصفحة
+    document.addEventListener('DOMContentLoaded', function() {
+      // تحميل الطلبات من localStorage أو استخدام مصفوفة فارغة
+      let orders = JSON.parse(localStorage.getItem('orders')) || [];
+      
+      // حفظ الطلبات في localStorage
+      localStorage.setItem('orders', JSON.stringify(orders));
+      
+      // عرض الطلبات في الجدول
+      renderOrders(orders);
+      
+      // تحديث الإحصائيات
+      updateStatistics(orders);
+    });
+
+    // عرض الطلبات في الجدول
+    function renderOrders(orders) {
+      const ordersBody = document.getElementById('orders-body');
+      
+      if (orders.length === 0) {
+        ordersBody.innerHTML = `
+          <tr>
+            <td colspan="8">
+              <div class="empty-state">
+                <i class="fas fa-inbox"></i>
+                <p>لا توجد طلبات حتى الآن</p>
+                <p>سيظهر هنا أي طلبات جديدة من العملاء</p>
+              </div>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+      
+      ordersBody.innerHTML = '';
+      
+      orders.forEach(order => {
+        const row = document.createElement('tr');
+        
+        // تحديد فئة الحالة
+        let statusClass = '';
+        let statusText = '';
+        switch(order.status) {
+          case 'new':
+            statusClass = 'new';
+            statusText = 'جديد';
+            break;
+          case 'processing':
+            statusClass = 'processing';
+            statusText = 'قيد المعالجة';
+            break;
+          case 'completed':
+            statusClass = 'completed';
+            statusText = 'مكتمل';
+            break;
+        }
+        
+        row.innerHTML = `
+          <td>${order.orderId}</td>
+          <td>${order.customerName}</td>
+          <td>${order.orderDate}</td>
+          <td>${order.productType}</td>
+          <td>${order.quantity}</td>
+          <td>${order.totalPrice} د.ج</td>
+          <td><span class="status ${statusClass}">${statusText}</span></td>
+          <td>
+            <button class="action-btn view-btn" onclick="viewOrder(${order.id})">
+              <i class="fas fa-eye"></i>
+            </button>
+            <button class="action-btn edit-btn" onclick="editOrder(${order.id})">
+              <i class="fas fa-edit"></i>
+            </button>
+          </td>
+        `;
+        
+        ordersBody.appendChild(row);
+      });
+    }
+
+    // تحديث الإحصائيات
+    function updateStatistics(orders) {
+      const totalOrders = orders.length;
+      const newOrders = orders.filter(order => order.status === 'new').length;
+      const processingOrders = orders.filter(order => order.status === 'processing').length;
+      const completedOrders = orders.filter(order => order.status === 'completed').length;
+      
+      document.getElementById('total-orders').textContent = totalOrders;
+      document.getElementById('new-orders').textContent = newOrders;
+      document.getElementById('processing-orders').textContent = processingOrders;
+      document.getElementById('completed-orders').textContent = completedOrders;
+    }
+
+    // عرض تفاصيل الطلب
+    function viewOrder(orderId) {
+      const orders = JSON.parse(localStorage.getItem('orders'));
+      const order = orders.find(o => o.id === orderId);
+      
+      if (order) {
+        document.getElementById('modal-title').textContent = `تفاصيل الطلب ${order.orderId}`;
+        
+        let statusText = '';
+        switch(order.status) {
+          case 'new':
+            statusText = 'جديد';
+            break;
+          case 'processing':
+            statusText = 'قيد المعالجة';
+            break;
+          case 'completed':
+            statusText = 'مكتمل';
+            break;
+        }
+        
+        document.getElementById('modal-body').innerHTML = `
+          <div class="order-details">
+            <div>
+              <div class="detail-group">
+                <h4>معلومات العميل</h4>
+                <p>الاسم: ${order.customerName}</p>
+                <p>الهاتف: ${order.customerPhone}</p>
+                <p>العنوان: ${order.customerAddress}</p>
+              </div>
+              
+              <div class="detail-group">
+                <h4>معلومات الطلب</h4>
+                <p>تاريخ الطلب: ${order.orderDate}</p>
+                <p>حالة الطلب: <span class="status ${order.status}">${statusText}</span></p>
+                <p>طريقة الدفع: ${order.paymentMethod}</p>
+              </div>
+            </div>
+            
+            <div>
+              <div class="detail-group">
+                <h4>تفاصيل المنتج</h4>
+                <p>المنتج: ${order.productType}</p>
+                <p>الطول: ${order.length} متر</p>
+                <p>الكمية: ${order.quantity} قطعة</p>
+                <p>سعر المتر: ${order.pricePerMeter} د.ج</p>
+              </div>
+              
+              <div class="detail-group">
+                <h4>الفاتورة</h4>
+                <p>السعر الإجمالي: ${order.totalPrice} د.ج</p>
+                <p>الضريبة: 0 د.ج</p>
+                <p>رسوم التوصيل: 0 د.ج</p>
+                <p><strong>المجموع: ${order.totalPrice} د.ج</strong></p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="detail-group">
+            <h4>ملاحظات</h4>
+            <p>${order.notes || "لا توجد ملاحظات"}</p>
+          </div>
+        `;
+        
+        // تعيين معرف الطلب على أزرار الإجراءات
+        document.getElementById('edit-status-btn').setAttribute('data-order-id', orderId);
+        document.getElementById('delete-order-btn').setAttribute('data-order-id', orderId);
+        document.getElementById('print-order-btn').setAttribute('data-order-id', orderId);
+        
+        openOrderModal();
+      }
+    }
+
+    // تعديل حالة الطلب
+    function editOrder(orderId) {
+      const orders = JSON.parse(localStorage.getItem('orders'));
+      const order = orders.find(o => o.id === orderId);
+      
+      if (order) {
+        const newStatus = prompt(`يرجى اختيار حالة جديدة للطلب ${order.orderId}:\n1- جديد\n2- قيد المعالجة\n3- مكتمل`, order.status);
+        
+        if (newStatus) {
+          if (['new', 'processing', 'completed'].includes(newStatus)) {
+            order.status = newStatus;
+            localStorage.setItem('orders', JSON.stringify(orders));
+            renderOrders(orders);
+            updateStatistics(orders);
+            alert('تم تحديث حالة الطلب بنجاح');
+          } else {
+            alert('يرجى اختيار حالة صحيحة');
+          }
+        }
+      }
+    }
+
+    // فتح وإغلاق نموذج عرض الطلب
+    function openOrderModal() {
+      document.getElementById('orderModal').style.display = 'flex';
+    }
+    
+    function closeOrderModal() {
+      document.getElementById('orderModal').style.display = 'none';
+    }
+    
+    // إغلاق النموذج عند النقر خارج المحتوى
+    window.onclick = function(event) {
+      const modal = document.getElementById('orderModal');
+      if (event.target == modal) {
+        closeOrderModal();
+      }
+    }
+    
+    // البحث والتصفية
+    document.getElementById('search-btn').addEventListener('click', function() {
+      filterOrders();
+    });
+    
+    function filterOrders() {
+      const searchText = document.getElementById('search').value.toLowerCase();
+      const statusFilter = document.getElementById('status').value;
+      const dateFilter = document.getElementById('date').value;
+      
+      const orders = JSON.parse(localStorage.getItem('orders')) || [];
+      
+      let filteredOrders = orders.filter(order => {
+        // البحث بالنص
+        const matchesSearch = searchText === '' || 
+          order.customerName.toLowerCase().includes(searchText) ||
+          order.customerPhone.includes(searchText) ||
+          order.orderId.toLowerCase().includes(searchText);
+        
+        // التصفية بالحالة
+        const matchesStatus = statusFilter === 'all' || order.status === statusFilter;
+        
+        // التصفية بالتاريخ
+        const matchesDate = dateFilter === '' || order.orderDate === dateFilter;
+        
+        return matchesSearch && matchesStatus && matchesDate;
+      });
+      
+      renderOrders(filteredOrders);
+    }
+    
+    // تصدير البيانات
+    document.getElementById('export-btn').addEventListener('click', function() {
+      const orders = JSON.parse(localStorage.getItem('orders')) || [];
+      
+      if (orders.length === 0) {
+        alert('لا توجد طلبات لتصديرها');
+        return;
+      }
+      
+      const csvContent = convertToCSV(orders);
+      downloadCSV(csvContent, 'orders.csv');
+    });
+    
+    function convertToCSV(orders) {
+      const headers = ['رقم الطلب', 'العميل', 'التاريخ', 'المنتج', 'الكمية', 'المبلغ', 'الحالة'];
+      const rows = orders.map(order => [
+        order.orderId,
+        order.customerName,
+        order.orderDate,
+        order.productType,
+        order.quantity,
+        order.totalPrice,
+        order.status === 'new' ? 'جديد' : order.status === 'processing' ? 'قيد المعالجة' : 'مكتمل'
+      ]);
+      
+      return [headers, ...rows].map(row => row.join(',')).join('\n');
+    }
+    
+    function downloadCSV(csvContent, filename) {
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      const url = URL.createObjectURL(blob);
+      
+      link.setAttribute('href', url);
+      link.setAttribute('download', filename);
+      link.style.visibility = 'hidden';
+      
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  </script>
+</body>
+</html>

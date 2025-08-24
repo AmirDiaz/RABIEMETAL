@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>أنواع البوتريل - RabieMetal</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* أنماط عامة */
+    :root {
+      --primary-color: #2c3e50;
+      --secondary-color: #e74c3c;
+      --accent-color: #3498db;
+      --light-color: #ecf0f1;
+      --dark-color: #2c3e50;
+      --text-color: #333;
+      --background-color: #f9f9f9;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Cairo', 'Tahoma', sans-serif;
+    }
+    
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), 
+                        url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h100v100H0z' fill='none'/%3E%3Cpath d='M25 25h50v50H25z' stroke='%23ddd' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+    }
+    
+    /* الهيدر */
+    header {
+      background: linear-gradient(135deg, var(--primary-color), #1a2530);
+      color: white;
+      padding: 1rem 0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo h1 {
+      font-size: 1.8rem;
+      margin-right: 0.5rem;
+    }
+    
+    .logo i {
+      color: var(--secondary-color);
+      font-size: 2rem;
+    }
+    
+    nav ul {
+      display: flex;
+      list-style: none;
+    }
+    
+    nav ul li {
+      margin: 0 0.5rem;
+    }
+    
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
+    
+    nav ul li a:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    
+    .cart-icon {
+      position: relative;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      left: -8px;
+      background: var(--secondary-color);
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 0.8rem;
+    }
+    
+    /* المحتوى الرئيسي */
+    main {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    
+    section {
+      margin-bottom: 3rem;
+      padding: 2rem;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    }
+    
+    /* قسم الترحيب */
+    .page-header {
+      text-align: center;
+      padding: 2rem;
+      background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+    }
+    
+    .page-header h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .back-button {
+      display: inline-block;
+      background: var(--secondary-color);
+      color: white;
+      padding: 0.5rem 1.5rem;
+      margin-top: 1.5rem;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+    
+    .back-button:hover {
+      background: #c0392b;
+    }
+    
+    /* أنواع البوتريل */
+    .types-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+    
+    .type-item {
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .type-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    }
+    
+    .type-image {
+      height: 200px;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f5f5f5;
+    }
+    
+    .type-image img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      transition: transform 0.5s;
+    }
+    
+    /* تعديل خاص للصورة الكبيرة */
+    .type-image.img-adjusted img {
+      max-width: 85%;
+      max-height: 85%;
+    }
+    
+    .type-item:hover .type-image img {
+      transform: scale(1.05);
+    }
+    
+    .type-info {
+      padding: 1.5rem;
+    }
+    
+    .type-info h3 {
+      margin-bottom: 0.5rem;
+      color: var(--dark-color);
+    }
+    
+    .type-info p {
+      color: #666;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+    }
+    
+    .type-price {
+      font-weight: bold;
+      color: var(--secondary-color);
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    
+    .add-cart {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 1rem;
+      transition: background 0.3s;
+    }
+    
+    .add-cart:hover {
+      background: var(--accent-color);
+    }
+    
+    /* الفوتر */
+    footer {
+      background: var(--dark-color);
+      color: white;
+      text-align: center;
+      padding: 2rem 1rem;
+      margin-top: 3rem;
+    }
+    
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      text-align: right;
+    }
+    
+    .footer-section h3 {
+      margin-bottom: 1rem;
+      color: var(--secondary-color);
+    }
+    
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .social-icons a {
+      color: white;
+      font-size: 1.5rem;
+      transition: color 0.3s;
+    }
+    
+    .social-icons a:hover {
+      color: var(--accent-color);
+    }
+    
+    .copyright {
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    /* تصميم متجاوب */
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+      }
+      
+      nav ul {
+        margin-top: 1rem;
+      }
+      
+      .types-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      /* تعديل إضافي للصورة على الشاشات الصغيرة */
+      .type-image.img-adjusted img {
+        max-width: 75%;
+        max-height: 75%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <div class="logo">
+        <i class="fas fa-hard-hat"></i>
+        <h1>RabieMetal</h1>
+      </div>
+      
+      <nav>
+        <ul>
+          <li><a href="index.html">الرئيسية</a></li>
+          <li><a href="index.html#products">المنتجات</a></li>
+          <li><a href="index.html#contact">اتصل بنا</a></li>
+          <li>
+            <div class="cart-icon">
+              <i class="fas fa-shopping-cart"></i>
+              <span class="cart-count">0</span>
+            </div>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-header">
+      <h2>أنواع البوتريل الحديدي</h2>
+      <p>اختر النوع المناسب لمشروعك من بين أنواع البوتريل عالية الجودة</p>
+      <a href="index.html" class="back-button">العودة إلى الرئيسية</a>
+    </div>
+
+    <section id="poutrelle-types">
+      <div class="types-grid">
+        <div class="type-item">
+          <div class="type-image">
+            <img src="https://www.taniskladbudowlany.com/userfiles/announcement/1036-pustak-szalunkowy-pf2-pustak-zalewowy-pustak-na-filarki-5-611cfd66ecb03.webp" alt="البوتريل العادي">
+          </div>
+          <div class="type-info">
+            <h3>البوتريل العادي</h3>
+            <p>بوتريل قياسي عالي الجودة للاستخدامات العامة في البناء والتشييد. يتميز بمتانة وقوة تحمل مناسبة لمعظم المشاريع.</p>
+            <span class="type-price">750 دينار جزائري</span>
+            <button class="add-cart" data-id="1">
+              <i class="fas fa-cart-plus"></i> أضف إلى السلة
+            </button>
+          </div>
+        </div>
+        
+        <div class="type-item">
+          <div class="type-image img-adjusted">
+            <img src="https://www.destockage-habitat.com/cdn/product/3/3/5/3/0/3/335303.jpg" alt="البوتريل المزدوج">
+          </div>
+          <div class="type-info">
+            <h3>البوتريل المزدوج</h3>
+            <p>بوتريل مزدوج القوة للمشاريع الأكثر متانة. مثالي للهياكل التي تتطلب تحميل أوزان ثقيلة ومقاومة أعلى.</p>
+            <span class="type-price">1200 دينار جزائري</span>
+            <button class="add-cart" data-id="2">
+              <i class="fas fa-cart-plus"></i> أضف إلى السلة
+            </button>
+          </div>
+        </div>
+        
+        <div class="type-item">
+          <div class="type-image">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23f5f5f5'/%3E%3Cpath d='M50,50 L250,50 L250,150 L50,150 Z' stroke='%23333' stroke-width='2' fill='none'/%3E%3Cpath d='M75,75 L225,75 L225,125 L75,125 Z' stroke='%23333' stroke-width='2' fill='none'/%3E%3Ctext x='150' y='180' font-family='Arial' font-size='12' text-anchor='middle' fill='%23333'%3Eصورة البوتريل المقوى%3C/text%3E%3C/svg%3E" alt="البوتريل المقوى">
+          </div>
+          <div class="type-info">
+            <h3>البوتريل المقوى</h3>
+            <p>بوتريل مقوى للهياكل التي تتطلب متانة استثنائية. مصمم خصيصًا للمشاريع الكبيرة والمنشآت الثقيلة.</p>
+            <span class="type-price">1500 دينار جزائري</span>
+            <button class="add-cart" data-id="3">
+              <i class="fas fa-cart-plus"></i> أضف إلى السلة
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>عن الشركة</h3>
+        <p>متخصصون في توريد المنتجات المعدنية والحديدية بجودة عالية وتوصيل سريع لجم أنحاء المملكة.</p>
+      </div>
+      
+      <div class="footer-section">
+        <h3>معلومات التواصل</h3>
+        <p><i class="fas fa-map-marker-alt"></i> العنوان: بريان، غرداية، الجزائر</p>
+        <p><i class="fas fa-phone"></i> الهاتف: 0559092993</p>
+        <p><i class="fas fa-envelope"></i> البريد: rabiesa47@gmail.com</p>
+      </div>
+      
+      <div class="footer-section">
+        <h3>تابعنا على</h3>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="copyright">
+      <p>&copy; 2025 RabieMetal. جميع الحقوق محفوظة.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const cartCount = document.querySelector('.cart-count');
+      let cartItems = 0;
+
+      // إضافة منتج إلى السلة
+      document.querySelectorAll('.add-cart').forEach(button => {
+        button.addEventListener('click', () => {
+          cartItems++;
+          cartCount.textContent = cartItems;
+          
+          // تأثير عند الإضافة
+          const originalText = button.innerHTML;
+          button.innerHTML = '<i class="fas fa-check"></i> تم الإضافة';
+          button.style.background = '#27ae60';
+          
+          setTimeout(() => {
+            button.innerHTML = originalText;
+            button.style.background = '';
+          }, 1500);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
