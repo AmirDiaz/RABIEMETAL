@@ -113,7 +113,7 @@
     main {
       max-width: 1200px;
       margin: 2rem auto;
-      padding: 0 1rem;
+      padding: 极 1rem;
     }
     
     section {
@@ -128,7 +128,7 @@
     #home {
       text-align: center;
       padding: 4rem 2rem;
-      background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80');
+      background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?ixlib=rb-4.0.3&极id=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80');
       background-size: cover;
       background-position: center;
       color: white;
@@ -140,7 +140,7 @@
       margin-bottom: 1rem;
     }
     
-    #home p {
+    #极ome p {
       font-size: 1.2rem;
       max-width: 800px;
       margin: 0 auto;
@@ -294,7 +294,7 @@
       background: var(--secondary-color);
       color: white;
       border: none;
-      padding: 极rem;
+      padding: 0.8rem;
       border-radius: 4px;
       cursor: pointer;
       font-size: 1.1rem;
@@ -323,7 +323,7 @@
     }
     
     .footer-content {
-      max-width: 1200极;
+      max-width: 1200px;
       margin: 0 auto;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -440,15 +440,15 @@
       <div class="footer-section">
         <h3>معلومات التواصل</h3>
         <p><i class="fas fa-map-marker-alt"></i> العنوان: بريان، غرداية، الجزائر</p>
-        <p><极 class="fas fa-phone"></i> الهاتف: 0559092993</p>
+        <p><i class="fas fa-phone"></i> الهاتف: 0559092993</p>
         <p><i class="fas fa-envelope"></i> البريد: rabiesa47@gmail.com</p>
       </div>
       
       <div class="footer-section">
         <h3>تابعنا على</h3>
-        <极 class="social-icons">
+        <div class="social-icons">
           <a href="#"><i class="fab fa-facebook"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-instagram"></极></a>
           <a href="#"><i class="fab fa-twitter"></i></a>
           <a href="#"><i class="fab fa-whatsapp"></i></a>
         </div>
@@ -470,7 +470,8 @@
           description: "انقر لعرض أنواع البوتريل المختلفة المتوفرة لدينا. بجودة عالية للهياكل الإنشائية.",
           price: "يبدأ من 750",
           image: "https://www.taniskladbudowlany.com/userfiles/announcement/1036-pustak-szalunkowy-pf2-pustak-zalewowy-pustak-na-filarki-5-611cfd66ecb03.webp",
-          hasTypes: true
+          hasTypes: true,
+          typesPage: "poutrelle-types.html" // إضافة خاصية تحدد صفحة الأنواع
         },
         {
           id: 2,
@@ -507,17 +508,19 @@
           `;
           
           // إضافة حدث النقر للانتقال إلى صفحة أنواع البوتريل
-          productElement.querySelector('.view-types-btn').addEventListener('click', function() {
-            window.location.href = 'poutrelle-types.html';
+          const typesButton = productElement.querySelector('.view-types-btn');
+          typesButton.addEventListener('click', function(e) {
+            e.stopPropagation();
+            window.location.href = product.typesPage;
           });
           
-          // إضافة حدث النقر على الصورة أو المعلومات للانتقال أيضًا
-          productElement.querySelector('.product-image, .product-info h3, .product-info p').addEventListener('click', function() {
-            window.location.href = 'poutrelle-types.html';
+          // جعل المنتج كله قابل للنقر للانتقال إلى صفحة الأنواع
+          productElement.addEventListener('click', function() {
+            window.location.href = product.typesPage;
           });
         } else {
           productElement.innerHTML = `
-            <div class极product-image">
+            <div class="product-image">
               <img src="${product.image}" alt="${product.name}">
             </div>
             <div class="product-info">
