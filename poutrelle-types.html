@@ -25,13 +25,6 @@
     }
     
     body {
-      <ul>
-       <li><a href="poutrelle-double.html">البوتريل المزدوج</a></li>
-       <li><a href="poutrelle-renforce.html">البوتريل المُعزز</a></li>
-        <li><a href="poutrelle-simple.html">البوتريل البسيط</a></li>
-       </ul>
-
-
       background-color: var(--background-color);
       color: var(--text-color);
       line-height: 1.6;
@@ -356,7 +349,7 @@
           </div>
           <div class="type-info">
             <h3>البوتريل العادي</h3>
-            <p>بوتريل قياسي عالي الجودة للاستخدامات العامة в البناء والتشييد. يتميز بمتانة وقوة تحمل مناسبة لمعظم المشاريع.</p>
+            <p>بوتريل قياسي عالي الجودة للاستخدامات العامة في البناء والتشييد. يتميز بمتانة وقوة تحمل مناسبة لمعظم المشاريع.</p>
             <span class="type-price">750 دينار جزائري</span>
             <button class="add-cart" data-id="1" onclick="window.location.href='poutrelle-simple.html'">
               <i class="fas fa-shopping-cart"></i> شراء الآن
@@ -432,7 +425,9 @@
 
       // إضافة منتج إلى السلة
       document.querySelectorAll('.add-cart').forEach(button => {
-        button.addEventListener('click', () => {
+        button.addEventListener('click', (e) => {
+          // منع تنفيذ نقر الزر من إعادة التوجيه الفوري (في حالة تريد الاحتفاظ بالإحالة)
+          e.stopPropagation();
           cartItems++;
           cartCount.textContent = cartItems;
           
@@ -451,7 +446,5 @@
   </script>
 </body>
 </html>
-</body>
 
-</html>
 
