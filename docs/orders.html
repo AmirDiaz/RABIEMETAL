@@ -620,12 +620,17 @@
   </footer>
 
   <script>
+    // دالة مساعدة لجلب اسم العميل بأمان من مجموعة مفاتيح ممكنة
+    function getCustomerName(order) {
+      return order.customerName || order.name || order.customer || order.customer_name || order.buyer || '—';
+    }
+
     // تهيئة الطلبات عند تحميل الصفحة
     document.addEventListener('DOMContentLoaded', function() {
       // تحميل الطلبات من localStorage أو استخدام مصفوفة فارغة
       let orders = JSON.parse(localStorage.getItem('orders')) || [];
       
-      // حفظ الطلبات في localStorage
+      // حفظ الطلبات في localStorage (لا نغير المحتوى فعلياً)
       localStorage.setItem('orders', JSON.stringify(orders));
       
       // عرض الطلبات في الجدول
@@ -639,7 +644,7 @@
     function renderOrders(orders) {
       const ordersBody = document.getElementById('orders-body');
       
-      if (orders.length === 0) {
+      if (!orders || orders.length === 0) {
         ordersBody.innerHTML = `
           <tr>
             <td colspan="8">
@@ -658,7 +663,10 @@
       
       orders.forEach(order => {
         const row = document.createElement('tr');
-        
+
+        // استخراج اسم العميل بشكل آمن
+        const displayName = getCustomerName(order);
+
         // تحديد فئة الحالة
         let statusClass = '';
         let statusText = '';
@@ -675,21 +683,34 @@
             statusClass = 'completed';
             statusText = 'مكتمل';
             break;
+          default:
+            statusClass = '';
+            statusText = order.status || '';
         }
-        
+
+        // تأكد من وجود قيم افتراضية للحقلية المستخدمة
+        const orderIdDisplay = order.orderId || '';
+        const orderDate = order.orderDate || '';
+        const productType = order.productType || '';
+        const quantity = order.quantity || 0;
+        const totalPrice = (order.totalPrice !== undefined ? order.totalPrice : '');
+
+        // استخدام JSON.stringify لضمان تمرير id صحيح في onclick (رقم أو نص)
+        const safeId = JSON.stringify(order.id);
+
         row.innerHTML = `
-          <td>${order.orderId}</td>
-          <td>${order.customerName}</td>
-          <td>${order.orderDate}</td>
-          <td>${order.productType}</td>
-          <td>${order.quantity}</td>
-          <td>${order.totalPrice} د.ج</td>
+          <td>${orderIdDisplay}</td>
+          <td>${escapeHtml(displayName)}</td>
+          <td>${orderDate}</td>
+          <td>${escapeHtml(productType)}</td>
+          <td>${quantity}</td>
+          <td>${totalPrice} د.ج</td>
           <td><span class="status ${statusClass}">${statusText}</span></td>
           <td>
-            <button class="action-btn view-btn" onclick="viewOrder(${order.id})">
+            <button class="action-btn view-btn" onclick="viewOrder(${safeId})">
               <i class="fas fa-eye"></i>
             </button>
-            <button class="action-btn edit-btn" onclick="editOrder(${order.id})">
+            <button class="action-btn edit-btn" onclick="editOrder(${safeId})">
               <i class="fas fa-edit"></i>
             </button>
           </td>
@@ -714,11 +735,12 @@
 
     // عرض تفاصيل الطلب
     function viewOrder(orderId) {
-      const orders = JSON.parse(localStorage.getItem('orders'));
-      const order = orders.find(o => o.id === orderId);
+      const orders = JSON.parse(localStorage.getItem('orders')) || [];
+      // مقارنة غير صارمة لتفادي اختلافات النوع (string vs number)
+      const order = orders.find(o => (o.id == orderId));
       
       if (order) {
-        document.getElementById('modal-title').textContent = `تفاصيل الطلب ${order.orderId}`;
+        document.getElementById('modal-title').textContent = `تفاصيل الطلب ${order.orderId || ''}`;
         
         let statusText = '';
         switch(order.status) {
@@ -731,48 +753,54 @@
           case 'completed':
             statusText = 'مكتمل';
             break;
+          default:
+            statusText = order.status || '';
         }
-        
+
+        const displayName = getCustomerName(order);
+        const phone = order.customerPhone || order.phone || order.tel || '';
+        const address = order.customerAddress || order.address || '';
+
         document.getElementById('modal-body').innerHTML = `
           <div class="order-details">
             <div>
               <div class="detail-group">
                 <h4>معلومات العميل</h4>
-                <p>الاسم: ${order.customerName}</p>
-                <p>الهاتف: ${order.customerPhone}</p>
-                <p>العنوان: ${order.customerAddress}</p>
+                <p>الاسم: ${escapeHtml(displayName)}</p>
+                <p>الهاتف: ${escapeHtml(phone)}</p>
+                <p>العنوان: ${escapeHtml(address)}</p>
               </div>
               
               <div class="detail-group">
                 <h4>معلومات الطلب</h4>
-                <p>تاريخ الطلب: ${order.orderDate}</p>
+                <p>تاريخ الطلب: ${order.orderDate || ''}</p>
                 <p>حالة الطلب: <span class="status ${order.status}">${statusText}</span></p>
-                <p>طريقة الدفع: ${order.paymentMethod}</p>
+                <p>طريقة الدفع: ${escapeHtml(order.paymentMethod || '')}</p>
               </div>
             </div>
             
             <div>
               <div class="detail-group">
                 <h4>تفاصيل المنتج</h4>
-                <p>المنتج: ${order.productType}</p>
-                <p>الطول: ${order.length} متر</p>
-                <p>الكمية: ${order.quantity} قطعة</p>
-                <p>سعر المتر: ${order.pricePerMeter} د.ج</p>
+                <p>المنتج: ${escapeHtml(order.productType || '')}</p>
+                <p>الطول: ${order.length || ''} متر</p>
+                <p>الكمية: ${order.quantity || ''} قطعة</p>
+                <p>سعر المتر: ${order.pricePerMeter || ''} د.ج</p>
               </div>
               
               <div class="detail-group">
                 <h4>الفاتورة</h4>
-                <p>السعر الإجمالي: ${order.totalPrice} د.ج</p>
+                <p>السعر الإجمالي: ${order.totalPrice || ''} د.ج</p>
                 <p>الضريبة: 0 د.ج</p>
                 <p>رسوم التوصيل: 0 د.ج</p>
-                <p><strong>المجموع: ${order.totalPrice} د.ج</strong></p>
+                <p><strong>المجموع: ${order.totalPrice || ''} د.ج</strong></p>
               </div>
             </div>
           </div>
           
           <div class="detail-group">
             <h4>ملاحظات</h4>
-            <p>${order.notes || "لا توجد ملاحظات"}</p>
+            <p>${escapeHtml(order.notes || "لا توجد ملاحظات")}</p>
           </div>
         `;
         
@@ -782,16 +810,18 @@
         document.getElementById('print-order-btn').setAttribute('data-order-id', orderId);
         
         openOrderModal();
+      } else {
+        alert('الطلب غير موجود');
       }
     }
 
     // تعديل حالة الطلب
     function editOrder(orderId) {
-      const orders = JSON.parse(localStorage.getItem('orders'));
-      const order = orders.find(o => o.id === orderId);
+      const orders = JSON.parse(localStorage.getItem('orders')) || [];
+      const order = orders.find(o => (o.id == orderId));
       
       if (order) {
-        const newStatus = prompt(`يرجى اختيار حالة جديدة للطلب ${order.orderId}:\n1- جديد\n2- قيد المعالجة\n3- مكتمل`, order.status);
+        const newStatus = prompt(`يرجى اختيار حالة جديدة للطلب ${order.orderId}:\nاكتب واحد من: new, processing, completed`, order.status || 'new');
         
         if (newStatus) {
           if (['new', 'processing', 'completed'].includes(newStatus)) {
@@ -801,7 +831,7 @@
             updateStatistics(orders);
             alert('تم تحديث حالة الطلب بنجاح');
           } else {
-            alert('يرجى اختيار حالة صحيحة');
+            alert('يرجى اختيار حالة صحيحة (new, processing, completed)');
           }
         }
       }
@@ -830,24 +860,22 @@
     });
     
     function filterOrders() {
-      const searchText = document.getElementById('search').value.toLowerCase();
+      const searchText = (document.getElementById('search').value || '').toLowerCase();
       const statusFilter = document.getElementById('status').value;
       const dateFilter = document.getElementById('date').value;
       
       const orders = JSON.parse(localStorage.getItem('orders')) || [];
       
       let filteredOrders = orders.filter(order => {
-        // البحث بالنص
+        // استخدم اسم عرض آمن
+        const displayName = (getCustomerName(order) || '').toString();
         const matchesSearch = searchText === '' || 
-          order.customerName.toLowerCase().includes(searchText) ||
-          order.customerPhone.includes(searchText) ||
-          order.orderId.toLowerCase().includes(searchText);
+          displayName.toLowerCase().includes(searchText) ||
+          (order.customerPhone || order.phone || '').toString().includes(searchText) ||
+          (order.orderId || '').toString().toLowerCase().includes(searchText);
         
-        // التصفية بالحالة
-        const matchesStatus = statusFilter === 'all' || order.status === statusFilter;
-        
-        // التصفية بالتاريخ
-        const matchesDate = dateFilter === '' || order.orderDate === dateFilter;
+        const matchesStatus = statusFilter === 'all' || (order.status === statusFilter);
+        const matchesDate = dateFilter === '' || (order.orderDate === dateFilter);
         
         return matchesSearch && matchesStatus && matchesDate;
       });
@@ -871,12 +899,12 @@
     function convertToCSV(orders) {
       const headers = ['رقم الطلب', 'العميل', 'التاريخ', 'المنتج', 'الكمية', 'المبلغ', 'الحالة'];
       const rows = orders.map(order => [
-        order.orderId,
-        order.customerName,
-        order.orderDate,
-        order.productType,
-        order.quantity,
-        order.totalPrice,
+        order.orderId || '',
+        getCustomerName(order),
+        order.orderDate || '',
+        order.productType || '',
+        order.quantity || '',
+        order.totalPrice || '',
         order.status === 'new' ? 'جديد' : order.status === 'processing' ? 'قيد المعالجة' : 'مكتمل'
       ]);
       
@@ -896,20 +924,32 @@
       link.click();
       document.body.removeChild(link);
     }
-  </script><script>
-window.addEventListener('storage', function(e) {
-  if (e.key === 'orders') {
-    try {
-      const orders = JSON.parse(e.newValue || '[]');
-      if (typeof renderOrders === 'function') renderOrders(orders);
-      if (typeof updateStatistics === 'function') updateStatistics(orders);
-      console.log('تم تحديث الطلبات من حدث التخزين (storage).');
-    } catch (err) {
-      console.error('خطأ بقراءة orders من storage event', err);
+
+    // تحديث تلقائي عند تغيير localStorage في تاب آخر
+    window.addEventListener('storage', function(e) {
+      if (e.key === 'orders') {
+        try {
+          const orders = JSON.parse(e.newValue || '[]');
+          if (typeof renderOrders === 'function') renderOrders(orders);
+          if (typeof updateStatistics === 'function') updateStatistics(orders);
+          console.log('تم تحديث الطلبات من حدث التخزين (storage).');
+        } catch (err) {
+          console.error('خطأ بقراءة orders من storage event', err);
+        }
+      }
+    });
+
+    // دالة بسيطة لتفادي إدراج HTML خبيث (عرض آمن)
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
     }
-  }
-});
-</script>
+  </script>
 
 </body>
 </html>
