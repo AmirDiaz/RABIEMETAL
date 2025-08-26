@@ -896,6 +896,21 @@
       link.click();
       document.body.removeChild(link);
     }
-  </script>
+  </script><script>
+window.addEventListener('storage', function(e) {
+  if (e.key === 'orders') {
+    try {
+      const orders = JSON.parse(e.newValue || '[]');
+      if (typeof renderOrders === 'function') renderOrders(orders);
+      if (typeof updateStatistics === 'function') updateStatistics(orders);
+      console.log('تم تحديث الطلبات من حدث التخزين (storage).');
+    } catch (err) {
+      console.error('خطأ بقراءة orders من storage event', err);
+    }
+  }
+});
+</script>
+
 </body>
 </html>
+
