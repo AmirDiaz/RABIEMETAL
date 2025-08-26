@@ -638,10 +638,123 @@ document.addEventListener('DOMContentLoaded', function() {
     form.reset();
   });
 });
+</script>   <script>
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.getElementById('purchase-form');
+  if (!form) return;
+
+  // --- عدِّل القيم هُنا لكل صفحة ---
+  const pricePerMeter = 1200;              // ضع 750 أو 1200 أو 1500 حسب الصفحة
+  const productType = 'البوتريل المزدوج'; // ضع اسم المنتج المناسب
+  // -------------------------------------
+
+  // منع الحفظ المزدوج
+  let isSubmitting = false;
+
+  // إزالة أي onclick مباشر على زر داخل الفورم (إذا كان موجود)
+  const inlineBtn = form.querySelector('button[onclick], input[onclick]');
+  if (inlineBtn) inlineBtn.removeAttribute('onclick');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    if (isSubmitting) {
+      console.warn('تم إرسال الطلب للتو — الرجاء الانتظار.');
+      return;
+    }
+
+    // اجلب الحقول (تأكد أن معرفات الحقول موجودة في HTML)
+    const nameEl = document.getElementById('name');
+    const phoneEl = document.getElementById('phone');
+    const addressEl = document.getElementById('address');
+    const lengthEl = document.getElementById('length');
+    const qtyEl = document.getElementById('quantity');
+    const notesEl = document.getElementById('notes');
+
+    const name = (nameEl && nameEl.value.trim()) || '';
+    const phone = (phoneEl && phoneEl.value.trim()) || '';
+    const address = (addressEl && addressEl.value.trim()) || '';
+    const length = parseFloat((lengthEl && lengthEl.value) || '1') || 1;
+    const quantity = parseInt((qtyEl && qtyEl.value) || '1') || 1;
+    const notes = (notesEl && notesEl.value.trim()) || '';
+
+    // تحقق أن الاسم موجود (لو تريد أن يكون اختياري بدل هذا السطر أزل التحقق)
+    if (!name) {
+      alert('الرجاء إدخال الاسم الكامل قبل تأكيد الطلب.');
+      if (nameEl) nameEl.focus();
+      return;
+    }
+
+    isSubmitting = true;
+    const submitBtn = form.querySelector('button[type="submit"], .buy-now-btn');
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.style.opacity = '0.6';
+    }
+
+    // حسابات
+    const totalLength = length * quantity;
+    const totalPrice = totalLength * pricePerMeter;
+
+    // جلب الطلبات القديمة أو إنشاء مصفوفة جديدة
+    const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+
+    // إنشاء معرف فريد
+    const id = Date.now();
+    const orderId = 'RB-' + String(id).slice(-6);
+
+    const order = {
+      id: id,
+      orderId: orderId,
+      customerName: name,
+      customerPhone: phone,
+      customerAddress: address,
+      orderDate: new Date().toISOString().slice(0,10),
+      productType: productType,
+      length: totalLength,
+      quantity: quantity,
+      pricePerMeter: pricePerMeter,
+      totalPrice: totalPrice,
+      status: 'new',
+      paymentMethod: 'غير محدد',
+      notes: notes
+    };
+
+    // حماية إضافية ضد التكرار: إذا كان آخر طلب في المخزن مطابق تقريبًا (نفس المنتج ونفس السعر والاسم) وتم إنشاؤه خلال 3 ثواني => لا تضيفه
+    const last = orders[orders.length - 1];
+    if (last && last.customerName === order.customerName && last.productType === order.productType && Math.abs(last.totalPrice - order.totalPrice) < 1 && (Date.now() - last.id) < 3000) {
+      console.warn('يبدو أنه تكرار سريع للطلب — تم تجاهله.');
+      // إعادة تفعيل بعد 1.5 ثانية
+      setTimeout(() => {
+        isSubmitting = false;
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.style.opacity = ''; }
+      }, 1500);
+      return;
+    }
+
+    // خزّن الطلب
+    orders.push(order);
+    localStorage.setItem('orders', JSON.stringify(orders));
+    console.log('تم حفظ الطلب:', order);
+
+    // إعلام المستخدم
+    alert('تم حفظ الطلب بنجاح. شكراً!');
+
+    // إعادة تهيئة النموذج
+    form.reset();
+
+    // إعادة تفعيل بعد ثانيتين
+    setTimeout(() => {
+      isSubmitting = false;
+      if (submitBtn) { submitBtn.disabled = false; submitBtn.style.opacity = ''; }
+    }, 2000);
+  });
+});
 </script>
+
 
 </body>
 </html>
+
 
 
 
