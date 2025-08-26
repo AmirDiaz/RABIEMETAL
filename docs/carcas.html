@@ -1,1 +1,274 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>الحديد الإنشائي المقوّى — Carcas - RabieMetal</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* (kept your exact look — no style changes) */
+    :root{--primary-color:#2c3e50;--secondary-color:#e74c3c;--accent-color:#3498db;--light-color:#ecf0f1;--dark-color:#2c3e50;--text-color:#333;--background-color:#f9f9f9}
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo','Tahoma',sans-serif}
+    body{background-color:var(--background-color);color:var(--text-color);line-height:1.6;background-image:linear-gradient(rgba(255,255,255,0.9),rgba(255,255,255,0.9)),url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h100v100H0z' fill='none'/%3E%3Cpath d='M25 25h50v50H25z' stroke='%23ddd' stroke-width='2' fill='none'/%3E%3C/svg%3E")}
+    header{background:linear-gradient(135deg,var(--primary-color),#1a2530);color:white;padding:1rem 0;box-shadow:0 4px 12px rgba(0,0,0,0.1);position:sticky;top:0;z-index:100}
+    .header-container{display:flex;justify-content:space-between;align-items:center;max-width:1200px;margin:0 auto;padding:0 1rem}
+    .logo{display:flex;align-items:center}
+    .logo h1{font-size:1.8rem;margin-right:0.5rem}
+    .logo i{color:var(--secondary-color);font-size:2rem}
+    nav ul{display:flex;list-style:none}
+    nav ul li{margin:0 0.5rem}
+    nav ul li a{color:white;text-decoration:none;padding:0.5rem 1rem;border-radius:4px;transition:background 0.3s}
+    nav ul li a:hover{background:rgba(255,255,255,0.1)}
+    .cart-icon{position:relative;font-size:1.5rem;cursor:pointer}
+    .cart-count{position:absolute;top:-8px;left:-8px;background:var(--secondary-color);color:white;border-radius:50%;width:20px;height:20px;display:flex;justify-content:center;align-items:center;font-size:0.8rem}
+    main{max-width:1200px;margin:2rem auto;padding:0 1rem}
+    .page-header{text-align:center;padding:2rem;background:linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7)),url('https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?auto=format&fit=crop&w=1200&q=80');background-size:cover;background-position:center;color:white;border-radius:8px;margin-bottom:2rem}
+    .page-header h2{font-size:2.5rem;margin-bottom:1rem}
+    .back-button{display:inline-block;background:var(--secondary-color);color:white;padding:0.5rem 1.5rem;margin-top:1.5rem;border-radius:4px;text-decoration:none;font-weight:bold;transition:background 0.3s}
+    .back-button:hover{background:#c0392b}
+    section{margin-bottom:3rem;padding:2rem;background:white;border-radius:8px;box-shadow:0 4px 15px rgba(0,0,0,0.05)}
+    .product-details{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:2rem}
+    .product-image{height:300px;overflow:hidden;display:flex;justify-content:center;align-items:center;background:#f5f5f5;border-radius:8px}
+    .product-image img{max-width:100%;max-height:100%;object-fit:contain}
+    .product-info h3{margin-bottom:1rem;color:var(--dark-color);font-size:1.8rem}
+    .product-info p{color:#666;margin-bottom:1.5rem;font-size:1rem}
+    .product-price{font-weight:bold;color:var(--secondary-color);font-size:1.5rem;margin-bottom:1.5rem;display:block}
+    .purchase-form{background:var(--light-color);padding:2rem;border-radius:8px}
+    .purchase-form h3{margin-bottom:1.5rem;color:var(--primary-color);text-align:center}
+    .form-group{margin-bottom:1.5rem}
+    .form-group label{display:block;margin-bottom:0.5rem;font-weight:bold}
+    .form-group input,.form-group select,.form-group textarea{width:100%;padding:0.8rem;border:1px solid #ddd;border-radius:4px;font-size:1rem;background:#fff}
+    .quantity-controls{display:flex;align-items:center;gap:1rem}
+    .quantity-btn{background:var(--primary-color);color:white;border:none;width:40px;height:40px;border-radius:50%;font-size:1.2rem;cursor:pointer;display:flex;justify-content:center;align-items:center}
+    .quantity-input{width:80px!important;text-align:center}
+    .calculation-results{background:white;padding:1.5rem;border-radius:8px;margin-top:1.5rem}
+    .result-item{display:flex;justify-content:space-between;margin-bottom:0.5rem}
+    .total-price{font-weight:bold;font-size:1.5rem;color:var(--secondary-color);margin-top:1rem;padding-top:1rem;border-top:1px solid #ddd}
+    .buy-now-btn{background:var(--secondary-color);color:white;border:none;padding:1rem 2rem;border-radius:4px;cursor:pointer;width:100%;font-size:1.2rem;margin-top:1.5rem;transition:background 0.3s}
+    .buy-now-btn:hover{background:#c0392b}
+    footer{background:var(--dark-color);color:white;text-align:center;padding:2rem 1rem;margin-top:3rem}
+    .footer-content{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem;text-align:right}
+    .footer-section h3{margin-bottom:1rem;color:var(--secondary-color)}
+    .social-icons{display:flex;justify-content:center;gap:1rem;margin-top:1rem}
+    .social-icons a{color:white;font-size:1.5rem;transition:color 0.3s}
+    .social-icons a:hover{color:var(--accent-color)}
+    .copyright{margin-top:2rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,0.1)}
+    @media(max-width:768px){.product-details{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <div class="logo"><i class="fas fa-hard-hat"></i><h1>RabieMetal</h1></div>
+      <nav>
+        <ul>
+          <li><a href="index.html">الرئيسية</a></li>
+          <li><a href="index.html#products">المنتجات</a></li>
+          <li><a href="index.html#contact">اتصل بنا</a></li>
+          <li><div class="cart-icon"><i class="fas fa-shopping-cart"></i><span class="cart-count" id="cart-count">0</span></div></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-header">
+      <h2>الحديد الإنشائي المقوّى — Carcas</h2>
+      <p>كركاس/حديد إنشائي متين للتسليح — مناسب للأساسات، الأعمدة والهياكل. يباع بالمتر وبالكميات الكبيرة.</p>
+      <a href="index.html#products" class="back-button">العودة للمنتجات</a>
+    </div>
+
+    <section>
+      <div class="product-details">
+        <div class="product-image">
+          <!-- Primary: proxy to avoid hotlink-blocking.
+               Fallback: /images/carcas-fallback.jpg (add to repo) -->
+          <img
+            id="product-img"
+            src="https://images.weserv.nl/?url=ajorroajor.com/wp-content/uploads/2019/12/tss.jpg"
+            alt="الكركاس - الحديد الإنشائي المقوّى"
+            referrerpolicy="no-referrer"
+            crossorigin="anonymous"
+            onerror="this.onerror=null; this.src='images/carcas-fallback.jpg';"
+          >
+        </div>
+
+        <div class="product-info">
+          <h3>الحديد الإنشائي المقوّى (Carcas)</h3>
+          <p>حديد إنشائي مقوّى وعالي الجودة مخصّص لمشاريع التسليح — مصمَّم لتحمّل الأحمال الثقيلة وضمان ثبات هيكلي طويل الأمد.</p>
+          <span class="product-price">السعر: <span id="price-label">850</span> دينار جزائري للمتر</span>
+        </div>
+      </div>
+
+      <div class="purchase-form">
+        <h3>تفاصيل الطلب</h3>
+        <form id="purchase-form" autocomplete="off">
+          <div class="form-group">
+            <label for="length">الطول بالمتر (1.00 - 3.00):</label>
+            <input type="number" id="length" min="1" max="3" step="0.01" value="1.00" required>
+          </div>
+
+          <div class="form-group">
+            <label for="quantity">الكمية:</label>
+            <div class="quantity-controls">
+              <button type="button" class="quantity-btn" id="decrease-qty" aria-label="decrease">-</button>
+              <input type="number" id="quantity" class="quantity-input" min="1" value="1" required>
+              <button type="button" class="quantity-btn" id="increase-qty" aria-label="increase">+</button>
+            </div>
+          </div>
+
+          <div class="calculation-results" aria-live="polite">
+            <div class="result-item"><span>سعر المتر:</span><span id="price-per-meter">850 د.ج</span></div>
+            <div class="result-item"><span>الطول الإجمالي:</span><span id="total-length">1.00 متر</span></div>
+            <div class="result-item"><span>الكمية:</span><span id="total-quantity">1 قطعة</span></div>
+            <div class="total-price"><span>السعر الإجمالي:</span> <span id="total-price">850 د.ج</span></div>
+          </div>
+
+          <div class="form-group"><label for="name">الاسم الكامل:</label><input type="text" id="name" required></div>
+          <div class="form-group"><label for="phone">رقم الهاتف:</label><input type="tel" id="phone" required></div>
+          <div class="form-group"><label for="address">العنوان:</label><input type="text" id="address" required></div>
+          <div class="form-group"><label for="notes">ملاحظات إضافية (اختياري):</label><textarea id="notes" rows="3" placeholder="أي ملاحظات خاصة بالطلب أو التوصيل"></textarea></div>
+
+          <button type="submit" class="buy-now-btn"><i class="fas fa-check-circle"></i> تأكيد الطلب</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section"><h3>عن الشركة</h3><p>متخصصون في توريد المنتجات المعدنية والحديدية بجودة عالية وتوصيل سريع لجم أنحاء المملكة.</p></div>
+      <div class="footer-section"><h3>معلومات التواصل</h3><p><i class="fas fa-map-marker-alt"></i> العنوان: بريان، غرداية، الجزائر</p><p><i class="fas fa-phone"></i> الهاتف: 0559092993</p><p><i class="fas fa-envelope"></i> البريد: rabiesa47@gmail.com</p></div>
+      <div class="footer-section"><h3>تابعنا على</h3><div class="social-icons"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a></div></div>
+    </div>
+    <div class="copyright"><p>&copy; 2025 RabieMetal. جميع الحقوق محفوظة.</p></div>
+  </footer>
+
+  <script>
+    (function(){
+      const PRICE = 850;
+      const priceLabel = document.getElementById('price-label');
+      const pricePerMeterEl = document.getElementById('price-per-meter');
+      const lengthInput = document.getElementById('length');
+      const qtyInput = document.getElementById('quantity');
+      const decBtn = document.getElementById('decrease-qty');
+      const incBtn = document.getElementById('increase-qty');
+      const totalLengthEl = document.getElementById('total-length');
+      const totalQtyEl = document.getElementById('total-quantity');
+      const totalPriceEl = document.getElementById('total-price');
+      const form = document.getElementById('purchase-form');
+      const cartCountEl = document.getElementById('cart-count');
+
+      if (priceLabel) priceLabel.textContent = PRICE;
+      if (pricePerMeterEl) pricePerMeterEl.textContent = PRICE + ' د.ج';
+
+      function clampLengthValue(v) {
+        v = Number(v) || 1;
+        if (v < 1) v = 1;
+        if (v > 3) v = 3;
+        return Math.round(v * 100) / 100;
+      }
+
+      function updateTotals(){
+        const len = clampLengthValue(lengthInput.value);
+        const qty = Math.max(1, parseInt(qtyInput.value, 10) || 1);
+        const totalLen = Math.round(len * qty * 100) / 100;
+        const totalPrice = Math.round(totalLen * PRICE);
+        totalLengthEl.textContent = totalLen.toFixed(2) + ' متر';
+        totalQtyEl.textContent = qty + ' قطعة';
+        totalPriceEl.textContent = totalPrice + ' د.ج';
+      }
+
+      incBtn.addEventListener('click', ()=>{ qtyInput.value = parseInt(qtyInput.value || 1, 10) + 1; updateTotals(); });
+      decBtn.addEventListener('click', ()=>{ if(parseInt(qtyInput.value || 1, 10) > 1) qtyInput.value = parseInt(qtyInput.value || 1, 10) - 1; updateTotals(); });
+
+      lengthInput.addEventListener('input', function(){
+        const v = lengthInput.value;
+        if (v === '') return;
+        const clamped = clampLengthValue(v);
+        lengthInput.value = clamped.toFixed(2);
+        updateTotals();
+      });
+      qtyInput.addEventListener('input', function(){
+        if (qtyInput.value === '' || isNaN(Number(qtyInput.value))) return;
+        qtyInput.value = Math.max(1, parseInt(qtyInput.value, 10));
+        updateTotals();
+      });
+
+      function normalizeOrder(raw){
+        const now = Date.now();
+        const id = raw.id !== undefined ? raw.id : now;
+        const orderId = raw.orderId || ('RB-' + String(now).slice(-6));
+        const customerName = raw.customerName || raw.name || 'عميل غير مسجل';
+        const customerPhone = raw.customerPhone || raw.phone || '';
+        const customerAddress = raw.customerAddress || raw.address || '';
+        const length = Number(raw.length) || 0;
+        const quantity = Number(raw.quantity) || 1;
+        const pricePerMeter = Number(raw.pricePerMeter) || PRICE;
+        const totalPrice = Number(raw.totalPrice) || Math.round(length * quantity * pricePerMeter);
+        return {
+          id, orderId, customerName, customerPhone, customerAddress,
+          orderDate: raw.orderDate || new Date().toISOString().slice(0,10),
+          productType: raw.productType || 'الحديد الإنشائي المقوّى (Carcas)',
+          length, quantity, pricePerMeter, totalPrice,
+          status: raw.status || 'new', paymentMethod: raw.paymentMethod || 'غير محدد', notes: raw.notes || ''
+        };
+      }
+
+      function refreshCartCount(){
+        const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+        cartCountEl.textContent = orders.length || 0;
+      }
+
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        const name = (document.getElementById('name')||{value:''}).value.trim();
+        const phone = (document.getElementById('phone')||{value:''}).value.trim();
+        const address = (document.getElementById('address')||{value:''}).value.trim();
+        const notes = (document.getElementById('notes')||{value:''}).value.trim();
+        const length = clampLengthValue(lengthInput.value);
+        const qty = Math.max(1, parseInt(qtyInput.value, 10) || 1);
+
+        if (!name) { alert('الرجاء إدخال الاسم الكامل.'); return; }
+        if (!phone) { alert('الرجاء إدخال رقم الهاتف.'); return; }
+        if (length < 1 || length > 3) { alert('الطول يجب أن يكون بين 1.00 و 3.00 متر'); return; }
+
+        const totalLen = Math.round(length * qty * 100) / 100;
+        const totalPrice = Math.round(totalLen * PRICE);
+
+        const raw = {
+          customerName: name,
+          customerPhone: phone,
+          customerAddress: address,
+          length: totalLen,
+          quantity: qty,
+          pricePerMeter: PRICE,
+          totalPrice: totalPrice,
+          productType: 'الحديد الإنشائي المقوّى (Carcas)',
+          notes: notes
+        };
+
+        const order = normalizeOrder(raw);
+        const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+        orders.push(order);
+        localStorage.setItem('orders', JSON.stringify(orders));
+
+        alert('تم حفظ الطلب بنجاح. رقم الطلب: ' + order.orderId);
+        form.reset();
+        lengthInput.value = '1.00';
+        qtyInput.value = '1';
+        updateTotals();
+        refreshCartCount();
+      });
+
+      // init
+      lengthInput.value = clampLengthValue(lengthInput.value).toFixed(2);
+      qtyInput.value = Math.max(1, parseInt(qtyInput.value, 10) || 1);
+      updateTotals();
+      refreshCartCount();
+    })();
+  </script>
+</body>
+</html>
+
 
