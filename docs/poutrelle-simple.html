@@ -549,211 +549,86 @@
       // التهيئة الأولية
       updateTotalPrice();
     });
-  </script>
-  <!-- START: save order to localStorage (paste just before </body>) -->
-<script>
+  </script><!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>البوتريل العادي - RabieMetal</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fontawesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <h1>البوتريل العادي</h1>
+    <p>سعر المتر: 750 دج</p>
+    <form id="orderForm">
+        <label for="customerName">اسم الزبون:</label>
+        <input type="text" id="customerName" name="customerName" required>
+        <br>
+        <label for="quantity">الكمية (بالمتر):</label>
+        <input type="number" id="quantity" name="quantity" value="1" min="1" required>
+        <br>
+        <input type="hidden" id="product" name="product" value="البوتريل العادي">
+        <input type="hidden" id="price" name="price" value="750">
+        <button type="submit">شراء الآن</button>
+    </form>
+    <script>
 document.addEventListener('DOMContentLoaded', function() {
-  const form = document.getElementById('purchase-form');
-  if (!form) return;
-
-  // ------- عدِّل هذين المتغيرين لكل صفحة -------
-  const pricePerMeter = 750;             // <-- ضع السعر الصحيح هنا (مثال: 750 / 1200 / 1500)
-  const productType = 'البوتريل العادي'; // <-- ضع اسم المنتج الملائم هنا
-  // ----------------------------------------------
-
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    // جمع بيانات النموذج (تأكد من وجود هذه الحقول في النموذج)
-    const name = (document.getElementById('name') || {value:''}).value.trim();
-    const phone = (document.getElementById('phone') || {value:''}).value.trim();
-    const address = (document.getElementById('address') || {value:''}).value.trim();
-    const length = parseFloat((document.getElementById('length') || {value:'1'}).value) || 1;
-    const quantity = parseInt((document.getElementById('quantity') || {value:'1'}).value) || 1;
-    const notes = (document.getElementById('notes') || {value:''}).value.trim();
-
-    const totalLength = length * quantity;
-    const totalPrice = totalLength * pricePerMeter;
-
-    // جلب الطلبات الحالية أو إنشاء مصفوفة جديدة
-    const orders = JSON.parse(localStorage.getItem('orders') || '[]');
-
-    // معرف فريد للطلب
-    const id = Date.now();
-    const orderId = 'RB-' + String(id).slice(-6);
-
-    const order = {
-      id: id,
-      orderId: orderId,
-      customerName: name || 'عميل غير مسجل',
-      customerPhone: phone || '',
-      customerAddress: address || '',
-      orderDate: new Date().toISOString().slice(0,10), // YYYY-MM-DD
-      productType: productType,
-      length: totalLength,
-      quantity: quantity,
-      pricePerMeter: pricePerMeter,
-      totalPrice: totalPrice,
-      status: 'new',
-      paymentMethod: 'غير محدد',
-      notes: notes
-    };
-
-    orders.push(order);
-    localStorage.setItem('orders', JSON.stringify(orders));
-
-    alert('تم حفظ الطلب بنجاح. سنقوم بالتواصل معك لتأكيد التفاصيل.');
-    form.reset();
-
-    // اختياري: تحويل بعد الطلب
-    // window.location.href = 'index.html';
-  });
+    const form = document.getElementById('orderForm');
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const nameInput = document.getElementById('customerName');
+        const quantityInput = document.getElementById('quantity');
+        const name = nameInput.value.trim();
+        const quantity = parseInt(quantityInput.value);
+        const product = document.getElementById('product').value;
+        const price = parseFloat(document.getElementById('price').value);
+        if (!name) {
+            alert("الرجاء إدخال اسم الزبون.");
+            return;
+        }
+        if (!quantity || quantity <= 0) {
+            alert("الرجاء إدخال كمية صحيحة.");
+            return;
+        }
+        const now = Date.now();
+        let lastOrder = localStorage.getItem('lastOrder');
+        if (lastOrder) {
+            lastOrder = JSON.parse(lastOrder);
+            if (lastOrder.name === name && lastOrder.product === product && lastOrder.price === price) {
+                if (now - lastOrder.timestamp < 3000) {
+                    alert("لا يمكن تقديم طلبين متطابقين في نفس الوقت. الرجاء الانتظار قليلاً.");
+                    return;
+                }
+            }
+        }
+        const order = {
+            id: now.toString(),
+            name: name,
+            product: product,
+            quantity: quantity,
+            total: price * quantity,
+            timestamp: now
+        };
+        let orders = JSON.parse(localStorage.getItem('orders')) || [];
+        orders.push(order);
+        localStorage.setItem('orders', JSON.stringify(orders));
+        localStorage.setItem('lastOrder', JSON.stringify({
+            name: name,
+            product: product,
+            price: price,
+            timestamp: now
+        }));
+        alert("تم تقديم الطلب بنجاح!");
+        form.reset();
+    });
 });
 </script>
-<!-- END -->
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const form = document.getElementById('purchase-form');
-  if (!form) return;
-  const pricePerMeter = 750;
-  const productType = 'البوتريل العادي';
-
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    const name = (document.getElementById('name')||{value:''}).value.trim();
-    const phone = (document.getElementById('phone')||{value:''}).value.trim();
-    const address = (document.getElementById('address')||{value:''}).value.trim();
-    const length = parseFloat((document.getElementById('length')||{value:'1'}).value) || 1;
-    const quantity = parseInt((document.getElementById('quantity')||{value:'1'}).value) || 1;
-    const notes = (document.getElementById('notes')||{value:''}).value.trim();
-    const totalLength = length * quantity;
-    const totalPrice = totalLength * pricePerMeter;
-    const orders = JSON.parse(localStorage.getItem('orders') || '[]');
-    const id = Date.now();
-    const orderId = 'RB-' + String(id).slice(-6);
-    const order = { id, orderId, customerName: name||'عميل غير مسجل', customerPhone: phone, customerAddress: address, orderDate: new Date().toISOString().slice(0,10), productType, length: totalLength, quantity, pricePerMeter, totalPrice, status: 'new', paymentMethod: 'غير محدد', notes };
-    orders.push(order);
-    localStorage.setItem('orders', JSON.stringify(orders));
-    alert('تم حفظ الطلب بنجاح.');
-    form.reset();
-  });
-});
-</script>   <script>
-document.addEventListener('DOMContentLoaded', function() {
-  const form = document.getElementById('purchase-form');
-  if (!form) return;
-
-  // --- عدِّل القيم هُنا لكل صفحة ---
-  const pricePerMeter = 1200;              // ضع 750 أو 1200 أو 1500 حسب الصفحة
-  const productType = 'البوتريل المزدوج'; // ضع اسم المنتج المناسب
-  // -------------------------------------
-
-  // منع الحفظ المزدوج
-  let isSubmitting = false;
-
-  // إزالة أي onclick مباشر على زر داخل الفورم (إذا كان موجود)
-  const inlineBtn = form.querySelector('button[onclick], input[onclick]');
-  if (inlineBtn) inlineBtn.removeAttribute('onclick');
-
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    if (isSubmitting) {
-      console.warn('تم إرسال الطلب للتو — الرجاء الانتظار.');
-      return;
-    }
-
-    // اجلب الحقول (تأكد أن معرفات الحقول موجودة في HTML)
-    const nameEl = document.getElementById('name');
-    const phoneEl = document.getElementById('phone');
-    const addressEl = document.getElementById('address');
-    const lengthEl = document.getElementById('length');
-    const qtyEl = document.getElementById('quantity');
-    const notesEl = document.getElementById('notes');
-
-    const name = (nameEl && nameEl.value.trim()) || '';
-    const phone = (phoneEl && phoneEl.value.trim()) || '';
-    const address = (addressEl && addressEl.value.trim()) || '';
-    const length = parseFloat((lengthEl && lengthEl.value) || '1') || 1;
-    const quantity = parseInt((qtyEl && qtyEl.value) || '1') || 1;
-    const notes = (notesEl && notesEl.value.trim()) || '';
-
-    // تحقق أن الاسم موجود (لو تريد أن يكون اختياري بدل هذا السطر أزل التحقق)
-    if (!name) {
-      alert('الرجاء إدخال الاسم الكامل قبل تأكيد الطلب.');
-      if (nameEl) nameEl.focus();
-      return;
-    }
-
-    isSubmitting = true;
-    const submitBtn = form.querySelector('button[type="submit"], .buy-now-btn');
-    if (submitBtn) {
-      submitBtn.disabled = true;
-      submitBtn.style.opacity = '0.6';
-    }
-
-    // حسابات
-    const totalLength = length * quantity;
-    const totalPrice = totalLength * pricePerMeter;
-
-    // جلب الطلبات القديمة أو إنشاء مصفوفة جديدة
-    const orders = JSON.parse(localStorage.getItem('orders') || '[]');
-
-    // إنشاء معرف فريد
-    const id = Date.now();
-    const orderId = 'RB-' + String(id).slice(-6);
-
-    const order = {
-      id: id,
-      orderId: orderId,
-      customerName: name,
-      customerPhone: phone,
-      customerAddress: address,
-      orderDate: new Date().toISOString().slice(0,10),
-      productType: productType,
-      length: totalLength,
-      quantity: quantity,
-      pricePerMeter: pricePerMeter,
-      totalPrice: totalPrice,
-      status: 'new',
-      paymentMethod: 'غير محدد',
-      notes: notes
-    };
-
-    // حماية إضافية ضد التكرار: إذا كان آخر طلب في المخزن مطابق تقريبًا (نفس المنتج ونفس السعر والاسم) وتم إنشاؤه خلال 3 ثواني => لا تضيفه
-    const last = orders[orders.length - 1];
-    if (last && last.customerName === order.customerName && last.productType === order.productType && Math.abs(last.totalPrice - order.totalPrice) < 1 && (Date.now() - last.id) < 3000) {
-      console.warn('يبدو أنه تكرار سريع للطلب — تم تجاهله.');
-      // إعادة تفعيل بعد 1.5 ثانية
-      setTimeout(() => {
-        isSubmitting = false;
-        if (submitBtn) { submitBtn.disabled = false; submitBtn.style.opacity = ''; }
-      }, 1500);
-      return;
-    }
-
-    // خزّن الطلب
-    orders.push(order);
-    localStorage.setItem('orders', JSON.stringify(orders));
-    console.log('تم حفظ الطلب:', order);
-
-    // إعلام المستخدم
-    alert('تم حفظ الطلب بنجاح. شكراً!');
-
-    // إعادة تهيئة النموذج
-    form.reset();
-
-    // إعادة تفعيل بعد ثانيتين
-    setTimeout(() => {
-      isSubmitting = false;
-      if (submitBtn) { submitBtn.disabled = false; submitBtn.style.opacity = ''; }
-    }, 2000);
-  });
-});
-</script>
-
-
 </body>
 </html>
+
+
+
 
 
 
