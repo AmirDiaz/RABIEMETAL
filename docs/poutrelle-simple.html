@@ -550,6 +550,69 @@
       updateTotalPrice();
     });
   </script>
+  <!-- START: save order to localStorage (paste just before </body>) -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.getElementById('purchase-form');
+  if (!form) return;
+
+  // ------- عدِّل هذين المتغيرين لكل صفحة -------
+  const pricePerMeter = 750;             // <-- ضع السعر الصحيح هنا (مثال: 750 / 1200 / 1500)
+  const productType = 'البوتريل العادي'; // <-- ضع اسم المنتج الملائم هنا
+  // ----------------------------------------------
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // جمع بيانات النموذج (تأكد من وجود هذه الحقول في النموذج)
+    const name = (document.getElementById('name') || {value:''}).value.trim();
+    const phone = (document.getElementById('phone') || {value:''}).value.trim();
+    const address = (document.getElementById('address') || {value:''}).value.trim();
+    const length = parseFloat((document.getElementById('length') || {value:'1'}).value) || 1;
+    const quantity = parseInt((document.getElementById('quantity') || {value:'1'}).value) || 1;
+    const notes = (document.getElementById('notes') || {value:''}).value.trim();
+
+    const totalLength = length * quantity;
+    const totalPrice = totalLength * pricePerMeter;
+
+    // جلب الطلبات الحالية أو إنشاء مصفوفة جديدة
+    const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+
+    // معرف فريد للطلب
+    const id = Date.now();
+    const orderId = 'RB-' + String(id).slice(-6);
+
+    const order = {
+      id: id,
+      orderId: orderId,
+      customerName: name || 'عميل غير مسجل',
+      customerPhone: phone || '',
+      customerAddress: address || '',
+      orderDate: new Date().toISOString().slice(0,10), // YYYY-MM-DD
+      productType: productType,
+      length: totalLength,
+      quantity: quantity,
+      pricePerMeter: pricePerMeter,
+      totalPrice: totalPrice,
+      status: 'new',
+      paymentMethod: 'غير محدد',
+      notes: notes
+    };
+
+    orders.push(order);
+    localStorage.setItem('orders', JSON.stringify(orders));
+
+    alert('تم حفظ الطلب بنجاح. سنقوم بالتواصل معك لتأكيد التفاصيل.');
+    form.reset();
+
+    // اختياري: تحويل بعد الطلب
+    // window.location.href = 'index.html';
+  });
+});
+</script>
+<!-- END -->
+
 </body>
 </html>
+
 
