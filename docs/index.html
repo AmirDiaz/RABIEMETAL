@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -17,33 +16,22 @@
       --text-color: #333;
       --background-color: #f9f9f9;
     }
-    
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
       font-family: 'Cairo', 'Tahoma', sans-serif;
     }
-    <body>
-  <h1>مرحبا بك في RabieMetal</h1>
 
-  <nav>
-    <ul>
-      <li><a href="poutrelle-types.html">البوتريل الحديدي</a></li>
-      <li><a href="carcas.html">الحديد الإنشائي المقوى</a></li>
-    </ul>
-  </nav>
-</body>
-
-
-
+    body {
       background-color: var(--background-color);
       color: var(--text-color);
       line-height: 1.6;
-      background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), 
+      background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)),
                         url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h100v100H0z' fill='none'/%3E%3Cpath d='M25 25h50v50H25z' stroke='%23ddd' stroke-width='2' fill='none'/%3E%3C/svg%3E");
     }
-    
+
     /* الهيدر */
     header {
       background: linear-gradient(135deg, var(--primary-color), #1a2530);
@@ -54,7 +42,7 @@
       top: 0;
       z-index: 100;
     }
-    
+
     .header-container {
       display: flex;
       justify-content: space-between;
@@ -63,31 +51,31 @@
       margin: 0 auto;
       padding: 0 1rem;
     }
-    
+
     .logo {
       display: flex;
       align-items: center;
     }
-    
+
     .logo h1 {
       font-size: 1.8rem;
       margin-right: 0.5rem;
     }
-    
+
     .logo i {
       color: var(--secondary-color);
       font-size: 2rem;
     }
-    
+
     nav ul {
       display: flex;
       list-style: none;
     }
-    
+
     nav ul li {
       margin: 0 0.5rem;
     }
-    
+
     nav ul li a {
       color: white;
       text-decoration: none;
@@ -95,17 +83,17 @@
       border-radius: 4px;
       transition: background 0.3s;
     }
-    
+
     nav ul li a:hover {
       background: rgba(255, 255, 255, 0.1);
     }
-    
+
     .cart-icon {
       position: relative;
       font-size: 1.5rem;
       cursor: pointer;
     }
-    
+
     .cart-count {
       position: absolute;
       top: -8px;
@@ -120,14 +108,14 @@
       align-items: center;
       font-size: 0.8rem;
     }
-    
+
     /* المحتوى الرئيسي */
     main {
       max-width: 1200px;
       margin: 2rem auto;
       padding: 0 1rem;
     }
-    
+
     section {
       margin-bottom: 3rem;
       padding: 2rem;
@@ -135,7 +123,7 @@
       border-radius: 8px;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
     }
-    
+
     /* قسم الترحيب */
     #home {
       text-align: center;
@@ -146,18 +134,18 @@
       color: white;
       border-radius: 8px;
     }
-    
+
     #home h2 {
       font-size: 2.5rem;
       margin-bottom: 1rem;
     }
-    
+
     #home p {
       font-size: 1.2rem;
       max-width: 800px;
       margin: 0 auto;
     }
-    
+
     .cta-button {
       display: inline-block;
       background: var(--secondary-color);
@@ -169,11 +157,11 @@
       font-weight: bold;
       transition: background 0.3s;
     }
-    
+
     .cta-button:hover {
       background: #c0392b;
     }
-    
+
     /* قسم المنتجات */
     #products h2 {
       text-align: center;
@@ -181,14 +169,14 @@
       color: var(--primary-color);
       font-size: 2rem;
     }
-    
+
     .products-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 1.5rem;
       justify-content: center;
     }
-    
+
     .product {
       background: white;
       border-radius: 8px;
@@ -198,48 +186,58 @@
       max-width: 350px;
       margin: 0 auto;
       cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
     }
-    
+
     .product:hover {
       transform: translateY(-5px);
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
     }
-    
+
     .product-image {
       height: 200px;
       overflow: hidden;
       display: flex;
       justify-content: center;
       align-items: center;
-      background: white;
+      background: #fff;
+      padding: 0.8rem;
     }
-    
+
     .product-image img {
       max-width: 100%;
       max-height: 100%;
       object-fit: contain;
       transition: transform 0.5s;
     }
-    
+
     .product:hover .product-image img {
       transform: scale(1.05);
     }
-    
+
     .product-info {
       padding: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      flex: 1;
     }
-    
+
     .product-info h3 {
       margin-bottom: 0.5rem;
       color: var(--dark-color);
+      font-size: 1.05rem;
     }
-    
+
     .product-info p {
       color: #666;
       margin-bottom: 1rem;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
+      flex: 1;
     }
-    
+
     .price {
       font-weight: bold;
       color: var(--secondary-color);
@@ -247,23 +245,15 @@
       margin-bottom: 1rem;
       display: block;
     }
-    
-    .view-types-btn {
-      background: var(--primary-color);
-      color: white;
-      border: none;
-      padding: 0.7rem 1.5rem;
-      border-radius: 4px;
-      cursor: pointer;
-      width: 100%;
-      font-size: 1rem;
-      transition: background 0.3s;
+
+    /* accent for promotional price (to match screenshot feel) */
+    .price.big {
+      color: var(--secondary-color);
+      font-size: 1.4rem;
+      font-weight: 800;
     }
-    
-    .view-types-btn:hover {
-      background: var(--accent-color);
-    }
-    
+
+    .view-types-btn,
     .add-cart {
       background: var(--primary-color);
       color: white;
@@ -275,32 +265,33 @@
       font-size: 1rem;
       transition: background 0.3s;
     }
-    
+
+    .view-types-btn:hover,
     .add-cart:hover {
       background: var(--accent-color);
     }
-    
+
     /* قسم التواصل */
     #contact {
       background: var(--light-color);
     }
-    
+
     #contact h2 {
       text-align: center;
       margin-bottom: 2rem;
       color: var(--primary-color);
     }
-    
+
     #contact-form {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 1rem;
     }
-    
+
     #contact-form textarea {
       grid-column: 1 / -1;
     }
-    
+
     #contact-form button {
       grid-column: 1 / -1;
       background: var(--secondary-color);
@@ -312,19 +303,19 @@
       font-size: 1.1rem;
       transition: background 0.3s;
     }
-    
+
     #contact-form button:hover {
       background: #c0392b;
     }
-    
+
     #contact-form input,
     #contact-form textarea {
       padding: 0.8rem;
       border: 1px solid #ddd;
-      border-radius: 极px;
+      border-radius: 6px;
       font-size: 1rem;
     }
-    
+
     /* الفوتر */
     footer {
       background: var(--dark-color);
@@ -333,58 +324,58 @@
       padding: 2rem 1rem;
       margin-top: 3rem;
     }
-    
+
     .footer-content {
       max-width: 1200px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: repeat(auto-fit, min极(250px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 2rem;
       text-align: right;
     }
-    
+
     .footer-section h3 {
       margin-bottom: 1rem;
       color: var(--secondary-color);
     }
-    
+
     .social-icons {
       display: flex;
       justify-content: center;
       gap: 1rem;
       margin-top: 1rem;
     }
-    
+
     .social-icons a {
       color: white;
       font-size: 1.5rem;
       transition: color 0.3s;
     }
-    
+
     .social-icons a:hover {
       color: var(--accent-color);
     }
-    
+
     .copyright {
       margin-top: 2rem;
       padding-top: 1rem;
       border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
-    
+
     /* تصميم متجاوب */
     @media (max-width: 768px) {
       .header-container {
         flex-direction: column;
       }
-      
+
       nav ul {
         margin-top: 1rem;
       }
-      
+
       #contact-form {
         grid-template-columns: 1fr;
       }
-      
+
       .products-grid {
         grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
       }
@@ -398,14 +389,14 @@
         <i class="fas fa-hard-hat"></i>
         <h1>RabieMetal</h1>
       </div>
-      
+
       <nav>
         <ul>
           <li><a href="#home">الرئيسية</a></li>
           <li><a href="#products">المنتجات</a></li>
           <li><a href="#contact">اتصل بنا</a></li>
           <li>
-            <div class="cart-icon">
+            <div class="cart-icon" title="سلة المشتريات">
               <i class="fas fa-shopping-cart"></i>
               <span class="cart-count">0</span>
             </div>
@@ -437,7 +428,7 @@
         <input type="tel" placeholder="رقم الهاتف">
         <input type="text" placeholder="الموضوع">
         <textarea placeholder="رسالتك" rows="5" required></textarea>
-        <button type极submit">إرسال الرسالة</button>
+        <button type="submit">إرسال الرسالة</button>
       </form>
     </section>
   </main>
@@ -448,14 +439,14 @@
         <h3>عن الشركة</h3>
         <p>متخصصون في توريد المنتجات المعدنية والحديدية بجودة عالية وتوصيل سريع لجم أنحاء المملكة.</p>
       </div>
-      
+
       <div class="footer-section">
         <h3>معلومات التواصل</h3>
         <p><i class="fas fa-map-marker-alt"></i> العنوان: بريان، غرداية، الجزائر</p>
         <p><i class="fas fa-phone"></i> الهاتف: 0559092993</p>
         <p><i class="fas fa-envelope"></i> البريد: rabiesa47@gmail.com</p>
       </div>
-      
+
       <div class="footer-section">
         <h3>تابعنا على</h3>
         <div class="social-icons">
@@ -466,7 +457,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="copyright">
       <p>&copy; 2025 RabieMetal. جميع الحقوق محفوظة.</p>
     </div>
@@ -474,7 +465,7 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // بيانات المنتجات مع المنتجين المطلوبين فقط
+      // بيانات المنتجات: أضفت المنتج الجديد (الحديد المسلح للخرسانة) مع الصورة المطلوبة
       const products = [
         {
           id: 1,
@@ -483,7 +474,7 @@
           price: "يبدأ من 750",
           image: "https://www.taniskladbudowlany.com/userfiles/announcement/1036-pustak-szalunkowy-pf2-pustak-zalewowy-pustak-na-filarki-5-611cfd66ecb03.webp",
           hasTypes: true,
-          targetPage: "poutrelle-types.html" // رابط صفحة أنواع البوتريل
+          targetPage: "poutrelle-types.html"
         },
         {
           id: 2,
@@ -492,7 +483,16 @@
           price: "850",
           image: "https://ajorroajor.com/wp-content/uploads/2019/12/tss.jpg",
           hasTypes: false,
-          targetPage: "carcas.html" // رابط صفحة الحديد الإنشائي
+          targetPage: "carcas.html"
+        },
+        {
+          id: 3,
+          name: "الحديد المسلّح للخرسانة",
+          description: "حديد مسلّح مخصّص للخرسانة المسلحة — تسليح عالي الجودة مناسب للأساسات والأعمدة والأسقف.",
+          price: "يبدأ من 650 دينار جزائري",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcGvaooQBNx-p_8ZwXDGBjP4SueLiWhzC3ALzgtx573HF3dtn3oaeXOM9xX1-uvMXlO5U&usqp=CAU",
+          hasTypes: false,
+          targetPage: "rebar.html"
         }
       ];
 
@@ -504,73 +504,55 @@
       products.forEach(product => {
         const productElement = document.createElement('div');
         productElement.classList.add('product');
-        
+
+        // product card content (consistent style)
+        productElement.innerHTML = `
+          <div class="product-image">
+            <img src="${product.image}" alt="${product.name}">
+          </div>
+          <div class="product-info">
+            <h3>${product.name}</h3>
+            <p>${product.description}</p>
+            <span class="price ${product.id === 3 ? 'big' : ''}">${product.price} ${product.id === 3 ? '' : 'دينار جزائري'}</span>
+            <div>
+              ${product.hasTypes ? `<button class="view-types-btn" data-id="${product.id}"><i class="fas fa-eye"></i> عرض الأنواع</button>` : `<button class="add-cart" data-id="${product.id}"><i class="fas fa-cart-plus"></i> أضف إلى السلة</button>`}
+            </div>
+          </div>
+        `;
+
+        // ربط الصفحات أو الأزرار
         if (product.hasTypes) {
-          productElement.innerHTML = `
-            <div class="product-image">
-              <img src="${product.image}" alt="${product.name}">
-            </div>
-            <div class="product-info">
-              <h3>${product.name}</h3>
-              <p>${product.description}</p>
-              <span class="price">${product.price} دينار جزائري</span>
-              <button class="view-types-btn" data-id="${product.id}">
-                <i class="fas fa-eye"></i> عرض الأنواع
-              </button>
-            </div>
-          `;
-          
-          // إضافة حدث النقر للانتقال إلى صفحة أنواع البوتريل
           productElement.querySelector('.view-types-btn').addEventListener('click', function(e) {
             e.stopPropagation();
             window.location.href = product.targetPage;
           });
-          
-          // إضافة حدث النقر على المنتج للانتقال إلى صفحة الأنواع
-          productElement.addEventListener('click', function() {
-            window.location.href = product.targetPage;
-          });
         } else {
-          productElement.innerHTML = `
-            <div class="product-image">
-              <img src="${product.image}" alt="${product.name}">
-            </div>
-            <div class="product-info">
-              <h3>${product.name}</h3>
-              <p>${product.description}</p>
-              <span class="price">${product.price} دينار جزائري</span>
-              <button class="add-cart" data-id="${product.id}">
-                <i class="fas fa-cart-plus"></i> أضف إلى السلة
-              </button>
-            </div>
-          `;
-          
-          // إضافة حدث النقر على المنتج للانتقال إلى صفحة المنتج
-          productElement.addEventListener('click', function() {
-            window.location.href = product.targetPage;
+          // زر إضافة للسلة داخل البطاقة
+          productElement.querySelector('.add-cart').addEventListener('click', (e) => {
+            e.stopPropagation();
+            cartItems++;
+            cartCount.textContent = cartItems;
+
+            const button = e.currentTarget;
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-check"></i> تم الإضافة';
+            button.style.background = '#27ae60';
+
+            setTimeout(() => {
+              button.innerHTML = originalText;
+              button.style.background = '';
+            }, 1400);
           });
         }
-        
-        productList.appendChild(productElement);
-      });
 
-      // إضافة منتج إلى السلة
-      document.querySelectorAll('.add-cart').forEach(button => {
-        button.addEventListener('click', (e) => {
-          e.stopPropagation();
-          cartItems++;
-          cartCount.textContent = cartItems;
-          
-          // تأثير عند الإضافة
-          const originalText = button.innerHTML;
-          button.innerHTML = '<i class="fas fa-check"></i> تم الإضافة';
-          button.style.background = '#27ae60';
-          
-          setTimeout(() => {
-            button.innerHTML = originalText;
-            button.style.background = '';
-          }, 1500);
+        // نسمح بالنقر على البطاقة للانتقال إلى صفحة المنتج (إذا كانت معرفة)
+        productElement.addEventListener('click', function() {
+          if (product.targetPage) {
+            window.location.href = product.targetPage;
+          }
         });
+
+        productList.appendChild(productElement);
       });
 
       // إدارة نموذج الاتصال
@@ -584,6 +566,8 @@
   </script>
 </body>
 </html>
+
+
 
 
 
