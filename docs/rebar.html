@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>الحديد المسلّح للخرسانة - RabieMetal</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root{
+      --primary:#2c3e50;
+      --secondary:#e74c3c;
+      --accent:#3498db;
+      --light:#ecf0f1;
+      --bg:#f9f9f9;
+      --text:#333;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;font-family:'Cairo',Tahoma,sans-serif}
+    body{background:var(--bg);color:var(--text);line-height:1.6}
+    header{background:linear-gradient(135deg,var(--primary),#1a2530);color:#fff;padding:1rem 0;position:sticky;top:0;z-index:100}
+    .header-container{max-width:1200px;margin:0 auto;padding:0 1rem;display:flex;justify-content:space-between;align-items:center}
+    .logo{display:flex;align-items:center}
+    .logo i{color:var(--secondary);font-size:1.9rem;margin-left:.6rem}
+    nav ul{display:flex;list-style:none;gap:.6rem}
+    nav a{color:#fff;text-decoration:none;padding:.45rem .9rem;border-radius:6px;display:inline-block}
+    nav a:hover{background:rgba(255,255,255,0.06)}
+    main{max-width:1100px;margin:1.8rem auto;padding:0 1rem}
+    .page-header{background:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?auto=format&fit=crop&w=1200&q=80');color:#fff;padding:2rem;border-radius:10px;text-align:center}
+    .page-header h2{font-size:2rem;margin-bottom:.6rem}
+    .page-header p{opacity:.9}
+    .product-section{display:grid;grid-template-columns:1fr 420px;gap:1.6rem;margin-top:1.2rem}
+    @media(max-width:900px){ .product-section{grid-template-columns:1fr} }
+    .card{background:#fff;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,0.06);overflow:hidden}
+    .product-visual{padding:1.2rem;display:flex;align-items:center;justify-content:center;background:#fafafa;height:360px;border-radius:8px}
+    .product-visual img{max-width:100%;max-height:100%;object-fit:contain}
+    .product-info{padding:1.2rem}
+    .product-info h3{font-size:1.6rem;color:var(--primary);margin-bottom:.6rem}
+    .product-info p{color:#666;margin-bottom:1rem}
+    .price-block{display:flex;align-items:baseline;gap:.8rem;margin-bottom:1rem}
+    .price-block .price{font-size:1.6rem;font-weight:800;color:var(--secondary)}
+    .price-block .note{color:#777;font-size:.95rem}
+    .methods{padding:1rem;border-radius:8px;background:#fff;margin-bottom:1rem;box-shadow:0 4px 12px rgba(0,0,0,0.04)}
+    .methods h4{margin-bottom:.6rem;color:var(--primary)}
+    .methods ul{list-style:disc;padding-right:1rem;color:#444}
+    /* purchase form */
+    .purchase{padding:1.2rem;background:var(--light);border-radius:8px}
+    .purchase h4{margin-bottom:1rem;color:var(--primary);text-align:center}
+    .form-group{margin-bottom:.9rem}
+    label{display:block;margin-bottom:.35rem;font-weight:600;color:#333}
+    input[type="text"], input[type="tel"], input[type="number"], select, textarea{
+      width:100%;padding:.75rem;border:1px solid #e3e3e3;border-radius:6px;font-size:1rem;background:#fff;
+    }
+    .quantity-row{display:flex;gap:.6rem;align-items:center}
+    .quantity-row button{width:40px;height:40px;border-radius:50%;border:none;background:var(--primary);color:#fff;font-size:1.1rem;cursor:pointer}
+    .quantity-row input{width:100px;text-align:center}
+    .calc{background:#fff;padding:1rem;border-radius:8px;margin-top:.7rem;box-shadow:0 4px 12px rgba(0,0,0,0.03)}
+    .calc .row{display:flex;justify-content:space-between;padding:.35rem 0;border-bottom:1px solid #f0f0f0}
+    .calc .row:last-child{border-bottom:0}
+    .total{font-weight:800;color:var(--secondary);font-size:1.2rem;margin-top:.6rem;text-align:left}
+    .buy-btn{margin-top:1rem;background:var(--secondary);color:#fff;border:none;padding:.9rem;border-radius:8px;width:100%;font-size:1.05rem;cursor:pointer}
+    .buy-btn:hover{background:#c0392b}
+    .small-note{font-size:.92rem;color:#666;margin-top:.6rem}
+    footer{background:var(--primary);color:#fff;padding:1.6rem;margin-top:2rem;border-radius:6px}
+    footer .foot-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+    a.back-link{display:inline-block;padding:.45rem .9rem;background:#fff;color:var(--primary);border-radius:6px;text-decoration:none;font-weight:700}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <div class="logo"><i class="fas fa-hard-hat"></i><h1 style="font-size:1.1rem;margin-left:.4rem">RabieMetal</h1></div>
+      <nav>
+        <ul>
+          <li><a href="index.html">الرئيسية</a></li>
+          <li><a href="index.html#products">المنتجات</a></li>
+          <li><a href="index.html#contact">اتصل بنا</a></li>
+          <li><a href="orders-admin.html" style="background:rgba(255,255,255,0.08);border-radius:6px">لوحة الطلبات</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-header">
+      <h2>الحديد المـسلّح للخرسانة</h2>
+      <p>تسليح عالي الجودة مناسب للأساسات والأعمدة والأسقف — متوفر للمتر والكميات الكبيرة.</p>
+      <div style="margin-top:1rem"><a class="back-link" href="index.html#products"><i class="fas fa-arrow-left"></i> العودة للمنتجات</a></div>
+    </div>
+
+    <section class="product-section">
+      <div class="card">
+        <div class="product-visual">
+          <!-- صورة المنتج -->
+          <img id="productImage" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcGvaooQBNx-p_8ZwXDGBjP4SueLiWhzC3ALzgtx573HF3dtn3oaeXOM9xX1-uvMXlO5U&usqp=CAU" alt="الحديد المسلّح للخرسانة">
+        </div>
+
+        <div class="product-info" style="padding:1.25rem">
+          <h3>الحديد المسلّح للخرسانة</h3>
+          <p>حديد تسليح عالي الجودة — مناسب للأساسات، الأعمدة، والأسقف. مقاوم للصدأ عند التخزين الجيد ويمتاز بثبات أبعاده.</p>
+
+          <div class="price-block">
+            <span class="price">يبدأ من 650 د.ج / متر</span>
+            <span class="note">سعر ابتدائي للمتر — يمكن أن يتغير حسب القطر والكمية</span>
+          </div>
+
+          <div class="methods">
+            <h4>طرق البيع المتاحة</h4>
+            <ul>
+              <li>بيع بالمتر (الطريقة القياسية للمشاريع الصغيرة والمتوسطة).</li>
+              <li>بيع بكميات كبيرة (سعر خاص للمقاولات والمشاريع — يرجى التواصل للحصول على عرض سعر).</li>
+              <li>بيع للعينات أو قطع مخصصة حسب الطلب.</li>
+            </ul>
+            <p class="small-note">للطلبات الكبيرة نوفّر خصومات وشحن خاص — اختر "طلب بمعدل خاص" في طريقة الدفع ثم اتصل بنا.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- عمود الشراء -->
+      <aside class="card" style="padding:1.1rem">
+        <div class="purchase">
+          <h4>تفاصيل الطلب</h4>
+
+          <form id="orderForm">
+            <div class="form-group">
+              <label>وحدة البيع</label>
+              <select id="sellMethod">
+                <option value="meter">بالـمتر</option>
+                <option value="bulk">كمية كبيرة (عرض سعر)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="length">الطول بالمتر (طول القطعة):</label>
+              <input type="number" id="length" min="0.5" step="0.5" value="1" required>
+            </div>
+
+            <div class="form-group">
+              <label for="quantity">الكمية (عدد القطع):</label>
+              <div class="quantity-row">
+                <button type="button" id="decQty">-</button>
+                <input type="number" id="quantity" value="1" min="1" required>
+                <button type="button" id="incQty">+</button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="payment">طريقة الدفع</label>
+              <select id="payment" required>
+                <option value="cod">الدفع عند الاستلام</option>
+                <option value="bank">تحويل بنكي</option>
+                <option value="whatsapp">طلب عبر واتساب (تنسيق الطلب)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="name">الاسم الكامل</label>
+              <input id="name" type="text" required>
+            </div>
+
+            <div class="form-group">
+              <label for="phone">رقم الهاتف</label>
+              <input id="phone" type="tel" required>
+            </div>
+
+            <div class="form-group">
+              <label for="address">العنوان (تفصيلي)</label>
+              <input id="address" type="text" required>
+            </div>
+
+            <div class="form-group">
+              <label for="notes">ملاحظات / قطر أو مواصفات خاصة (اختياري)</label>
+              <textarea id="notes" rows="3" placeholder="مثال: قطر 10 مم، توصيل إلى..."></textarea>
+            </div>
+
+            <div class="calc">
+              <div class="row"><span>سعر المتر</span><span id="pricePerMeter">650 د.ج</span></div>
+              <div class="row"><span>الطول لكل قطعة</span><span id="showLength">1 متر</span></div>
+              <div class="row"><span>الكمية</span><span id="showQty">1 قطعة</span></div>
+              <div class="row"><span>المجموع (تقريبي)</span><span id="subtotal">650 د.ج</span></div>
+              <div class="row"><span>رسوم التوصيل (تقريبية)</span><span id="shipping">0 د.ج</span></div>
+              <div class="total">الإجمالي المتوقع: <span id="total">650 د.ج</span></div>
+            </div>
+
+            <button class="buy-btn" type="submit"><i class="fas fa-shopping-cart"></i> تأكيد الطلب</button>
+            <p class="small-note">ستتصل بنا خدمة العملاء لتأكيد السعر النهائي وموعد التسليم.</p>
+          </form>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <footer>
+    <div class="foot-inner">
+      <div>© 2025 RabieMetal</div>
+      <div>الهاتف: 0559092993 &nbsp; • &nbsp; بريد: rabiesa47@gmail.com</div>
+    </div>
+  </footer>
+
+  <script>
+    // إعدادات المنتج
+    const PRICE_PER_METER = 650; // د.ج
+    const pricePerMeterEl = document.getElementById('pricePerMeter');
+    const lengthInput = document.getElementById('length');
+    const qtyInput = document.getElementById('quantity');
+    const decQty = document.getElementById('decQty');
+    const incQty = document.getElementById('incQty');
+    const showLength = document.getElementById('showLength');
+    const showQty = document.getElementById('showQty');
+    const subtotalEl = document.getElementById('subtotal');
+    const totalEl = document.getElementById('total');
+    const shippingEl = document.getElementById('shipping');
+    const sellMethod = document.getElementById('sellMethod');
+
+    //تهيئة
+    pricePerMeterEl.textContent = PRICE_PER_METER + ' د.ج';
+
+    function calcTotals(){
+      const length = parseFloat(lengthInput.value) || 0;
+      const qty = parseInt(qtyInput.value) || 0;
+      // سعر إجمالي = طول * كمية * سعر المتر
+      const subtotal = Math.round(length * qty * PRICE_PER_METER);
+      // تقدير رسوم توصيل بسيطة: صفر للعرض، يمكن تغييره لاحقًا
+      const shipping = (subtotal >= 200000) ? 0 : 0; // الآن 0 — قابل للتعديل
+      showLength.textContent = length + ' متر';
+      showQty.textContent = qty + ' قطعة';
+      subtotalEl.textContent = subtotal + ' د.ج';
+      shippingEl.textContent = shipping + ' د.ج';
+      totalEl.textContent = (subtotal + shipping) + ' د.ج';
+    }
+
+    // أزرار الكمية
+    incQty.addEventListener('click', ()=>{ qtyInput.value = parseInt(qtyInput.value)+1; calcTotals(); });
+    decQty.addEventListener('click', ()=>{ if(parseInt(qtyInput.value) > 1) qtyInput.value = parseInt(qtyInput.value)-1; calcTotals(); });
+    lengthInput.addEventListener('input', calcTotals);
+    qtyInput.addEventListener('input', calcTotals);
+    sellMethod.addEventListener('change', ()=>{ /* يمكن إضافة سلوك خاص للطلبات الكبيرة */ });
+
+    // حفظ الطلب في localStorage بصيغة متوافقة مع صفحة الادارة
+    document.getElementById('orderForm').addEventListener('submit', function(e){
+      e.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const address = document.getElementById('address').value.trim();
+      const notes = document.getElementById('notes').value.trim();
+      const length = parseFloat(lengthInput.value) || 0;
+      const qty = parseInt(qtyInput.value) || 0;
+      const paymentMethod = document.getElementById('payment').value;
+      const sell = sellMethod.value;
+
+      if(!name || !phone || !address || qty <= 0 || length <= 0){
+        alert('الرجاء ملء الحقول الأساسية بشكل صحيح.');
+        return;
+      }
+
+      // تحميل الطلبات الحالية
+      let orders = JSON.parse(localStorage.getItem('orders')) || [];
+
+      // إنشاء معرف فريد
+      const now = Date.now();
+      const newId = Math.floor(now / 1000); // معرف رقمي
+      const orderId = 'RM' + now.toString().slice(-6); // رمز العرض في الجدول
+
+      const pricePerMeter = PRICE_PER_METER;
+      const totalPrice = Math.round(length * qty * pricePerMeter);
+
+      const order = {
+        id: newId, // رقم يُستخدم في وظائف العرض/تعديل
+        orderId: orderId,
+        customerName: name,
+        customerPhone: phone,
+        customerAddress: address,
+        orderDate: new Date().toISOString().slice(0,10), // YYYY-MM-DD
+        productType: "الحديد المسلّح للخرسانة",
+        length: length,
+        quantity: qty,
+        pricePerMeter: pricePerMeter,
+        totalPrice: totalPrice,
+        status: "new", // الحالة الافتراضية
+        paymentMethod: paymentMethod,
+        sellMethod: sell,
+        notes: notes
+      };
+
+      orders.push(order);
+      localStorage.setItem('orders', JSON.stringify(orders));
+
+      // لاحظ: حدث التخزين (storage) يظهر في تبويب آخر تلقائياً؛
+      // هنا نطبع للتصحيح ونظهر رسالة للمستخدم
+      alert('تم تسجيل طلبك بنجاح! سنتواصل معك لتأكيد التفاصيل. رقم الطلب: ' + orderId);
+
+      // إعادة تعيين النموذج وتحديث الحسابات
+      e.target.reset();
+      qtyInput.value = 1;
+      lengthInput.value = 1;
+      calcTotals();
+
+      // (اختياري) تحويل المستخدم لصفحة تأكيد أو لوحة الطلبات:
+      // window.location.href = 'orders-admin.html';
+    });
+
+    // تهيئة أولية
+    calcTotals();
+  </script>
+</body>
+</html>
