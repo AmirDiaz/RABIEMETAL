@@ -611,8 +611,37 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 <!-- END -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.getElementById('purchase-form');
+  if (!form) return;
+  const pricePerMeter = 750;
+  const productType = 'البوتريل العادي';
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const name = (document.getElementById('name')||{value:''}).value.trim();
+    const phone = (document.getElementById('phone')||{value:''}).value.trim();
+    const address = (document.getElementById('address')||{value:''}).value.trim();
+    const length = parseFloat((document.getElementById('length')||{value:'1'}).value) || 1;
+    const quantity = parseInt((document.getElementById('quantity')||{value:'1'}).value) || 1;
+    const notes = (document.getElementById('notes')||{value:''}).value.trim();
+    const totalLength = length * quantity;
+    const totalPrice = totalLength * pricePerMeter;
+    const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+    const id = Date.now();
+    const orderId = 'RB-' + String(id).slice(-6);
+    const order = { id, orderId, customerName: name||'عميل غير مسجل', customerPhone: phone, customerAddress: address, orderDate: new Date().toISOString().slice(0,10), productType, length: totalLength, quantity, pricePerMeter, totalPrice, status: 'new', paymentMethod: 'غير محدد', notes };
+    orders.push(order);
+    localStorage.setItem('orders', JSON.stringify(orders));
+    alert('تم حفظ الطلب بنجاح.');
+    form.reset();
+  });
+});
+</script>
 
 </body>
 </html>
+
 
 
