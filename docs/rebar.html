@@ -350,6 +350,7 @@
       <div class="purchase-form">
         <h3>تفاصيل الطلب</h3>
         <form id="purchase-form">
+          <!-- Order Details -->
           <div class="form-group">
             <label for="length">الطول بالمتر (1 - 4):</label>
             <input type="number" id="length" min="1" max="4" step="0.01" value="" required>
@@ -361,17 +362,36 @@
             <input type="number" id="quantity" min="1" value="1" required>
           </div>
 
-          <div class="calculation-results">
-            <div class="result-item"><span>سعر المتر:</span><span id="price-per-meter">650 د.ج</span></div>
-            <div class="result-item"><span>الطول الإجمالي:</span><span id="total-length">1 متر</span></div>
-            <div class="result-item"><span>الكمية:</span><span id="total-quantity">1 قطعة</span></div>
-            <div class="total-price"><span>السعر الإجمالي:</span> <span id="total-price">650 د.ج</span></div>
+          <button type="button" class="buy-now-btn" id="add-order-btn"><i class="fas fa-plus-circle"></i> إضافة الطلب</button>
+
+          <!-- Orders List -->
+          <div class="entries" id="entries">
+            <h3>الطلبات:</h3>
+            <!-- Orders will be dynamically added here -->
           </div>
 
-          <div class="form-group"><label for="name">الاسم الكامل:</label><input type="text" id="name" required></div>
-          <div class="form-group"><label for="phone">رقم الهاتف:</label><input type="tel" id="phone" required></div>
-          <div class="form-group"><label for="address">العنوان:</label><input type="text" id="address" required></div>
-          <div class="form-group"><label for="notes">ملاحظات إضافية (اختياري):</label><textarea id="notes" rows="3" placeholder="أي ملاحظات خاصة بالطلب أو التوصيل"></textarea></div>
+          <div class="total-price" id="total-price">السعر الإجمالي: 0 د.ج</div>
+
+          <!-- User Information -->
+          <div class="form-group">
+            <label for="name">الاسم الكامل:</label>
+            <input type="text" id="name" placeholder="أدخل اسمك" required>
+          </div>
+
+          <div class="form-group">
+            <label for="phone">رقم الهاتف:</label>
+            <input type="tel" id="phone" placeholder="أدخل رقم الهاتف" required>
+          </div>
+
+          <div class="form-group">
+            <label for="address">العنوان:</label>
+            <input type="text" id="address" placeholder="أدخل عنوانك" required>
+          </div>
+
+          <div class="form-group">
+            <label for="notes">ملاحظات إضافية (اختياري):</label>
+            <textarea id="notes" rows="3" placeholder="أي ملاحظات خاصة بالطلب أو التوصيل"></textarea>
+          </div>
 
           <button type="submit" class="buy-now-btn"><i class="fas fa-check-circle"></i> تأكيد الطلب</button>
         </form>
@@ -412,113 +432,106 @@
       };
     }
 
-    document.addEventListener('DOMContentLoaded', function(){
+    document.addEventListener('DOMContentLoaded', function () {
       const PRICE = 650;
-      const pricePerMeterEl = document.getElementById('price-per-meter');
-      const lengthInput = document.getElementById('length');
-      const qtyInput = document.getElementById('quantity');
-      const totalLengthEl = document.getElementById('total-length');
-      const totalQtyEl = document.getElementById('total-quantity');
+      const entriesContainer = document.getElementById('entries');
       const totalPriceEl = document.getElementById('total-price');
+      const addOrderBtn = document.getElementById('add-order-btn');
+      const nameInput = document.getElementById('name');
+      const phoneInput = document.getElementById('phone');
+      const addressInput = document.getElementById('address');
+      const notesInput = document.getElementById('notes');
+      const lengthInput = document.getElementById('length');
+      const quantityInput = document.getElementById('quantity');
+      let orders = [];
 
-      pricePerMeterEl.textContent = PRICE + ' د.ج';
-
-      // Update totals when values change
-      function updateTotals(){
-        const len = parseFloat(lengthInput.value) || 0; // Default to 0 if empty
-        const qty = parseInt(qtyInput.value) || 1;
-
-        // Clamp values within allowed range
-        const clampedLen = len > 0 ? Math.min(Math.max(len, 1), 4) : 0;
-        const clampedQty = Math.max(qty, 1);
-
-        if (len !== clampedLen) lengthInput.value = clampedLen > 0 ? clampedLen.toFixed(2) : '';
-        if (qty !== clampedQty) qtyInput.value = clampedQty;
-
-        const totalLen = Math.round((clampedLen * clampedQty) * 100) / 100;
-        const totalPrice = Math.round(clampedLen * clampedQty * PRICE);
-
-        totalLengthEl.textContent = clampedLen > 0 ? totalLen + ' متر' : '—';
-        totalQtyEl.textContent = clampedQty + ' قطعة';
-        totalPriceEl.textContent = clampedLen > 0 ? totalPrice + ' د.ج' : '—';
+      function updateTotalPrice() {
+        const total = orders.reduce((sum, order) => sum + order.totalPrice, 0);
+        totalPriceEl.textContent = `السعر الإجمالي: ${total} د.ج`;
       }
 
-      // Add event listeners for input changes
-      lengthInput.addEventListener('input', updateTotals);
-      qtyInput.addEventListener('input', updateTotals);
-
-      // Validate and clamp values on blur
-      lengthInput.addEventListener('blur', function() {
-        let value = parseFloat(lengthInput.value.replace(',', '.'));
-        if (isNaN(value) || value < 1 || value > 4) {
-          lengthInput.value = ''; // Clear the field if invalid
-        } else {
-          lengthInput.value = value.toFixed(2); // Format valid values
-        }
-        updateTotals();
-      });
-
-      qtyInput.addEventListener('blur', function() {
-        let value = parseInt(qtyInput.value) || 1;
-        value = Math.max(value, 1);
-        qtyInput.value = value;
-        updateTotals();
-      });
-
-      // Allow decimal input and prevent invalid characters
-      lengthInput.addEventListener('keydown', function(e) {
-        if (
-          (e.key === '.' && this.value.includes('.')) || // Prevent multiple dots
-          (e.key === ',' && this.value.includes(',')) || // Prevent multiple commas
-          (!e.key.match(/[0-9.,]/) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) // Allow only numbers, dots, and control keys
-        ) {
-          e.preventDefault();
-        }
-      });
-
-      // Initial calculation
-      updateTotals();
-
-      // Save order to localStorage
-      const form = document.getElementById('purchase-form');
-      form.addEventListener('submit', function(e){
-        e.preventDefault();
-        const name = document.getElementById('name').value.trim();
-        const phone = document.getElementById('phone').value.trim();
-        const address = document.getElementById('address').value.trim();
-        const notes = document.getElementById('notes').value.trim();
-        const length = parseFloat(lengthInput.value) || 0;
-        const qty = parseInt(qtyInput.value) || 1;
-
-        if (length < 1 || length > 4) { 
-          alert('الطول يجب أن يكون بين 1 و 4 متر'); 
-          return; 
-        }
-
-        const raw = {
-          customerName: name, 
-          customerPhone: phone, 
-          customerAddress: address,
-          length: Math.round(length * 100) / 100, 
-          quantity: qty, 
-          pricePerMeter: PRICE,
-          totalPrice: Math.round(length * qty * PRICE), 
-          productType: 'الحديد المسلّح للخرسانة', 
-          notes
-        };
-
-        const order = normalizeOrder(raw);
-        const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+      function addOrder(length, quantity) {
+        const totalPrice = Math.round(length * quantity * PRICE);
+        const order = { length, quantity, totalPrice };
         orders.push(order);
-        localStorage.setItem('orders', JSON.stringify(orders));
 
-        alert('تم حفظ الطلب بنجاح. رقم الطلب: ' + order.orderId);
+        const orderEl = document.createElement('div');
+        orderEl.classList.add('entry');
+        orderEl.innerHTML = `
+          <span>الطول: ${length} متر، الكمية: ${quantity}، السعر: ${totalPrice} د.ج</span>
+          <button type="button" class="remove-btn">حذف</button>
+        `;
 
-        // Reset form
-        form.reset();
+        const removeBtn = orderEl.querySelector('.remove-btn');
+        removeBtn.addEventListener('click', () => {
+          orders = orders.filter(o => o !== order);
+          orderEl.remove();
+          updateTotalPrice();
+        });
+
+        entriesContainer.appendChild(orderEl);
+        updateTotalPrice();
+      }
+
+      addOrderBtn.addEventListener('click', () => {
+        const length = parseFloat(lengthInput.value);
+        const quantity = parseInt(quantityInput.value);
+
+        if (isNaN(length) || length < 1 || length > 4) {
+          alert('الرجاء إدخال طول صحيح بين 1 و 4 متر.');
+          return;
+        }
+
+        if (isNaN(quantity) || quantity < 1) {
+          alert('الرجاء إدخال كمية صحيحة.');
+          return;
+        }
+
+        addOrder(length, quantity);
+
+        // Reset the order fields for new input
         lengthInput.value = '';
-        qtyInput.value = '1';
-        updateTotals();
+        quantityInput.value = '1';
+        lengthInput.focus();
+      });
+
+      const form = document.getElementById('purchase-form');
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const name = nameInput.value.trim();
+        const phone = phoneInput.value.trim();
+        const address = addressInput.value.trim();
+        const notes = notesInput.value.trim();
+
+        if (!name) {
+          alert('الرجاء إدخال الاسم.');
+          return;
+        }
+
+        if (!phone) {
+          alert('الرجاء إدخال رقم الهاتف.');
+          return;
+        }
+
+        if (!address) {
+          alert('الرجاء إدخال العنوان.');
+          return;
+        }
+
+        if (orders.length === 0) {
+          alert('الرجاء إضافة طلب واحد على الأقل.');
+          return;
+        }
+
+        console.log('تم تأكيد الطلبات:', { name, phone, address, notes, orders });
+        alert('تم تأكيد الطلب بنجاح!');
+
+        // Reset the form and orders
+        orders = [];
+        entriesContainer.innerHTML = '<h3>الطلبات:</h3>';
+        updateTotalPrice();
+        form.reset();
       });
     });
   </script>
