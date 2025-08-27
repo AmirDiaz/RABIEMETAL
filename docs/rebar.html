@@ -6,54 +6,308 @@
   <title>الحديد المسلّح للخرسانة - RabieMetal</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    /* (لم أغير أي شيء من هذا الجزء - نفس النمط لديك) */
-    :root{--primary-color:#2c3e50;--secondary-color:#e74c3c;--accent-color:#3498db;--light-color:#ecf0f1;--dark-color:#2c3e50;--text-color:#333;--background-color:#f9f9f9}
-    *{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo','Tahoma',sans-serif}
-    body{background-color:var(--background-color);color:var(--text-color);line-height:1.6;background-image:linear-gradient(rgba(255,255,255,0.9),rgba(255,255,255,0.9)),url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h100v100H0z' fill='none'/%3E%3Cpath d='M25 25h50v50H25z' stroke='%23ddd' stroke-width='2' fill='none'/%3E%3C/svg%3E")}
-    header{background:linear-gradient(135deg,var(--primary-color),#1a2530);color:white;padding:1rem 0;box-shadow:0 4px 12px rgba(0,0,0,0.1);position:sticky;top:0;z-index:100}
-    .header-container{display:flex;justify-content:space-between;align-items:center;max-width:1200px;margin:0 auto;padding:0 1rem}
-    .logo{display:flex;align-items:center}
-    .logo h1{font-size:1.8rem;margin-right:0.5rem}
-    .logo i{color:var(--secondary-color);font-size:2rem}
-    nav ul{display:flex;list-style:none}
-    nav ul li{margin:0 0.5rem}
-    nav ul li a{color:white;text-decoration:none;padding:0.5rem 1rem;border-radius:4px;transition:background 0.3s}
-    nav ul li a:hover{background:rgba(255,255,255,0.1)}
-    .cart-icon{position:relative;font-size:1.5rem;cursor:pointer}
-    .cart-count{position:absolute;top:-8px;left:-8px;background:var(--secondary-color);color:white;border-radius:50%;width:20px;height:20px;display:flex;justify-content:center;align-items:center;font-size:0.8rem}
-    main{max-width:1200px;margin:2rem auto;padding:0 1rem}
-    .page-header{text-align:center;padding:2rem;background:linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7)),url('https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?auto=format&fit=crop&w=1200&q=80');background-size:cover;background-position:center;color:white;border-radius:8px;margin-bottom:2rem}
-    .page-header h2{font-size:2.5rem;margin-bottom:1rem}
-    .back-button{display:inline-block;background:var(--secondary-color);color:white;padding:0.5rem 1.5rem;margin-top:1.5rem;border-radius:4px;text-decoration:none;font-weight:bold;transition:background 0.3s}
-    .back-button:hover{background:#c0392b}
-    section{margin-bottom:3rem;padding:2rem;background:white;border-radius:8px;box-shadow:0 4px 15px rgba(0,0,0,0.05)}
-    .product-details{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:2rem}
-    .product-image{height:300px;overflow:hidden;display:flex;justify-content:center;align-items:center;background:#f5f5f5;border-radius:8px}
-    .product-image img{max-width:100%;max-height:100%;object-fit:contain}
-    .product-info h3{margin-bottom:1rem;color:var(--dark-color);font-size:1.8rem}
-    .product-info p{color:#666;margin-bottom:1.5rem;font-size:1rem}
-    .product-price{font-weight:bold;color:var(--secondary-color);font-size:1.5rem;margin-bottom:1.5rem;display:block}
-    .purchase-form{background:var(--light-color);padding:2rem;border-radius:8px}
-    .purchase-form h3{margin-bottom:1.5rem;color:var(--primary-color);text-align:center}
-    .form-group{margin-bottom:1.5rem}
-    .form-group label{display:block;margin-bottom:0.5rem;font-weight:bold}
-    .form-group input,.form-group select,.form-group textarea{width:100%;padding:0.8rem;border:1px solid #ddd;border-radius:4px;font-size:1rem;background:#fff}
-    .quantity-controls{display:flex;align-items:center;gap:1rem}
-    .quantity-btn{background:var(--primary-color);color:white;border:none;width:40px;height:40px;border-radius:50%;font-size:1.2rem;cursor:pointer;display:flex;justify-content:center;align-items:center}
-    .quantity-input{width:80px!important;text-align:center}
-    .calculation-results{background:white;padding:1.5rem;border-radius:8px;margin-top:1.5rem}
-    .result-item{display:flex;justify-content:space-between;margin-bottom:0.5rem}
-    .total-price{font-weight:bold;font-size:1.5rem;color:var(--secondary-color);margin-top:1rem;padding-top:1rem;border-top:1px solid #ddd}
-    .buy-now-btn{background:var(--secondary-color);color:white;border:none;padding:1rem 2rem;border-radius:4px;cursor:pointer;width:100%;font-size:1.2rem;margin-top:1.5rem;transition:background 0.3s}
-    .buy-now-btn:hover{background:#c0392b}
-    footer{background:var(--dark-color);color:white;text-align:center;padding:2rem 1rem;margin-top:3rem}
-    .footer-content{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem;text-align:right}
-    .footer-section h3{margin-bottom:1rem;color:var(--secondary-color)}
-    .social-icons{display:flex;justify-content:center;gap:1rem;margin-top:1rem}
-    .social-icons a{color:white;font-size:1.5rem;transition:color 0.3s}
-    .social-icons a:hover{color:var(--accent-color)}
-    .copyright{margin-top:2rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,0.1)}
-    @media(max-width:768px){.product-details{grid-template-columns:1fr}}
+    :root {
+      --primary-color: #2c3e50;
+      --secondary-color: #e74c3c;
+      --accent-color: #3498db;
+      --light-color: #ecf0f1;
+      --dark-color: #2c3e50;
+      --text-color: #333;
+      --background-color: #f9f9f9;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Cairo', 'Tahoma', sans-serif;
+    }
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      background-image: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)), url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h100v100H0z' fill='none'/%3E%3Cpath d='M25 25h50v50H25z' stroke='%23ddd' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+    }
+    header {
+      background: linear-gradient(135deg, var(--primary-color), #1a2530);
+      color: white;
+      padding: 1rem 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+    .logo h1 {
+      font-size: 1.8rem;
+      margin-right: 0.5rem;
+    }
+    .logo i {
+      color: var(--secondary-color);
+      font-size: 2rem;
+    }
+    nav ul {
+      display: flex;
+      list-style: none;
+    }
+    nav ul li {
+      margin: 0 0.5rem;
+    }
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
+    nav ul li a:hover {
+      background: rgba(255,255,255,0.1);
+    }
+    .cart-icon {
+      position: relative;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      left: -8px;
+      background: var(--secondary-color);
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 0.8rem;
+    }
+    main {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    .page-header {
+      text-align: center;
+      padding: 2rem;
+      background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?auto=format&fit=crop&w=1200&q=80');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+    }
+    .page-header h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    .back-button {
+      display: inline-block;
+      background: var(--secondary-color);
+      color: white;
+      padding: 0.5rem 1.5rem;
+      margin-top: 1.5rem;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+    .back-button:hover {
+      background: #c0392b;
+    }
+    section {
+      margin-bottom: 3rem;
+      padding: 2rem;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+    .product-details {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    .product-image {
+      height: 300px;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f5f5f5;
+      border-radius: 8px;
+    }
+    .product-image img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+    .product-info h3 {
+      margin-bottom: 1rem;
+      color: var(--dark-color);
+      font-size: 1.8rem;
+    }
+    .product-info p {
+      color: #666;
+      margin-bottom: 1.5rem;
+      font-size: 1rem;
+    }
+    .product-price {
+      font-weight: bold;
+      color: var(--secondary-color);
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+    .purchase-form {
+      background: var(--light-color);
+      padding: 2rem;
+      border-radius: 8px;
+    }
+    .purchase-form h3 {
+      margin-bottom: 1.5rem;
+      color: var(--primary-color);
+      text-align: center;
+    }
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 1rem;
+      background: #fff;
+    }
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .quantity-btn {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .quantity-input {
+      width: 80px !important;
+      text-align: center;
+    }
+    .calculation-results {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-top: 1.5rem;
+    }
+    .result-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+    .total-price {
+      font-weight: bold;
+      font-size: 1.5rem;
+      color: var(--secondary-color);
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid #ddd;
+    }
+    .buy-now-btn {
+      background: var(--secondary-color);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 1.2rem;
+      margin-top: 1.5rem;
+      transition: background 0.3s;
+    }
+    .buy-now-btn:hover {
+      background: #c0392b;
+    }
+    footer {
+      background: var(--dark-color);
+      color: white;
+      text-align: center;
+      padding: 2rem 1rem;
+      margin-top: 3rem;
+    }
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      text-align: right;
+    }
+    .footer-section h3 {
+      margin-bottom: 1rem;
+      color: var(--secondary-color);
+    }
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .social-icons a {
+      color: white;
+      font-size: 1.5rem;
+      transition: color 0.3s;
+    }
+    .social-icons a:hover {
+      color: var(--accent-color);
+    }
+    .copyright {
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    @media (max-width: 768px) {
+      .product-details {
+        grid-template-columns: 1fr;
+      }
+    }
+    /* إخفاء أسهم الزيادة والنقصان في حقول الأرقام */
+    input[type="number"] {
+      -moz-appearance: textfield;
+    }
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    .decimal-hint {
+      font-size: 0.8rem;
+      color: #666;
+      margin-top: 0.3rem;
+    }
   </style>
 </head>
 <body>
@@ -97,17 +351,14 @@
         <h3>تفاصيل الطلب</h3>
         <form id="purchase-form">
           <div class="form-group">
-            <label for="length">الطول بالمتر (1 - 3):</label>
-            <input type="number" id="length" min="1" max="3" step="0.01" value="1" required>
+            <label for="length">الطول بالمتر (1 - 4):</label>
+            <input type="number" id="length" min="1" max="4" step="0.01" value="" required>
+            <div class="decimal-hint">يمكنك إدخال قيم عشرية مثل 1.44 أو 2.75</div>
           </div>
 
           <div class="form-group">
             <label for="quantity">الكمية:</label>
-            <div class="quantity-controls">
-              <button type="button" class="quantity-btn" id="decrease-qty">-</button>
-              <input type="number" id="quantity" class="quantity-input" min="1" value="1" required>
-              <button type="button" class="quantity-btn" id="increase-qty">+</button>
-            </div>
+            <input type="number" id="quantity" min="1" value="1" required>
           </div>
 
           <div class="calculation-results">
@@ -141,7 +392,6 @@
   </footer>
 
   <script>
-    // توحيد وحفظ الطلبات: آمن وموحَّد بحيث يتوافق مع صفحة الإدارة
     function normalizeOrder(raw){
       const now = Date.now();
       const id = raw.id !== undefined ? raw.id : now;
@@ -167,68 +417,109 @@
       const pricePerMeterEl = document.getElementById('price-per-meter');
       const lengthInput = document.getElementById('length');
       const qtyInput = document.getElementById('quantity');
-      const decBtn = document.getElementById('decrease-qty');
-      const incBtn = document.getElementById('increase-qty');
       const totalLengthEl = document.getElementById('total-length');
       const totalQtyEl = document.getElementById('total-quantity');
       const totalPriceEl = document.getElementById('total-price');
 
-      // set price text
       pricePerMeterEl.textContent = PRICE + ' د.ج';
 
-      function clampLength(){
-        let v = parseFloat(lengthInput.value) || 1;
-        if(v < 1) v = 1;
-        if(v > 3) v = 3;
-        lengthInput.value = v.toFixed(2);
-        return v;
-      }
-
+      // Update totals when values change
       function updateTotals(){
-        const len = clampLength();
-        const qty = Math.max(1, parseInt(qtyInput.value) || 1);
-        const totalLen = Math.round((len * qty) * 100) / 100;
-        const totalPrice = Math.round(totalLen * PRICE);
-        totalLengthEl.textContent = totalLen + ' متر';
-        totalQtyEl.textContent = qty + ' قطعة';
-        totalPriceEl.textContent = totalPrice + ' د.ج';
+        const len = parseFloat(lengthInput.value) || 0; // Default to 0 if empty
+        const qty = parseInt(qtyInput.value) || 1;
+
+        // Clamp values within allowed range
+        const clampedLen = len > 0 ? Math.min(Math.max(len, 1), 4) : 0;
+        const clampedQty = Math.max(qty, 1);
+
+        if (len !== clampedLen) lengthInput.value = clampedLen > 0 ? clampedLen.toFixed(2) : '';
+        if (qty !== clampedQty) qtyInput.value = clampedQty;
+
+        const totalLen = Math.round((clampedLen * clampedQty) * 100) / 100;
+        const totalPrice = Math.round(clampedLen * clampedQty * PRICE);
+
+        totalLengthEl.textContent = clampedLen > 0 ? totalLen + ' متر' : '—';
+        totalQtyEl.textContent = clampedQty + ' قطعة';
+        totalPriceEl.textContent = clampedLen > 0 ? totalPrice + ' د.ج' : '—';
       }
 
-      incBtn.addEventListener('click', ()=>{ qtyInput.value = parseInt(qtyInput.value || 1) + 1; updateTotals(); });
-      decBtn.addEventListener('click', ()=>{ if(parseInt(qtyInput.value) > 1) qtyInput.value = parseInt(qtyInput.value) - 1; updateTotals(); });
+      // Add event listeners for input changes
       lengthInput.addEventListener('input', updateTotals);
       qtyInput.addEventListener('input', updateTotals);
 
-      // حفظ الطلب في localStorage بصيغة موحدة
+      // Validate and clamp values on blur
+      lengthInput.addEventListener('blur', function() {
+        let value = parseFloat(lengthInput.value.replace(',', '.'));
+        if (isNaN(value) || value < 1 || value > 4) {
+          lengthInput.value = ''; // Clear the field if invalid
+        } else {
+          lengthInput.value = value.toFixed(2); // Format valid values
+        }
+        updateTotals();
+      });
+
+      qtyInput.addEventListener('blur', function() {
+        let value = parseInt(qtyInput.value) || 1;
+        value = Math.max(value, 1);
+        qtyInput.value = value;
+        updateTotals();
+      });
+
+      // Allow decimal input and prevent invalid characters
+      lengthInput.addEventListener('keydown', function(e) {
+        if (
+          (e.key === '.' && this.value.includes('.')) || // Prevent multiple dots
+          (e.key === ',' && this.value.includes(',')) || // Prevent multiple commas
+          (!e.key.match(/[0-9.,]/) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) // Allow only numbers, dots, and control keys
+        ) {
+          e.preventDefault();
+        }
+      });
+
+      // Initial calculation
+      updateTotals();
+
+      // Save order to localStorage
       const form = document.getElementById('purchase-form');
       form.addEventListener('submit', function(e){
         e.preventDefault();
-        const name = (document.getElementById('name')||{value:''}).value.trim();
-        const phone = (document.getElementById('phone')||{value:''}).value.trim();
-        const address = (document.getElementById('address')||{value:''}).value.trim();
-        const notes = (document.getElementById('notes')||{value:''}).value.trim();
-        const length = parseFloat(lengthInput.value) || 1;
+        const name = document.getElementById('name').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const address = document.getElementById('address').value.trim();
+        const notes = document.getElementById('notes').value.trim();
+        const length = parseFloat(lengthInput.value) || 0;
         const qty = parseInt(qtyInput.value) || 1;
-        if(length < 1 || length > 3){ alert('الطول يجب أن يكون بين 1 و 3 متر'); return; }
+
+        if (length < 1 || length > 4) { 
+          alert('الطول يجب أن يكون بين 1 و 4 متر'); 
+          return; 
+        }
+
         const raw = {
-          customerName: name, customerPhone: phone, customerAddress: address,
-          length: Math.round(length*100)/100, quantity: qty, pricePerMeter: PRICE,
-          totalPrice: Math.round(length*qty*PRICE), productType: 'الحديد المسلّح للخرسانة', notes
+          customerName: name, 
+          customerPhone: phone, 
+          customerAddress: address,
+          length: Math.round(length * 100) / 100, 
+          quantity: qty, 
+          pricePerMeter: PRICE,
+          totalPrice: Math.round(length * qty * PRICE), 
+          productType: 'الحديد المسلّح للخرسانة', 
+          notes
         };
+
         const order = normalizeOrder(raw);
         const orders = JSON.parse(localStorage.getItem('orders') || '[]');
         orders.push(order);
         localStorage.setItem('orders', JSON.stringify(orders));
+
         alert('تم حفظ الطلب بنجاح. رقم الطلب: ' + order.orderId);
+
+        // Reset form
         form.reset();
-        lengthInput.value = '1.00';
+        lengthInput.value = '';
         qtyInput.value = '1';
         updateTotals();
       });
-
-      // init
-      lengthInput.value = parseFloat(lengthInput.value).toFixed(2);
-      updateTotals();
     });
   </script>
 </body>
