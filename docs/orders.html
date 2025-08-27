@@ -368,6 +368,54 @@
       text-align: left;
     }
     
+    /* أنماط جديدة للطلبات المرتبطة */
+    .grouped-order {
+      background-color: #f0f7ff;
+      border-left: 4px solid var(--accent-color);
+    }
+    
+    .grouped-order:hover {
+      background-color: #e1efff;
+    }
+    
+    .group-header {
+      cursor: pointer;
+    }
+    
+    .group-icon {
+      margin-left: 8px;
+      transition: transform 0.3s;
+    }
+    
+    .group-icon.expanded {
+      transform: rotate(180deg);
+    }
+    
+    .group-details {
+      display: none;
+      background-color: #f8f9fa;
+    }
+    
+    .group-details.expanded {
+      display: table-row;
+    }
+    
+    .group-details td {
+      padding: 0.5rem 1rem;
+      border-top: 1px solid #eee;
+    }
+    
+    .group-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .group-item:last-child {
+      border-bottom: none;
+    }
+    
     /* الفوتر */
     footer {
       background: var(--dark-color);
@@ -438,6 +486,10 @@
       
       th, td {
         padding: 0.7rem;
+      }
+      
+      .group-item {
+        flex-direction: column;
       }
     }
   </style>
@@ -640,6 +692,32 @@
       updateStatistics(orders);
     });
 
+    // تجميع الطلبات المرتبطة من نفس العميل
+    function groupOrders(orders) {
+      const groupedOrders = {};
+      
+      orders.forEach(order => {
+        const customerKey = `${getCustomerName(order)}-${order.customerPhone || ''}-${order.orderDate || ''}`;
+        
+        if (!groupedOrders[customerKey]) {
+          groupedOrders[customerKey] = {
+            customerName: getCustomerName(order),
+            customerPhone: order.customerPhone || order.phone || '',
+            orderDate: order.orderDate || '',
+            orders: [],
+            totalAmount: 0,
+            totalQuantity: 0
+          };
+        }
+        
+        groupedOrders[customerKey].orders.push(order);
+        groupedOrders[customerKey].totalAmount += order.totalPrice || 0;
+        groupedOrders[customerKey].totalQuantity += order.quantity || 0;
+      });
+      
+      return Object.values(groupedOrders);
+    }
+
     // عرض الطلبات في الجدول
     function renderOrders(orders) {
       const ordersBody = document.getElementById('orders-body');
@@ -661,16 +739,26 @@
       
       ordersBody.innerHTML = '';
       
-      orders.forEach(order => {
-        const row = document.createElement('tr');
-
-        // استخراج اسم العميل بشكل آمن
-        const displayName = getCustomerName(order);
-
+      // تجميع الطلبات المرتبطة
+      const groupedOrders = groupOrders(orders);
+      
+      groupedOrders.forEach(group => {
+        if (group.orders.length === 0) return;
+        
+        const firstOrder = group.orders[0];
+        const isGrouped = group.orders.length > 1;
+        
+        // إنشاء صف المجموعة
+        const groupRow = document.createElement('tr');
+        groupRow.className = isGrouped ? 'grouped-order group-header' : '';
+        groupRow.setAttribute('data-group-id', firstOrder.customerPhone + firstOrder.orderDate);
+        
         // تحديد فئة الحالة
         let statusClass = '';
         let statusText = '';
-        switch(order.status) {
+        const status = firstOrder.status || 'new';
+        
+        switch(status) {
           case 'new':
             statusClass = 'new';
             statusText = 'جديد';
@@ -685,38 +773,72 @@
             break;
           default:
             statusClass = '';
-            statusText = order.status || '';
+            statusText = status || '';
         }
 
-        // تأكد من وجود قيم افتراضية للحقلية المستخدمة
-        const orderIdDisplay = order.orderId || '';
-        const orderDate = order.orderDate || '';
-        const productType = order.productType || '';
-        const quantity = order.quantity || 0;
-        const totalPrice = (order.totalPrice !== undefined ? order.totalPrice : '');
-
-        // استخدام JSON.stringify لضمان تمرير id صحيح في onclick (رقم أو نص)
-        const safeId = JSON.stringify(order.id);
-
-        row.innerHTML = `
-          <td>${orderIdDisplay}</td>
-          <td>${escapeHtml(displayName)}</td>
-          <td>${orderDate}</td>
-          <td>${escapeHtml(productType)}</td>
-          <td>${quantity}</td>
-          <td>${totalPrice} د.ج</td>
+        // عرض معلومات المجموعة
+        groupRow.innerHTML = `
+          <td>${isGrouped ? `مجموعة (${group.orders.length} طلب)` : firstOrder.orderId || ''}</td>
+          <td>${escapeHtml(group.customerName)}</td>
+          <td>${group.orderDate}</td>
+          <td>${isGrouped ? 'منتجات متعددة' : escapeHtml(firstOrder.productType || '')}</td>
+          <td>${group.totalQuantity}</td>
+          <td>${group.totalAmount} د.ج</td>
           <td><span class="status ${statusClass}">${statusText}</span></td>
           <td>
-            <button class="action-btn view-btn" onclick="viewOrder(${safeId})">
+            ${isGrouped ? `<i class="fas fa-chevron-down group-icon"></i>` : ''}
+            <button class="action-btn view-btn" onclick="viewOrder(${JSON.stringify(isGrouped ? group.orders.map(o => o.id) : firstOrder.id)})">
               <i class="fas fa-eye"></i>
             </button>
-            <button class="action-btn edit-btn" onclick="editOrder(${safeId})">
+            <button class="action-btn edit-btn" onclick="editOrder(${isGrouped ? group.orders.map(o => o.id)[0] : firstOrder.id})">
               <i class="fas fa-edit"></i>
             </button>
           </td>
         `;
         
-        ordersBody.appendChild(row);
+        ordersBody.appendChild(groupRow);
+        
+        // إذا كانت مجموعة، إضافة صف التفاصيل
+        if (isGrouped) {
+          const detailsRow = document.createElement('tr');
+          detailsRow.className = 'group-details';
+          detailsRow.setAttribute('data-group-id', firstOrder.customerPhone + firstOrder.orderDate);
+          
+          const detailsCell = document.createElement('td');
+          detailsCell.colSpan = 8;
+          
+          let detailsContent = '<div style="padding: 1rem;">';
+          detailsContent += '<h4 style="margin-bottom: 1rem;">تفاصيل الطلبات:</h4>';
+          
+          group.orders.forEach((order, index) => {
+            detailsContent += `
+              <div class="group-item">
+                <div>
+                  <strong>الطلب ${index + 1}:</strong> ${order.orderId || ''}
+                  <div>${escapeHtml(order.productType || '')} - ${order.quantity} قطعة</div>
+                </div>
+                <div>${order.totalPrice || 0} د.ج</div>
+              </div>
+            `;
+          });
+          
+          detailsContent += '</div>';
+          detailsCell.innerHTML = detailsContent;
+          detailsRow.appendChild(detailsCell);
+          ordersBody.appendChild(detailsRow);
+        }
+      });
+      
+      // إضافة مستمعات الأحداث لمجموعات الطلبات
+      document.querySelectorAll('.group-header').forEach(header => {
+        header.addEventListener('click', function() {
+          const groupId = this.getAttribute('data-group-id');
+          const details = document.querySelector(`.group-details[data-group-id="${groupId}"]`);
+          const icon = this.querySelector('.group-icon');
+          
+          details.classList.toggle('expanded');
+          icon.classList.toggle('expanded');
+        });
       });
     }
 
@@ -736,105 +858,182 @@
     // عرض تفاصيل الطلب
     function viewOrder(orderId) {
       const orders = JSON.parse(localStorage.getItem('orders')) || [];
-      // مقارنة غير صارمة لتفادي اختلافات النوع (string vs number)
-      const order = orders.find(o => (o.id == orderId));
       
-      if (order) {
-        document.getElementById('modal-title').textContent = `تفاصيل الطلب ${order.orderId || ''}`;
+      // إذا كان orderId مصفوفة (مجموعة طلبات)
+      if (Array.isArray(orderId)) {
+        const orderGroup = orderId.map(id => orders.find(o => o.id == id)).filter(o => o);
         
-        let statusText = '';
-        switch(order.status) {
-          case 'new':
-            statusText = 'جديد';
-            break;
-          case 'processing':
-            statusText = 'قيد المعالجة';
-            break;
-          case 'completed':
-            statusText = 'مكتمل';
-            break;
-          default:
-            statusText = order.status || '';
-        }
-
-        const displayName = getCustomerName(order);
-        const phone = order.customerPhone || order.phone || order.tel || '';
-        const address = order.customerAddress || order.address || '';
-
-        document.getElementById('modal-body').innerHTML = `
-          <div class="order-details">
-            <div>
-              <div class="detail-group">
-                <h4>معلومات العميل</h4>
-                <p>الاسم: ${escapeHtml(displayName)}</p>
-                <p>الهاتف: ${escapeHtml(phone)}</p>
-                <p>العنوان: ${escapeHtml(address)}</p>
+        if (orderGroup.length > 0) {
+          document.getElementById('modal-title').textContent = `تفاصيل مجموعة الطلبات`;
+          
+          let modalContent = `
+            <div class="order-details">
+              <div>
+                <div class="detail-group">
+                  <h4>معلومات العميل</h4>
+                  <p>الاسم: ${escapeHtml(getCustomerName(orderGroup[0]))}</p>
+                  <p>الهاتف: ${escapeHtml(orderGroup[0].customerPhone || orderGroup[0].phone || '')}</p>
+                  <p>العنوان: ${escapeHtml(orderGroup[0].customerAddress || orderGroup[0].address || '')}</p>
+                </div>
+                
+                <div class="detail-group">
+                  <h4>معلومات الطلب</h4>
+                  <p>تاريخ الطلب: ${orderGroup[0].orderDate || ''}</p>
+                </div>
               </div>
               
-              <div class="detail-group">
-                <h4>معلومات الطلب</h4>
-                <p>تاريخ الطلب: ${order.orderDate || ''}</p>
-                <p>حالة الطلب: <span class="status ${order.status}">${statusText}</span></p>
-                <p>طريقة الدفع: ${escapeHtml(order.paymentMethod || '')}</p>
+              <div>
+                <div class="detail-group">
+                  <h4>الفاتورة</h4>
+                  <p>إجمالي الطلبات: ${orderGroup.length}</p>
+                  <p>إجمالي الكمية: ${orderGroup.reduce((sum, o) => sum + (o.quantity || 0), 0)}</p>
+                  <p><strong>المجموع: ${orderGroup.reduce((sum, o) => sum + (o.totalPrice || 0), 0)} د.ج</strong></p>
+                </div>
               </div>
             </div>
             
-            <div>
-              <div class="detail-group">
-                <h4>تفاصيل المنتج</h4>
+            <div class="detail-group">
+              <h4>تفاصيل الطلبات</h4>
+          `;
+          
+          orderGroup.forEach((order, index) => {
+            modalContent += `
+              <div style="border-bottom: 1px solid #eee; padding: 1rem 0; margin-bottom: 1rem;">
+                <h5>الطلب ${index + 1} - ${order.orderId || ''}</h5>
                 <p>المنتج: ${escapeHtml(order.productType || '')}</p>
                 <p>الطول: ${order.length || ''} متر</p>
                 <p>الكمية: ${order.quantity || ''} قطعة</p>
                 <p>سعر المتر: ${order.pricePerMeter || ''} د.ج</p>
+                <p>السعر الإجمالي: ${order.totalPrice || ''} د.ج</p>
+              </div>
+            `;
+          });
+          
+          modalContent += `</div>`;
+          
+          document.getElementById('modal-body').innerHTML = modalContent;
+          
+          // تعيين معرف الطلب على أزرار الإجراءات
+          document.getElementById('edit-status-btn').setAttribute('data-order-id', JSON.stringify(orderId));
+          document.getElementById('delete-order-btn').setAttribute('data-order-id', JSON.stringify(orderId));
+          document.getElementById('print-order-btn').setAttribute('data-order-id', JSON.stringify(orderId));
+          
+          openOrderModal();
+        }
+      } else {
+        // طلب فردي
+        const order = orders.find(o => o.id == orderId);
+        
+        if (order) {
+          document.getElementById('modal-title').textContent = `تفاصيل الطلب ${order.orderId || ''}`;
+          
+          let statusText = '';
+          switch(order.status) {
+            case 'new':
+              statusText = 'جديد';
+              break;
+            case 'processing':
+              statusText = 'قيد المعالجة';
+              break;
+            case 'completed':
+              statusText = 'مكتمل';
+              break;
+            default:
+              statusText = order.status || '';
+          }
+
+          const displayName = getCustomerName(order);
+          const phone = order.customerPhone || order.phone || order.tel || '';
+          const address = order.customerAddress || order.address || '';
+
+          document.getElementById('modal-body').innerHTML = `
+            <div class="order-details">
+              <div>
+                <div class="detail-group">
+                  <h4>معلومات العميل</h4>
+                  <p>الاسم: ${escapeHtml(displayName)}</p>
+                  <p> الهاتف: ${escapeHtml(phone)}</p>
+                  <p>العنوان: ${escapeHtml(address)}</p>
+                </div>
+                
+                <div class="detail-group">
+                  <h4>معلومات الطلب</h4>
+                  <p>تاريخ الطلب: ${order.orderDate || ''}</p>
+                  <p>حالة الطلب: <span class="status ${order.status}">${statusText}</span></p>
+                  <p>طريقة الدفع: ${escapeHtml(order.paymentMethod || '')}</p>
+                </div>
               </div>
               
-              <div class="detail-group">
-                <h4>الفاتورة</h4>
-                <p>السعر الإجمالي: ${order.totalPrice || ''} د.ج</p>
-                <p>الضريبة: 0 د.ج</p>
-                <p>رسوم التوصيل: 0 د.ج</p>
-                <p><strong>المجموع: ${order.totalPrice || ''} د.ج</strong></p>
+              <div>
+                <div class="detail-group">
+                  <h4>تفاصيل المنتج</h4>
+                  <p>المنتج: ${escapeHtml(order.productType || '')}</p>
+                  <p>الطول: ${order.length || ''} متر</p>
+                  <p>الكمية: ${order.quantity || ''} قطعة</p>
+                  <p>سعر المتر: ${order.pricePerMeter || ''} د.ج</p>
+                </div>
+                
+                <div class="detail-group">
+                  <h4>الفاتورة</h4>
+                  <p>السعر الإجمالي: ${order.totalPrice || ''} د.ج</p>
+                  <p>الضريبة: 0 د.ج</p>
+                  <p>رسوم التوصيل: 0 د.ج</p>
+                  <p><strong>المجموع: ${order.totalPrice || ''} د.ج</strong></p>
+                </div>
               </div>
             </div>
-          </div>
+            
+            <div class="detail-group">
+              <h4>ملاحظات</h4>
+              <p>${escapeHtml(order.notes || "لا توجد ملاحظات")}</p>
+            </div>
+          `;
           
-          <div class="detail-group">
-            <h4>ملاحظات</h4>
-            <p>${escapeHtml(order.notes || "لا توجد ملاحظات")}</p>
-          </div>
-        `;
-        
-        // تعيين معرف الطلب على أزرار الإجراءات
-        document.getElementById('edit-status-btn').setAttribute('data-order-id', orderId);
-        document.getElementById('delete-order-btn').setAttribute('data-order-id', orderId);
-        document.getElementById('print-order-btn').setAttribute('data-order-id', orderId);
-        
-        openOrderModal();
-      } else {
-        alert('الطلب غير موجود');
+          // تعيين معرف الطلب على أزرار الإجراءات
+          document.getElementById('edit-status-btn').setAttribute('data-order-id', orderId);
+          document.getElementById('delete-order-btn').setAttribute('data-order-id', orderId);
+          document.getElementById('print-order-btn').setAttribute('data-order-id', orderId);
+          
+          openOrderModal();
+        } else {
+          alert('الطلب غير موجود');
+        }
       }
     }
 
     // تعديل حالة الطلب
     function editOrder(orderId) {
       const orders = JSON.parse(localStorage.getItem('orders')) || [];
-      const order = orders.find(o => (o.id == orderId));
       
-      if (order) {
-        const newStatus = prompt(`يرجى اختيار حالة جديدة للطلب ${order.orderId}:\nاكتب واحد من: new, processing, completed`, order.status || 'new');
+      if (Array.isArray(orderId)) {
+        // تعديل مجموعة طلبات
+        orderId.forEach(id => {
+          const order = orders.find(o => o.id == id);
+          if (order) {
+            const newStatus = prompt(`يرجى اختيار حالة جديدة للطلبات في المجموعة:\nاكتب واحد من: new, processing, completed`, order.status || 'new');
+            
+            if (newStatus && ['new', 'processing', 'completed'].includes(newStatus)) {
+              order.status = newStatus;
+            }
+          }
+        });
+      } else {
+        // تعديل طلب فردي
+        const order = orders.find(o => o.id == orderId);
         
-        if (newStatus) {
-          if (['new', 'processing', 'completed'].includes(newStatus)) {
+        if (order) {
+          const newStatus = prompt(`يرجى اختيار حالة جديدة للطلب ${order.orderId}:\nاكتب واحد من: new, processing, completed`, order.status || 'new');
+          
+          if (newStatus && ['new', 'processing', 'completed'].includes(newStatus)) {
             order.status = newStatus;
-            localStorage.setItem('orders', JSON.stringify(orders));
-            renderOrders(orders);
-            updateStatistics(orders);
-            alert('تم تحديث حالة الطلب بنجاح');
-          } else {
-            alert('يرجى اختيار حالة صحيحة (new, processing, completed)');
           }
         }
       }
+      
+      localStorage.setItem('orders', JSON.stringify(orders));
+      renderOrders(orders);
+      updateStatistics(orders);
+      alert('تم تحديث حالة الطلب بنجاح');
     }
 
     // فتح وإغلاق نموذج عرض الطلب
