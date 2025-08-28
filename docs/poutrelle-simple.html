@@ -6,7 +6,7 @@
   <title>شراء البوتريل العادي - RabieMetal</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    /* نفس الستايل العام كما طلبت (لم أعدّله) */
+    /* نفس الستايل العام */
     :root{--primary-color:#2c3e50;--secondary-color:#e74c3c;--accent-color:#3498db;--light-color:#ecf0f1;--dark-color:#2c3e50;--text-color:#333;--background-color:#f9f9f9}
     *{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo','Tahoma',sans-serif}
     body{background-color:var(--background-color);color:var(--text-color);line-height:1.6;background-image:linear-gradient(rgba(255,255,255,0.9),rgba(255,255,255,0.9)),url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h100v100H0z' fill='none'/%3E%3Cpath d='M25 25h50v50H25z' stroke='%23ddd' stroke-width='2' fill='none'/%3E%3C/svg%3E")}
@@ -54,6 +54,38 @@
     .social-icons a:hover{color:var(--accent-color)}
     .copyright{margin-top:2rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,0.1)}
     @media(max-width:768px){.product-details{grid-template-columns:1fr}}
+    /* إخفاء أسهم الزيادة والنقصان في حقول الأرقام */
+    input[type="number"] {
+      -moz-appearance: textfield;
+    }
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    .decimal-hint {
+      font-size: 0.8rem;
+      color: #666;
+      margin-top: 0.3rem;
+    }
+    .entry {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      margin-top: 0.5rem;
+      background: #fff;
+    }
+    .remove-btn {
+      background: var(--secondary-color);
+      color: #fff;
+      border: none;
+      padding: 0.4rem 0.6rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -65,7 +97,7 @@
           <li><a href="index.html">الرئيسية</a></li>
           <li><a href="index.html#products">المنتجات</a></li>
           <li><a href="index.html#contact">اتصل بنا</a></li>
-          <li><div class="cart-icon"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></div></li>
+          <li><div class="cart-icon"><i class="fas fa-shopping-cart"></i><span class="cart-count" id="cart-count">0</span></div></li>
         </ul>
       </nav>
     </div>
@@ -83,27 +115,47 @@
         <div class="product-image">
           <img src="https://www.taniskladbudowlany.com/userfiles/announcement/1036-pustak-szalunkowy-pf2-pustak-zalewowy-pustak-na-filarki-5-611cfd66ecb03.webp" alt="البوتريل العادي">
         </div>
-        <div>
-          <div class="product-info">
-            <h3>البوتريل العادي</h3>
-            <p>بوتريل قياسي عالي الجودة للاستخدامات العامة في البناء والتشييد. يتميز بمتانة وقوة تحمل مناسبة لمعظم المشاريع.</p>
-            <span class="product-price">السعر: 750 دينار جزائري للمتر</span>
-          </div>
+        <div class="product-info">
+          <h3>البوتريل العادي</h3>
+          <p>بوتريل قياسي عالي الجودة للاستخدامات العامة في البناء والتشييد. يتميز بمتانة وقوة تحمل مناسبة لمعظم المشاريع.</p>
+          <span class="product-price">السعر: <span id="price-label">750</span> دينار جزائري للمتر</span>
         </div>
       </div>
 
       <div class="purchase-form">
         <h3>تفاصيل الطلب</h3>
-        <form id="purchase-form">
-          <div class="form-group"><label for="length">الطول بالمتر (1 - 3):</label><input type="number" id="length" min="1" max="3" step="0.01" value="1" required></div>
-          <div class="form-group"><label for="quantity">الكمية:</label><div class="quantity-controls"><button type="button" class="quantity-btn" id="decrease-qty">-</button><input type="number" id="quantity" class="quantity-input" min="1" value="1" required><button type="button" class="quantity-btn" id="increase-qty">+</button></div></div>
-
-          <div class="calculation-results">
-            <div class="result-item"><span>سعر المتر:</span><span id="price-per-meter">750 د.ج</span></div>
-            <div class="result-item"><span>الطول الإجمالي:</span><span id="total-length">1 متر</span></div>
-            <div class="result-item"><span>الكمية:</span><span id="total-quantity">1 قطعة</span></div>
-            <div class="total-price"><span>السعر الإجمالي:</span> <span id="total-price">750 د.ج</span></div>
+        <form id="purchase-form" autocomplete="off">
+          <div class="form-group">
+            <label for="length">الطول بالمتر (1.00 - 3.00):</label>
+            <!-- allow decimal typing from keyboard; start empty so user types -->
+            <input type="text" id="length" inputmode="decimal" placeholder="أدخل الطول بالمتر (مثال: 1.23)">
+            <div class="decimal-hint">يمكنك إدخال قيم عشرية مثل 1.23 أو 2.75</div>
           </div>
+
+          <div class="form-group">
+            <label for="quantity">الكمية:</label>
+            <div class="quantity-controls">
+              <button type="button" class="quantity-btn" id="decrease-qty" aria-label="decrease">-</button>
+              <input type="number" id="quantity" class="quantity-input" min="1" value="1" required>
+              <button type="button" class="quantity-btn" id="increase-qty" aria-label="increase">+</button>
+            </div>
+          </div>
+
+          <div class="calculation-results" aria-live="polite">
+            <div class="result-item"><span>سعر المتر:</span><span id="price-per-meter">750 د.ج</span></div>
+            <div class="result-item"><span>الطول الإجمالي:</span><span id="total-length">—</span></div>
+            <div class="result-item"><span>الكمية:</span><span id="total-quantity">1 قطعة</span></div>
+            <div class="total-price"><span>السعر الإجمالي:</span> <span id="total-price">—</span></div>
+          </div>
+
+          <!-- entries list (multiple orders) -->
+          <div class="entries" id="entries" style="margin-top:1rem;">
+            <h3>الطلبات:</h3>
+            <!-- items appended here -->
+          </div>
+
+          <!-- add-order button (adds current length+qty to entries) -->
+          <button type="button" class="buy-now-btn" id="add-order-btn" style="margin-top:1rem;"><i class="fas fa-plus-circle"></i> إضافة الطلب</button>
 
           <div class="form-group"><label for="name">الاسم الكامل:</label><input type="text" id="name" required></div>
           <div class="form-group"><label for="phone">رقم الهاتف:</label><input type="tel" id="phone" required></div>
@@ -129,91 +181,254 @@
   </footer>
 
   <script>
-    function normalizeOrder(raw){
-      const now = Date.now();
-      const id = raw.id !== undefined ? raw.id : now;
-      const orderId = raw.orderId || ('RB-' + String(now).slice(-6));
-      const customerName = raw.customerName || raw.name || 'عميل غير مسجل';
-      const customerPhone = raw.customerPhone || raw.phone || '';
-      const customerAddress = raw.customerAddress || raw.address || '';
-      const length = Number(raw.length) || 0;
-      const quantity = Number(raw.quantity) || 1;
-      const pricePerMeter = Number(raw.pricePerMeter) || 750;
-      const totalPrice = Number(raw.totalPrice) || Math.round(length * quantity * pricePerMeter);
-      return {
-        id, orderId, customerName, customerPhone, customerAddress,
-        orderDate: raw.orderDate || new Date().toISOString().slice(0,10),
-        productType: raw.productType || 'البوتريل العادي',
-        length, quantity, pricePerMeter, totalPrice,
-        status: raw.status || 'new', paymentMethod: raw.paymentMethod || 'غير محدد', notes: raw.notes || ''
-      };
+  (function(){
+    const PRICE = 750;
+    const priceLabel = document.getElementById('price-label');
+    const pricePerMeterEl = document.getElementById('price-per-meter');
+    const lengthInput = document.getElementById('length');
+    const qtyInput = document.getElementById('quantity');
+    const decBtn = document.getElementById('decrease-qty');
+    const incBtn = document.getElementById('increase-qty');
+    const totalLengthEl = document.getElementById('total-length');
+    const totalQtyEl = document.getElementById('total-quantity');
+    // span that shows the price value
+    const totalPriceSpan = document.getElementById('total-price');
+    const form = document.getElementById('purchase-form');
+    const cartCountEl = document.getElementById('cart-count');
+    const addOrderBtn = document.getElementById('add-order-btn');
+    const entriesContainer = document.getElementById('entries');
+
+    if (priceLabel) priceLabel.textContent = PRICE;
+    if (pricePerMeterEl) pricePerMeterEl.textContent = PRICE + ' د.ج';
+
+    // Move the visible "total-price" block under the orders list (do not change styles/HTML)
+    (function moveTotalPriceBlock() {
+      try {
+        const totalPriceBlock = document.querySelector('.calculation-results .total-price');
+        if (totalPriceBlock && entriesContainer && entriesContainer.parentNode) {
+          // insert after entries container
+          entriesContainer.parentNode.insertBefore(totalPriceBlock, entriesContainer.nextSibling);
+        }
+      } catch (err) {
+        // fail silently (preserve original layout if anything goes wrong)
+        console.warn('moveTotalPriceBlock error', err);
+      }
+    })();
+
+    // parse length allowing comma or dot, return null if empty/invalid
+    function parseLengthRaw(value){
+      if (!value) return null;
+      const v = Number(String(value).trim().replace(',', '.'));
+      if (isNaN(v)) return null;
+      return Math.round(v * 100) / 100;
     }
 
-    document.addEventListener('DOMContentLoaded', function(){
-      const PRICE = 750;
-      const pricePerMeterEl = document.getElementById('price-per-meter');
-      const lengthInput = document.getElementById('length');
-      const qtyInput = document.getElementById('quantity');
-      const decBtn = document.getElementById('decrease-qty');
-      const incBtn = document.getElementById('increase-qty');
-      const totalLengthEl = document.getElementById('total-length');
-      const totalQtyEl = document.getElementById('total-quantity');
-      const totalPriceEl = document.getElementById('total-price');
+    function clampLengthValueOptional(v) {
+      if (v === null) return null;
+      let n = Number(v) || 0;
+      if (n < 1) n = 1;
+      if (n > 3) n = 3;
+      return Math.round(n * 100) / 100;
+    }
 
-      pricePerMeterEl.textContent = PRICE + ' د.ج';
+    function updateTotals(){
+      const lenRaw = parseLengthRaw(lengthInput.value);
+      const len = lenRaw === null ? null : clampLengthValueOptional(lenRaw);
+      const qty = Math.max(1, parseInt(qtyInput.value, 10) || 1);
 
-      function clampLength(){
-        let v = parseFloat(lengthInput.value) || 1;
-        if(v < 1) v = 1;
-        if(v > 3) v = 3;
-        lengthInput.value = v.toFixed(2);
-        return v;
+      if (len === null){
+        // Show 0 متر / 0 د.ج instead of placeholder so UI isn't empty
+        totalLengthEl.textContent = '0 متر';
+        if (!cartEntries.length) totalPriceSpan.textContent = '0 د.ج';
+      } else {
+        const totalLen = Math.round(len * qty * 100) / 100;
+        const singleTotalPrice = Math.round(totalLen * PRICE);
+        totalLengthEl.textContent = (totalLen % 1 === 0 ? totalLen.toFixed(0) : totalLen.toString()) + ' متر';
+        // only update the price span for live single-item calculation when cart is empty
+        if (!cartEntries.length) totalPriceSpan.textContent = singleTotalPrice + ' د.ج';
       }
+      totalQtyEl.textContent = qty + ' قطعة';
+    }
 
-      function updateTotals(){
-        const len = clampLength();
-        const qty = Math.max(1, parseInt(qtyInput.value) || 1);
-        const totalLen = Math.round((len * qty) * 100) / 100;
-        const totalPrice = Math.round(totalLen * PRICE);
-        totalLengthEl.textContent = totalLen + ' متر';
-        totalQtyEl.textContent = qty + ' قطعة';
-        totalPriceEl.textContent = totalPrice + ' د.ج';
-      }
+    // quantity buttons
+    incBtn.addEventListener('click', ()=>{ qtyInput.value = parseInt(qtyInput.value || 1, 10) + 1; updateTotals(); });
+    decBtn.addEventListener('click', ()=>{ if(parseInt(qtyInput.value || 1, 10) > 1) qtyInput.value = parseInt(qtyInput.value || 1, 10) - 1; updateTotals(); });
 
-      incBtn.addEventListener('click', ()=>{ qtyInput.value = parseInt(qtyInput.value || 1) + 1; updateTotals(); });
-      decBtn.addEventListener('click', ()=>{ if(parseInt(qtyInput.value) > 1) qtyInput.value = parseInt(qtyInput.value) - 1; updateTotals(); });
-      lengthInput.addEventListener('input', updateTotals);
-      qtyInput.addEventListener('input', updateTotals);
-
-      const form = document.getElementById('purchase-form');
-      form.addEventListener('submit', function(e){
-        e.preventDefault();
-        const name = (document.getElementById('name')||{value:''}).value.trim();
-        const phone = (document.getElementById('phone')||{value:''}).value.trim();
-        const address = (document.getElementById('address')||{value:''}).value.trim();
-        const notes = (document.getElementById('notes')||{value:''}).value.trim();
-        const length = parseFloat(lengthInput.value) || 1;
-        const qty = parseInt(qtyInput.value) || 1;
-        if(length < 1 || length > 3){ alert('الطول يجب أن يكون بين 1 و 3 متر'); return; }
-        const raw = {
-          customerName: name, customerPhone: phone, customerAddress: address,
-          length: Math.round(length*100)/100, quantity: qty, pricePerMeter: PRICE,
-          totalPrice: Math.round(length*qty*PRICE), productType: 'البوتريل العادي', notes
-        };
-        const order = normalizeOrder(raw);
-        const orders = JSON.parse(localStorage.getItem('orders') || '[]');
-        orders.push(order);
-        localStorage.setItem('orders', JSON.stringify(orders));
-        alert('تم حفظ الطلب بنجاح. رقم الطلب: ' + order.orderId);
-        form.reset();
-        lengthInput.value = '1.00';
-        qtyInput.value = '1';
-        updateTotals();
-      });
-
-      lengthInput.value = parseFloat(lengthInput.value).toFixed(2);
+    // length: allow typing decimals; format only on blur (do NOT force 1.00)
+    lengthInput.addEventListener('input', function(){
       updateTotals();
     });
+
+    lengthInput.addEventListener('blur', function(){
+      const parsed = parseLengthRaw(lengthInput.value);
+      if (parsed === null){
+        lengthInput.value = lengthInput.value ? lengthInput.value : '';
+      } else {
+        const clamped = clampLengthValueOptional(parsed);
+        lengthInput.value = (clamped % 1 === 0) ? String(clamped) : String(clamped);
+      }
+      updateTotals();
+    });
+
+    // prevent invalid keys in length input
+    lengthInput.addEventListener('keydown', function(e){
+      const allowed = ['Backspace','Tab','ArrowLeft','ArrowRight','Delete','Home','End'];
+      if (allowed.includes(e.key)) return;
+      if (e.key === '.' || e.key === ',') return;
+      if (e.key >= '0' && e.key <= '9') return;
+      e.preventDefault();
+    });
+
+    qtyInput.addEventListener('input', function(){
+      if (qtyInput.value === '' || isNaN(Number(qtyInput.value))) return;
+      qtyInput.value = Math.max(1, parseInt(qtyInput.value, 10));
+      updateTotals();
+    });
+
+    // manage cart entries (multiple orders)
+    let cartEntries = []; // {length, quantity, totalLen, totalPrice}
+
+    function renderEntries(){
+      entriesContainer.innerHTML = '<h3>الطلبات:</h3>';
+      if (cartEntries.length === 0){
+        const p = document.createElement('p');
+        p.textContent = 'لا توجد طلبات مضافة بعد.';
+        entriesContainer.appendChild(p);
+        cartCountEl.textContent = (JSON.parse(localStorage.getItem('orders')||'[]')).length || 0;
+        // ensure totals show live single calculation or zero
+        updateCartSummary();
+        return;
+      }
+      cartEntries.forEach((it, idx) => {
+        const el = document.createElement('div');
+        el.className = 'entry';
+        el.style.display = 'flex';
+        el.style.justifyContent = 'space-between';
+        el.style.alignItems = 'center';
+        el.style.padding = '0.8rem';
+        el.style.border = '1px solid #ddd';
+        el.style.borderRadius = '6px';
+        el.style.marginTop = '0.5rem';
+        el.style.background = '#fff';
+        el.innerHTML = `<span>الطول: ${it.length} متر، الكمية: ${it.quantity}، السعر: ${it.totalPrice} د.ج</span>
+                        <div><button type="button" class="remove-btn" data-idx="${idx}" style="background:var(--secondary-color);color:#fff;border:none;padding:0.4rem 0.6rem;border-radius:4px;cursor:pointer">حذف</button></div>`;
+        entriesContainer.appendChild(el);
+      });
+      entriesContainer.querySelectorAll('.remove-btn').forEach(btn=>{
+        btn.addEventListener('click', function(){
+          const i = Number(this.dataset.idx);
+          cartEntries.splice(i,1);
+          renderEntries();
+          updateCartSummary();
+        });
+      });
+      updateCartSummary();
+    }
+
+    function updateCartSummary(){
+      const total = cartEntries.reduce((s,it)=>s+it.totalPrice,0);
+      if (cartEntries.length) {
+        totalPriceSpan.textContent = total + ' د.ج';
+        // also show combined total length if desired
+        const combinedLen = cartEntries.reduce((s,it)=>s+it.totalLen,0);
+        totalLengthEl.textContent = (combinedLen % 1 === 0 ? combinedLen.toFixed(0) : String(Math.round(combinedLen*100)/100)) + ' متر';
+      } else {
+        // when no cart entries, keep live single calculation (updateTotals will have set it) or 0
+        const lenRaw = parseLengthRaw(lengthInput.value);
+        if (lenRaw === null) {
+          totalLengthEl.textContent = '0 متر';
+          totalPriceSpan.textContent = '0 د.ج';
+        }
+      }
+      const stored = JSON.parse(localStorage.getItem('orders')||'[]').length || 0;
+      cartCountEl.textContent = stored + cartEntries.length;
+    }
+
+    addOrderBtn.addEventListener('click', function(){
+      const parsed = parseLengthRaw(lengthInput.value);
+      if (parsed === null){
+        alert('الرجاء إدخال طول صالح (مثال: 1.23) بين 1.00 و 3.00 متر.');
+        return;
+      }
+      const length = clampLengthValueOptional(parsed);
+      if (length < 1 || length > 3){
+        alert('الطول يجب أن يكون بين 1.00 و 3.00 متر.');
+        return;
+      }
+      const qty = Math.max(1, parseInt(qtyInput.value,10) || 1);
+      const totalLen = Math.round(length * qty * 100) / 100;
+      const totalPrice = Math.round(totalLen * PRICE);
+      const entry = { length, quantity: qty, totalLen, totalPrice };
+      cartEntries.push(entry);
+      renderEntries();
+      lengthInput.value = '';
+      qtyInput.value = '1';
+      updateTotals();
+      lengthInput.focus();
+    });
+
+    // confirm submit: save all cartEntries with customer info as individual orders in localStorage
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      const name = (document.getElementById('name')||{value:''}).value.trim();
+      const phone = (document.getElementById('phone')||{value:''}).value.trim();
+      const address = (document.getElementById('address')||{value:''}).value.trim();
+      const notes = (document.getElementById('notes')||{value:''}).value.trim();
+
+      if (!name) { alert('الرجاء إدخال الاسم الكامل.'); return; }
+      if (!phone) { alert('الرجاء إدخال رقم الهاتف.'); return; }
+      if (!address) { alert('الرجاء إدخال العنوان.'); return; }
+
+      if (cartEntries.length === 0){
+        const parsed = parseLengthRaw(lengthInput.value);
+        if (parsed === null){
+          alert('الرجاء إضافة طلب واحد على الأقل أو إدخال طول صالح وحفظه.');
+          return;
+        }
+        const length = clampLengthValueOptional(parsed);
+        const qty = Math.max(1, parseInt(qtyInput.value,10) || 1);
+        const totalLen = Math.round(length * qty * 100) / 100;
+        const totalPrice = Math.round(totalLen * PRICE);
+        cartEntries.push({ length, quantity: qty, totalLen, totalPrice });
+      }
+
+      const stored = JSON.parse(localStorage.getItem('orders') || '[]');
+      const newOrders = cartEntries.map(it => {
+        const now = Date.now() + Math.random();
+        return {
+          id: now,
+          orderId: 'RB-' + String(now).slice(-6),
+          customerName: name,
+          customerPhone: phone,
+          customerAddress: address,
+          orderDate: new Date().toISOString().slice(0,10),
+          productType: 'البوتريل العادي',
+          length: it.length,
+          quantity: it.quantity,
+          pricePerMeter: PRICE,
+          totalPrice: it.totalPrice,
+          notes: notes,
+          status: 'new',
+          paymentMethod: 'غير محدد'
+        };
+      });
+
+      const all = stored.concat(newOrders);
+      localStorage.setItem('orders', JSON.stringify(all));
+      alert('تم حفظ الطلبات بنجاح. عدد الطلبات: ' + newOrders.length);
+      cartEntries = [];
+      renderEntries();
+      form.reset();
+      qtyInput.value = '1';
+      updateTotals();
+      cartCountEl.textContent = (JSON.parse(localStorage.getItem('orders')||'[]')).length || 0;
+    });
+
+    // init
+    qtyInput.value = Math.max(1, parseInt(qtyInput.value, 10) || 1);
+    updateTotals();
+    renderEntries();
+  })();
   </script>
 </body>
 </html>
