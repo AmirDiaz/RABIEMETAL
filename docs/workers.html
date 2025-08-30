@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Worker Attendance Tracker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --info: #3498db;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 25px 30px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .description {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .date-display {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 15px;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+        
+        h2 {
+            margin-bottom: 20px;
+            color: var(--primary);
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light);
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        h2 i {
+            margin-right: 10px;
+            color: var(--secondary);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            transition: var(--transition);
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        
+        .shift-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        
+        .shift-option {
+            text-align: center;
+            padding: 20px 10px;
+            background: #f8faff;
+            border: 2px solid #e6eeff;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .shift-option.selected {
+            background: #e6f7ff;
+            border-color: var(--secondary);
+            box-shadow: 0 0 15px rgba(52, 152, 219, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .shift-option h3 {
+            margin-bottom: 5px;
+            color: var(--secondary);
+            font-size: 1.1rem;
+        }
+        
+        .shift-option p {
+            color: #666;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 5px;
+        }
+        
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        th {
+            background-color: #f8faff;
+            color: var(--primary);
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+        
+        tr:hover {
+            background-color: #f9fbfd;
+        }
+        
+        .total-row {
+            font-weight: bold;
+            background-color: #f0f7ff;
+        }
+        
+        .total-row td {
+            border-top: 2px solid var(--secondary);
+        }
+        
+        .payment {
+            color: var(--success);
+            font-weight: 600;
+        }
+        
+        .delete-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .delete-btn:hover {
+            background: #c0392b;
+        }
+        
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 25px;
+        }
+        
+        .summary-card {
+            background: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .summary-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .summary-card h3 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .summary-card p {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--secondary);
+        }
+        
+        .worker-summary {
+            margin-top: 30px;
+        }
+        
+        .worker-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .worker-card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--light);
+        }
+        
+        .worker-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+        
+        .worker-stat {
+            text-align: center;
+            padding: 15px;
+            background: #f8faff;
+            border-radius: var(--border-radius);
+        }
+        
+        .worker-stat h4 {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .worker-stat p {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--secondary);
+        }
+        
+        .table-container {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #eee;
+            border-radius: var(--border-radius);
+        }
+        
+        .stats-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .stats-filters {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .stats-filters button {
+            width: auto;
+            padding: 8px 15px;
+        }
+        
+        @media (max-width: 1100px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .shift-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .worker-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .summary-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .worker-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .stats-filters {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div>
+                    <h1>Worker Attendance Tracker</h1>
+                    <p class="description">Professional system for tracking worker attendance and payments</p>
+                </div>
+                <div class="date-display">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span id="current-date"></span>
+                </div>
+            </div>
+        </header>
+        
+        <div class="main-content">
+            <div class="left-column">
+                <div class="card">
+                    <h2><i class="fas fa-plus-circle"></i> Add Work Day</h2>
+                    <form id="attendance-form">
+                        <div class="form-group">
+                            <label for="worker-name">Worker Name</label>
+                            <input type="text" id="worker-name" list="worker-list" placeholder="Select or enter worker's name" required>
+                            <datalist id="worker-list">
+                                <option value="Hakim Youb">
+                                <option value="Aissa Bekkay">
+                                <option value="Lokmane Donite">
+                                <option value="Kello Abdou">
+                            </datalist>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="work-date">Date</label>
+                            <input type="date" id="work-date" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Shift Type</label>
+                            <div class="shift-options">
+                                <div class="shift-option" data-shift="morning">
+                                    <h3>Morning</h3>
+                                    <p>1500 DA</p>
+                                </div>
+                                <div class="shift-option" data-shift="evening">
+                                    <h3>Evening</h3>
+                                    <p>1000 DA</p>
+                                </div>
+                                <div class="shift-option" data-shift="both">
+                                    <h3>Both</h3>
+                                    <p>2500 DA</p>
+                                </div>
+                            </div>
+                            <input type="hidden" id="shift-type" required>
+                        </div>
+                        
+                        <button type="submit">Add Work Day</button>
+                    </form>
+                </div>
+                
+                <div class="card">
+                    <h2><i class="fas fa-chart-pie"></i> Quick Stats</h2>
+                    <div class="summary-cards">
+                        <div class="summary-card">
+                            <h3>Morning Shifts</h3>
+                            <p id="total-morning">0</p>
+                        </div>
+                        <div class="summary-card">
+                            <h3>Evening Shifts</h3>
+                            <p id="total-evening">0</p>
+                        </div>
+                        <div class="summary-card">
+                            <h3>Both Shifts</h3>
+                            <p id="total-both">0</p>
+                        </div>
+                        <div class="summary-card">
+                            <h3>Total Payment</h3>
+                            <p id="total-payment">0 DA</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-column">
+                <div class="card">
+                    <div class="stats-header">
+                        <h2><i class="fas fa-history"></i> Work History</h2>
+                        <div class="stats-filters">
+                            <button>This Week</button>
+                            <button>This Month</button>
+                            <button>All Time</button>
+                        </div>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table id="work-table">
+                            <thead>
+                                <tr>
+                                    <th>Worker</th>
+                                    <th>Date</th>
+                                    <th>Shift</th>
+                                    <th>Payment</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Table rows will be added dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h2><i class="fas fa-users"></i> Worker Summaries</h2>
+                    <div id="worker-summaries">
+                        <!-- Worker summaries will be added dynamically -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current date display
+            const now = new Date();
+            document.getElementById('current-date').textContent = now.toLocaleDateString('en-US', { 
+                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
+            });
+            
+            // Set default date to today
+            const today = new Date().toISOString().substr(0, 10);
+            document.getElementById('work-date').value = today;
+            
+            // Initialize workDays array from localStorage or empty array
+            let workDays = JSON.parse(localStorage.getItem('workDays')) || [];
+            
+            // Shift option selection
+            const shiftOptions = document.querySelectorAll('.shift-option');
+            const shiftTypeInput = document.getElementById('shift-type');
+            
+            shiftOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    shiftOptions.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                    shiftTypeInput.value = this.getAttribute('data-shift');
+                });
+            });
+            
+            // Select morning shift by default
+            document.querySelector('.shift-option[data-shift="morning"]').click();
+            
+            // Form submission
+            document.getElementById('attendance-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const workerName = document.getElementById('worker-name').value.trim();
+                const workDate = document.getElementById('work-date').value;
+                const shiftType = shiftTypeInput.value;
+                
+                if (!workerName) {
+                    alert('Please enter a worker name');
+                    return;
+                }
+                
+                // Calculate payment based on shift type
+                let payment = 0;
+                switch(shiftType) {
+                    case 'morning':
+                        payment = 1500;
+                        break;
+                    case 'evening':
+                        payment = 1000;
+                        break;
+                    case 'both':
+                        payment = 2500;
+                        break;
+                }
+                
+                // Add to workDays array
+                workDays.push({
+                    worker: workerName,
+                    date: workDate,
+                    shift: shiftType,
+                    payment: payment
+                });
+                
+                // Save to localStorage
+                localStorage.setItem('workDays', JSON.stringify(workDays));
+                
+                // Update table and totals
+                updateTable();
+                updateTotals();
+                updateWorkerSummaries();
+                
+                // Reset form
+                document.getElementById('worker-name').value = '';
+                document.getElementById('work-date').value = today;
+                document.querySelector('.shift-option[data-shift="morning"]').click();
+                
+                // Show confirmation
+                showNotification('Work day added successfully!');
+            });
+            
+            // Function to update the table
+            function updateTable() {
+                const tableBody = document.querySelector('#work-table tbody');
+                tableBody.innerHTML = '';
+                
+                // Sort by date (newest first)
+                workDays.sort((a, b) => new Date(b.date) - new Date(a.date));
+                
+                if (workDays.length === 0) {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `<td colspan="5" style="text-align: center; padding: 20px; color: #777;">No work records yet. Add your first record using the form on the left.</td>`;
+                    tableBody.appendChild(row);
+                    return;
+                }
+                
+                workDays.forEach((day, index) => {
+                    const row = document.createElement('tr');
+                    
+                    // Format date for display
+                    const dateObj = new Date(day.date);
+                    const formattedDate = dateObj.toLocaleDateString('en-US', { 
+                        year: 'numeric', month: 'short', day: 'numeric' 
+                    });
+                    
+                    row.innerHTML = `
+                        <td>${day.worker}</td>
+                        <td>${formattedDate}</td>
+                        <td>${day.shift.charAt(0).toUpperCase() + day.shift.slice(1)}</td>
+                        <td class="payment">${day.payment.toLocaleString()} DA</td>
+                        <td><button class="delete-btn" data-index="${index}">Delete</button></td>
+                    `;
+                    
+                    tableBody.appendChild(row);
+                });
+                
+                // Add event listeners to delete buttons
+                document.querySelectorAll('.delete-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const index = parseInt(this.getAttribute('data-index'));
+                        const workerName = workDays[index].worker;
+                        workDays.splice(index, 1);
+                        localStorage.setItem('workDays', JSON.stringify(workDays));
+                        updateTable();
+                        updateTotals();
+                        updateWorkerSummaries();
+                        showNotification(`Record for ${workerName} deleted successfully`);
+                    });
+                });
+            }
+            
+            // Function to update totals
+            function updateTotals() {
+                let morningCount = 0;
+                let eveningCount = 0;
+                let bothCount = 0;
+                let totalPayment = 0;
+                
+                workDays.forEach(day => {
+                    switch(day.shift) {
+                        case 'morning':
+                            morningCount++;
+                            break;
+                        case 'evening':
+                            eveningCount++;
+                            break;
+                        case 'both':
+                            bothCount++;
+                            break;
+                    }
+                    totalPayment += day.payment;
+                });
+                
+                document.getElementById('total-morning').textContent = morningCount;
+                document.getElementById('total-evening').textContent = eveningCount;
+                document.getElementById('total-both').textContent = bothCount;
+                document.getElementById('total-payment').textContent = totalPayment.toLocaleString() + ' DA';
+            }
+            
+            // Function to update worker summaries
+            function updateWorkerSummaries() {
+                const workerSummaries = document.getElementById('worker-summaries');
+                workerSummaries.innerHTML = '';
+                
+                // Get unique worker names
+                const workers = [...new Set(workDays.map(day => day.worker))];
+                
+                if (workers.length === 0) {
+                    workerSummaries.innerHTML = '<p style="text-align: center; color: #777; padding: 20px;">No worker data available yet.</p>';
+                    return;
+                }
+                
+                workers.forEach(worker => {
+                    const workerDays = workDays.filter(day => day.worker === worker);
+                    
+                    let morningCount = 0;
+                    let eveningCount = 0;
+                    let bothCount = 0;
+                    let totalPayment = 0;
+                    
+                    workerDays.forEach(day => {
+                        switch(day.shift) {
+                            case 'morning':
+                                morningCount++;
+                                break;
+                            case 'evening':
+                                eveningCount++;
+                                break;
+                            case 'both':
+                                bothCount++;
+                                break;
+                        }
+                        totalPayment += day.payment;
+                    });
+                    
+                    const workerCard = document.createElement('div');
+                    workerCard.className = 'worker-card';
+                    
+                    workerCard.innerHTML = `
+                        <h3>${worker}</h3>
+                        <div class="worker-stats">
+                            <div class="worker-stat">
+                                <h4>Morning Shifts</h4>
+                                <p>${morningCount}</p>
+                            </div>
+                            <div class="worker-stat">
+                                <h4>Evening Shifts</h4>
+                                <p>${eveningCount}</p>
+                            </div>
+                            <div class="worker-stat">
+                                <h4>Both Shifts</h4>
+                                <p>${bothCount}</p>
+                            </div>
+                            <div class="worker-stat">
+                                <h4>Total Payment</h4>
+                                <p>${totalPayment.toLocaleString()} DA</p>
+                            </div>
+                        </div>
+                    `;
+                    
+                    workerSummaries.appendChild(workerCard);
+                });
+            }
+            
+            // Function to show notification
+            function showNotification(message) {
+                // Create notification element
+                const notification = document.createElement('div');
+                notification.textContent = message;
+                notification.style.position = 'fixed';
+                notification.style.bottom = '20px';
+                notification.style.right = '20px';
+                notification.style.backgroundColor = '#2ecc71';
+                notification.style.color = 'white';
+                notification.style.padding = '12px 20px';
+                notification.style.borderRadius = '6px';
+                notification.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+                notification.style.zIndex = '1000';
+                notification.style.opacity = '0';
+                notification.style.transition = 'opacity 0.3s';
+                
+                document.body.appendChild(notification);
+                
+                // Fade in
+                setTimeout(() => {
+                    notification.style.opacity = '1';
+                }, 10);
+                
+                // Remove after 3 seconds
+                setTimeout(() => {
+                    notification.style.opacity = '0';
+                    setTimeout(() => {
+                        document.body.removeChild(notification);
+                    }, 300);
+                }, 3000);
+            }
+            
+            // Initial update
+            updateTable();
+            updateTotals();
+            updateWorkerSummaries();
+        });
+    </script>
+</body>
+</html>
