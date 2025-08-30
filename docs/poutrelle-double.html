@@ -6,7 +6,7 @@
   <title>شراء البوتريل المزدوج - RabieMetal</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    /* ** kept your visual style — unchanged in look ** */
+    /* أنماط عامة */
     :root {
       --primary-color: #2c3e50;
       --secondary-color: #e74c3c;
@@ -15,88 +15,571 @@
       --dark-color: #2c3e50;
       --text-color: #333;
       --background-color: #f9f9f9;
+      --border-radius: 8px;
+      --box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+      --transition: all 0.3s ease;
     }
-
-    *{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo','Tahoma',sans-serif}
-    body{
-      background-color:var(--background-color);
-      color:var(--text-color);
-      line-height:1.6;
-      background-image:linear-gradient(rgba(255,255,255,0.9),rgba(255,255,255,0.9)), url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h100v100H0z' fill='none'/%3E%3Cpath d='M25 25h50v50H25z' stroke='%23ddd' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Cairo', 'Tahoma', sans-serif;
     }
-
-    header{background:linear-gradient(135deg,var(--primary-color),#1a2530);color:white;padding:1rem 0;box-shadow:0 4px 12px rgba(0,0,0,0.1);position:sticky;top:0;z-index:100}
-    .header-container{display:flex;justify-content:space-between;align-items:center;max-width:1200px;margin:0 auto;padding:0 1rem}
-    .logo{display:flex;align-items:center}
-    .logo h1{font-size:1.8rem;margin-right:0.5rem}
-    .logo i{color:var(--secondary-color);font-size:2rem}
-    nav ul{display:flex;list-style:none}
-    nav ul li{margin:0 0.5rem}
-    nav ul li a{color:white;text-decoration:none;padding:0.5rem 1rem;border-radius:4px;transition:background 0.3s}
-    nav ul li a:hover{background:rgba(255,255,255,0.1)}
-    .cart-icon{position:relative;font-size:1.5rem;cursor:pointer}
-    .cart-count{position:absolute;top:-8px;left:-8px;background:var(--secondary-color);color:white;border-radius:50%;width:20px;height:20px;display:flex;justify-content:center;align-items:center;font-size:0.8rem}
-
-    main{max-width:1200px;margin:2rem auto;padding:0 1rem}
-    .page-header{text-align:center;padding:2rem;background:linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7)),url('https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?auto=format&fit=crop&w=1200&q=80');background-size:cover;background-position:center;color:white;border-radius:8px;margin-bottom:2rem}
-    .page-header h2{font-size:2.5rem;margin-bottom:1rem}
-    .back-button{display:inline-block;background:var(--secondary-color);color:white;padding:0.5rem 1.5rem;margin-top:1.5rem;border-radius:4px;text-decoration:none;font-weight:bold;transition:background 0.3s}
-    .back-button:hover{background:#c0392b}
-
-    section{margin-bottom:3rem;padding:2rem;background:white;border-radius:8px;box-shadow:0 4px 15px rgba(0,0,0,0.05)}
-    .product-details{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:2rem}
-    .product-image{height:300px;overflow:hidden;display:flex;justify-content:center;align-items:center;background:#f5f5f5;border-radius:8px}
-    .product-image img{max-width:100%;max-height:100%;object-fit:contain}
-    .product-info h3{margin-bottom:1rem;color:var(--dark-color);font-size:1.8rem}
-    .product-info p{color:#666;margin-bottom:1.5rem;font-size:1rem}
-    .product-price{font-weight:bold;color:var(--secondary-color);font-size:1.5rem;margin-bottom:1.5rem;display:block}
-
-    .purchase-form{background:var(--light-color);padding:2rem;border-radius:8px}
-    .purchase-form h3{margin-bottom:1.5rem;color:var(--primary-color);text-align:center}
-    .form-group{margin-bottom:1.5rem}
-    .form-group label{display:block;margin-bottom:0.5rem;font-weight:bold}
-    .form-group input,.form-group select,.form-group textarea{width:100%;padding:0.8rem;border:1px solid #ddd;border-radius:4px;font-size:1rem;background:#fff}
-    .quantity-controls{display:flex;align-items:center;gap:1rem}
-    .quantity-btn{background:var(--primary-color);color:white;border:none;width:40px;height:40px;border-radius:50%;font-size:1.2rem;cursor:pointer;display:flex;justify-content:center;align-items:center}
-    .quantity-input{width:80px!important;text-align:center}
-    .calculation-results{background:white;padding:1.5rem;border-radius:8px;margin-top:1.5rem}
-    .result-item{display:flex;justify-content:space-between;margin-bottom:0.5rem}
-    .total-price{font-weight:bold;font-size:1.5rem;color:var(--secondary-color);margin-top:1rem;padding-top:1rem;border-top:1px solid #ddd}
-    .buy-now-btn{background:var(--secondary-color);color:white;border:none;padding:1rem 2rem;border-radius:4px;cursor:pointer;width:100%;font-size:1.2rem;margin-top:1.5rem;transition:background 0.3s}
-    .buy-now-btn:hover{background:#c0392b}
-
-    footer{background:var(--dark-color);color:white;text-align:center;padding:2rem 1rem;margin-top:3rem}
-    .footer-content{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem;text-align:right}
-    .footer-section h3{margin-bottom:1rem;color:var(--secondary-color)}
-    .social-icons{display:flex;justify-content:center;gap:1rem;margin-top:1rem}
-    .social-icons a{color:white;font-size:1.5rem;transition:color 0.3s}
-    .social-icons a:hover{color:var(--accent-color)}
-    .copyright{margin-top:2rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,0.1)}
-
-    @media (max-width:768px){
-      .product-details{grid-template-columns:1fr}
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      background-image: linear-gradient(rgba(255,255,255,0.95),rgba(255,255,255,0.95)),url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h100v100H0z' fill='none'/%3E%3Cpath d='M25 25h50v50H25z' stroke='%23e6e6e6' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+    }
+    header {
+      background: linear-gradient(135deg, var(--primary-color), #1a2530);
+      color: white;
+      padding: 0.8rem 0;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      transition: var(--transition);
+    }
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      transition: var(--transition);
+    }
+    .logo h1 {
+      font-size: 1.9rem;
+      margin-right: 0.6rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    .logo i {
+      color: var(--secondary-color);
+      font-size: 2.2rem;
+      transition: var(--transition);
+    }
+    nav ul {
+      display: flex;
+      list-style: none;
+    }
+    nav ul li {
+      margin: 0 0.4rem;
+    }
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 6px;
+      transition: var(--transition);
+      font-weight: 600;
+      font-size: 1.05rem;
+    }
+    nav ul li a:hover {
+      background: rgba(255,255,255,0.12);
+      transform: translateY(-2px);
+    }
+    .cart-icon {
+      position: relative;
+      font-size: 1.6rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .cart-icon:hover {
+      transform: scale(1.1);
+    }
+    .cart-count {
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      background: var(--secondary-color);
+      color: white;
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 0.85rem;
+      font-weight: bold;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    main {
+      max-width: 1200px;
+      margin: 2.5rem auto;
+      padding: 0 1.5rem;
+    }
+    .page-header {
+      text-align: center;
+      padding: 3.5rem 2rem;
+      background: linear-gradient(rgba(0,0,0,0.75),rgba(0,0,0,0.8)),url('https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?auto=format&fit=crop&w=1200&q=80');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      border-radius: var(--border-radius);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 2.5rem;
+    }
+    .page-header::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, rgba(44, 62, 80, 0.6), rgba(231, 76, 60, 0.4));
+      z-index: 1;
+    }
+    .page-header > * {
+      position: relative;
+      z-index: 2;
+    }
+    .page-header h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      font-weight: 800;
+    }
+    .page-header p {
+      font-size: 1.2rem;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+    .back-button {
+      display: inline-block;
+      background: var(--secondary-color);
+      color: white;
+      padding: 0.8rem 1.8rem;
+      margin-top: 1.8rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: var(--transition);
+      font-size: 1rem;
+      border: 2px solid var(--secondary-color);
+      box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+    }
+    .back-button:hover {
+      background: transparent;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 18px rgba(231, 76, 60, 0.4);
+    }
+    section {
+      margin-bottom: 3.5rem;
+      padding: 2.5rem;
+      background: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      transition: var(--transition);
+    }
+    section:hover {
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    }
+    .product-details {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      margin-bottom: 2.5rem;
+    }
+    .product-image {
+      height: 350px;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f7f7f7;
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      position: relative;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
+    .product-image::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(to left, var(--primary-color), var(--secondary-color));
+    }
+    .product-image img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      transition: var(--transition);
+    }
+    .product-info h3 {
+      margin-bottom: 1.2rem;
+      color: var(--dark-color);
+      font-size: 1.9rem;
+      font-weight: 800;
+      position: relative;
+      padding-bottom: 0.5rem;
+    }
+    .product-info h3::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 80px;
+      height: 4px;
+      background: var(--secondary-color);
+      border-radius: 2px;
+    }
+    .product-info p {
+      color: #666;
+      margin-bottom: 1.8rem;
+      font-size: 1.05rem;
+      line-height: 1.8;
+    }
+    .product-price {
+      font-weight: bold;
+      color: var(--secondary-color);
+      font-size: 1.6rem;
+      margin-bottom: 1.8rem;
+      display: block;
+      background: #f9f9f9;
+      padding: 1rem 1.5rem;
+      border-radius: var(--border-radius);
+      border-right: 4px solid var(--secondary-color);
+    }
+    .purchase-form {
+      background: var(--light-color);
+      padding: 2.5rem;
+      border-radius: var(--border-radius);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+    .purchase-form h3 {
+      margin-bottom: 1.8rem;
+      color: var(--primary-color);
+      text-align: center;
+      font-size: 1.6rem;
+      position: relative;
+      padding-bottom: 0.8rem;
+    }
+    .purchase-form h3::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 50%;
+      transform: translateX(50%);
+      width: 100px;
+      height: 4px;
+      background: var(--secondary-color);
+      border-radius: 2px;
+    }
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 0.6rem;
+      font-weight: bold;
+      color: var(--dark-color);
+    }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%;
+      padding: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 1rem;
+      background: #fff;
+      transition: var(--transition);
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      outline: none;
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+    }
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .quantity-btn {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: var(--transition);
+    }
+    .quantity-btn:hover {
+      background: var(--accent-color);
+      transform: scale(1.05);
+    }
+    .quantity-input {
+      width: 80px !important;
+      text-align: center;
+      font-weight: bold;
+    }
+    .calculation-results {
+      background: white;
+      padding: 1.8rem;
+      border-radius: var(--border-radius);
+      margin-top: 1.8rem;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    }
+    .result-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.8rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px dashed #eee;
+    }
+    .total-price {
+      font-weight: bold;
+      font-size: 1.6rem;
+      color: var(--secondary-color);
+      margin-top: 1.5rem;
+      padding-top: 1.2rem;
+      border-top: 2px solid #ddd;
+      display: flex;
+      justify-content: space-between;
+    }
+    .buy-now-btn {
+      background: linear-gradient(to left, var(--secondary-color), #e25c4c);
+      color: white;
+      border: none;
+      padding: 1.2rem 2.5rem;
+      border-radius: 50px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 1.2rem;
+      margin-top: 1.8rem;
+      transition: var(--transition);
+      font-weight: 600;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.8rem;
+      box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+    }
+    .buy-now-btn:hover {
+      background: linear-gradient(to left, #e25c4c, var(--secondary-color));
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(231, 76, 60, 0.4);
+    }
+    footer {
+      background: linear-gradient(to right, var(--dark-color), #253141);
+      color: white;
+      text-align: center;
+      padding: 3rem 1.5rem 1.5rem;
+      margin-top: 4rem;
+    }
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2.5rem;
+      text-align: right;
+    }
+    .footer-section h3 {
+      margin-bottom: 1.2rem;
+      color: var(--secondary-color);
+      font-size: 1.4rem;
+      position: relative;
+      padding-bottom: 0.5rem;
+    }
+    .footer-section h3::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 50px;
+      height: 3px;
+      background: var(--accent-color);
+    }
+    .footer-section p {
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .footer-section i {
+      color: var(--accent-color);
+      font-size: 1.2rem;
+    }
+    .social-icons {
+      display: flex;
+      justify-content: flex-start;
+      gap: 1.2rem;
+      margin-top: 1.5rem;
+    }
+    .social-icons a {
+      color: white;
+      font-size: 1.6rem;
+      transition: var(--transition);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+    }
+    .social-icons a:hover {
+      color: var(--accent-color);
+      background: rgba(255,255,255,0.2);
+      transform: translateY(-3px);
+    }
+    .copyright {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      font-size: 0.95rem;
+      color: #ccc;
+    }
+    /* إخفاء أسهم الزيادة والنقصان في حقول الأرقام */
+    input[type="number"] {
+      -moz-appearance: textfield;
+    }
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    .decimal-hint {
+      font-size: 0.85rem;
+      color: #666;
+      margin-top: 0.4rem;
+      font-style: italic;
+    }
+    .entry {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin-top: 0.8rem;
+      background: #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    .remove-btn {
+      background: var(--secondary-color);
+      color: #fff;
+      border: none;
+      padding: 0.5rem 0.8rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .remove-btn:hover {
+      background: #c0392b;
+      transform: scale(1.05);
+    }
+    .entries h3 {
+      margin-bottom: 1rem;
+      color: var(--primary-color);
+      font-size: 1.3rem;
+    }
+    
+    /* تصميم متجاوب */
+    @media (max-width: 992px) {
+      .header-container {
+        flex-direction: column;
+        padding: 0.5rem 1rem;
+      }
+      nav ul {
+        margin-top: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .page-header h2 {
+        font-size: 2.2rem;
+      }
+      .page-header p {
+        font-size: 1.1rem;
+      }
+    }
+    @media (max-width: 768px) {
+      main {
+        margin: 1.5rem auto;
+      }
+      section {
+        padding: 1.8rem;
+        margin-bottom: 2.5rem;
+      }
+      .product-details {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      .product-image {
+        height: 280px;
+      }
+      .product-info h3 {
+        font-size: 1.7rem;
+      }
+      .purchase-form {
+        padding: 1.8rem;
+      }
+      .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 2rem;
+      }
+      .footer-section h3::after {
+        right: 50%;
+        transform: translateX(50%);
+      }
+      .social-icons {
+        justify-content: center;
+      }
+      .footer-section p {
+        justify-content: center;
+      }
+    }
+    @media (max-width: 480px) {
+      .logo h1 {
+        font-size: 1.6rem;
+      }
+      nav ul li a {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.95rem;
+      }
+      .page-header {
+        padding: 2.5rem 1.5rem;
+      }
+      .page-header h2 {
+        font-size: 1.9rem;
+      }
+      section {
+        padding: 1.5rem;
+      }
+      .product-image {
+        height: 220px;
+      }
+      .quantity-controls {
+        justify-content: center;
+      }
     }
   </style>
 </head>
 <body>
   <header>
     <div class="header-container">
-      <div class="logo">
-        <i class="fas fa-hard-hat"></i>
-        <h1>RabieMetal</h1>
-      </div>
-
+      <div class="logo"><i class="fas fa-hard-hat"></i><h1><a href="index.html" style="color: inherit; text-decoration: none;">RabieMetal</a></h1></div>
       <nav>
         <ul>
           <li><a href="index.html">الرئيسية</a></li>
           <li><a href="index.html#products">المنتجات</a></li>
           <li><a href="index.html#contact">اتصل بنا</a></li>
-          <li>
-            <div class="cart-icon">
-              <i class="fas fa-shopping-cart"></i>
-              <span class="cart-count">0</span>
-            </div>
-          </li>
+          <li><div class="cart-icon"><i class="fas fa-shopping-cart"></i><span class="cart-count" id="cart-count">0</span></div></li>
         </ul>
       </nav>
     </div>
@@ -104,21 +587,20 @@
 
   <main>
     <div class="page-header">
-      <h2>شراء البوتريل المزدوج</h2>
-      <p>املأ التفاصيل أدناه لإكمال عملية الشراء</p>
-      <a href="poutrelle-types.html" class="back-button">العودة إلى أنواع البوتريل</a>
+      <h2>البوتريل المزدوج</h2>
+      <p>بوتريل مزدوج القوة للمشاريع الأكثر متانة. مثالي للهياكل التي تتطلب تحميل أوزان ثقيلة ومقاومة أعلى</p>
+      <a href="poutrelle-types.html" class="back-button"><i class="fas fa-arrow-right"></i> العودة إلى أنواع البوتريل</a>
     </div>
 
     <section>
       <div class="product-details">
         <div class="product-image">
-          <img src="https://www.destockage-habitat.com/cdn/product/3/3/5/3/0/3/335303.jpg" alt="البوتريل المزدوج">
+          <img src="https://www.destockage-habitat.com/cdn/product/3/3/5/3/0/3/335303.jpg" alt="البوتريل المزدوج" onerror="this.src='https://via.placeholder.com/500x300/f5f5f5/666?text=صورة+البوتريل+المزدوج'">
         </div>
-
         <div class="product-info">
           <h3>البوتريل المزدوج</h3>
           <p>بوتريل مزدوج القوة للمشاريع الأكثر متانة. مثالي للهياكل التي تتطلب تحميل أوزان ثقيلة ومقاومة أعلى. مصنوع من مواد عالية الجودة لضمان المتانة والاستدامة.</p>
-          <span class="product-price">السعر: <span id="price-per-meter-label">1200</span> دينار جزائري للمتر</span>
+          <span class="product-price">السعر: <span id="price-label">1200</span> دينار جزائري للمتر</span>
         </div>
       </div>
 
@@ -127,7 +609,8 @@
         <form id="purchase-form" autocomplete="off">
           <div class="form-group">
             <label for="length">الطول بالمتر (1.00 - 3.00):</label>
-            <input type="number" id="length" min="1" max="3" step="0.01" value="1.00" required>
+            <input type="text" id="length" inputmode="decimal" placeholder="أدخل الطول بالمتر (مثال: 1.23)">
+            <div class="decimal-hint">يمكنك إدخال قيم عشرية مثل 1.23 أو 2.75</div>
           </div>
 
           <div class="form-group">
@@ -141,10 +624,21 @@
 
           <div class="calculation-results" aria-live="polite">
             <div class="result-item"><span>سعر المتر:</span><span id="price-per-meter">1200 د.ج</span></div>
-            <div class="result-item"><span>الطول الإجمالي:</span><span id="total-length">1.00 متر</span></div>
+            <div class="result-item"><span>الطول الإجمالي:</span><span id="total-length">—</span></div>
             <div class="result-item"><span>الكمية:</span><span id="total-quantity">1 قطعة</span></div>
-            <div class="total-price"><span>السعر الإجمالي:</span> <span id="total-price">1200 د.ج</span></div>
           </div>
+
+          <!-- entries list (multiple orders) -->
+          <div class="entries" id="entries">
+            <h3>الطلبات المضافة:</h3>
+            <!-- items appended here -->
+          </div>
+
+          <!-- total price for all orders -->
+          <div class="total-price"><span>السعر الإجمالي:</span> <span id="total-price">—</span></div>
+
+          <!-- add-order button (adds current length+qty to entries) -->
+          <button type="button" class="buy-now-btn" id="add-order-btn"><i class="fas fa-plus-circle"></i> إضافة الطلب</button>
 
           <div class="form-group"><label for="name">الاسم الكامل:</label><input type="text" id="name" required></div>
           <div class="form-group"><label for="phone">رقم الهاتف:</label><input type="tel" id="phone" required></div>
@@ -161,119 +655,205 @@
     <div class="footer-content">
       <div class="footer-section">
         <h3>عن الشركة</h3>
-        <p>متخصصون في صناعة المنتجات المعدنية والحديدية بجودة عالية.</p>
+        <p>متخصصون في صناعة المنتجات المعدنية والحديدية بجودة عالية وتصاميم مبتكرة تلبي احتياجاتكم.</p>
       </div>
-
-      <div class="footer-section">
-        <h3>معلومات التواصل</h3>
-        <p><i class="fas fa-map-marker-alt"></i> العنوان: بريان، غرداية، الجزائر</p>
-        <p><i class="fas fa-phone"></i> الهاتف: 0559092993</p>
-        <p><i class="fas fa-envelope"></i> البريد: rabiesa47@gmail.com</p>
-      </div>
-
-      <div class="footer-section">
-        <h3>تابعنا على</h3>
-        <div class="social-icons">
-          <a href="#"><i class="fab fa-facebook"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
-          <a href="#"><i class="fab fa-twitter"></i></a>
-          <a href="#"><i class="fab fa-whatsapp"></i></a>
-        </div>
-      </div>
+      <div class="footer-section"><h3>معلومات التواصل</h3><p><i class="fas fa-map-marker-alt"></i> العنوان: بريان، غرداية، الجزائر</p><p><i class="fas fa-phone"></i> الهاتف: 0559092993</p><p><i class="fas fa-envelope"></i> البريد: rabiesa47@gmail.com</p></div>
+      <div class="footer-section"><h3>تابعنا على</h3><div class="social-icons"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a></div></div>
     </div>
-
-    <div class="copyright">
-      <p>&copy; 2025 RabieMetal. جميع الحقوق محفوظة.</p>
-    </div>
+    <div class="copyright"><p>&copy; 2025 RabieMetal. جميع الحقوق محفوظة.</p></div>
   </footer>
 
   <script>
-    // Single DOMContentLoaded handler — updates totals and saves consistently to localStorage
-    document.addEventListener('DOMContentLoaded', () => {
-      const PRICE = 1200; // price per meter for this product
-      const pricePerMeterLabel = document.getElementById('price-per-meter-label');
-      const pricePerMeterEl = document.getElementById('price-per-meter');
-      const lengthInput = document.getElementById('length');
-      const qtyInput = document.getElementById('quantity');
-      const decBtn = document.getElementById('decrease-qty');
-      const incBtn = document.getElementById('increase-qty');
-      const totalLengthEl = document.getElementById('total-length');
-      const totalQtyEl = document.getElementById('total-quantity');
-      const totalPriceEl = document.getElementById('total-price');
-      const purchaseForm = document.getElementById('purchase-form');
+  (function(){
+    const PRICE = 1200;
+    const priceLabel = document.getElementById('price-label');
+    const pricePerMeterEl = document.getElementById('price-per-meter');
+    const lengthInput = document.getElementById('length');
+    const qtyInput = document.getElementById('quantity');
+    const decBtn = document.getElementById('decrease-qty');
+    const incBtn = document.getElementById('increase-qty');
+    const totalLengthEl = document.getElementById('total-length');
+    const totalQtyEl = document.getElementById('total-quantity');
+    const totalPriceSpan = document.getElementById('total-price');
+    const form = document.getElementById('purchase-form');
+    const cartCountEl = document.getElementById('cart-count');
+    const addOrderBtn = document.getElementById('add-order-btn');
+    const entriesContainer = document.getElementById('entries');
 
-      // Set labels
-      pricePerMeterLabel.textContent = PRICE;
-      pricePerMeterEl.textContent = PRICE + ' د.ج';
+    if (priceLabel) priceLabel.textContent = PRICE;
+    if (pricePerMeterEl) pricePerMeterEl.textContent = PRICE + ' د.ج';
 
-      // clamp helper — enforces two decimals and bounds
-      function clampLengthValue(v) {
-        v = Number(v) || 1;
-        if (v < 1) v = 1;
-        if (v > 3) v = 3;
-        return Math.round(v * 100) / 100;
-      }
+    // parse length allowing comma or dot, return null if empty/invalid
+    function parseLengthRaw(value){
+      if (!value) return null;
+      const v = Number(String(value).trim().replace(',', '.'));
+      if (isNaN(v)) return null;
+      return Math.round(v * 100) / 100;
+    }
 
-      function updateTotals() {
-        const len = clampLengthValue(lengthInput.value);
-        const qty = Math.max(1, parseInt(qtyInput.value, 10) || 1);
+    function clampLengthValueOptional(v) {
+      if (v === null) return null;
+      let n = Number(v) || 0;
+      if (n < 1) n = 1;
+      if (n > 3) n = 3;
+      return Math.round(n * 100) / 100;
+    }
+
+    function updateTotals(){
+      const lenRaw = parseLengthRaw(lengthInput.value);
+      const len = lenRaw === null ? null : clampLengthValueOptional(lenRaw);
+      const qty = Math.max(1, parseInt(qtyInput.value, 10) || 1);
+
+      if (len === null){
+        totalLengthEl.textContent = '0 متر';
+        if (!cartEntries.length) totalPriceSpan.textContent = '0 د.ج';
+      } else {
         const totalLen = Math.round(len * qty * 100) / 100;
+        const singleTotalPrice = Math.round(totalLen * PRICE);
+        totalLengthEl.textContent = (totalLen % 1 === 0 ? totalLen.toFixed(0) : totalLen.toString()) + ' متر';
+        if (!cartEntries.length) totalPriceSpan.textContent = singleTotalPrice + ' د.ج';
+      }
+      totalQtyEl.textContent = qty + ' قطعة';
+    }
+
+    // quantity buttons
+    incBtn.addEventListener('click', ()=>{ qtyInput.value = parseInt(qtyInput.value || 1, 10) + 1; updateTotals(); });
+    decBtn.addEventListener('click', ()=>{ if(parseInt(qtyInput.value || 1, 10) > 1) qtyInput.value = parseInt(qtyInput.value || 1, 10) - 1; updateTotals(); });
+
+    // length: allow typing decimals; format only on blur
+    lengthInput.addEventListener('input', function(){
+      updateTotals();
+    });
+
+    lengthInput.addEventListener('blur', function(){
+      const parsed = parseLengthRaw(lengthInput.value);
+      if (parsed === null){
+        lengthInput.value = lengthInput.value ? lengthInput.value : '';
+      } else {
+        const clamped = clampLengthValueOptional(parsed);
+        lengthInput.value = (clamped % 1 === 0) ? String(clamped) : String(clamped);
+      }
+      updateTotals();
+    });
+
+    // prevent invalid keys in length input
+    lengthInput.addEventListener('keydown', function(e){
+      const allowed = ['Backspace','Tab','ArrowLeft','ArrowRight','Delete','Home','End'];
+      if (allowed.includes(e.key)) return;
+      if (e.key === '.' || e.key === ',') return;
+      if (e.key >= '0' && e.key <= '9') return;
+      e.preventDefault();
+    });
+
+    qtyInput.addEventListener('input', function(){
+      if (qtyInput.value === '' || isNaN(Number(qtyInput.value))) return;
+      qtyInput.value = Math.max(1, parseInt(qtyInput.value, 10));
+      updateTotals();
+    });
+
+    // manage cart entries (multiple orders)
+    let cartEntries = []; // {length, quantity, totalLen, totalPrice}
+
+    function renderEntries(){
+      entriesContainer.innerHTML = '<h3>الطلبات المضافة:</h3>';
+      if (cartEntries.length === 0){
+        const p = document.createElement('p');
+        p.textContent = 'لا توجد طلبات مضافة بعد.';
+        p.style.textAlign = 'center';
+        p.style.color = '#666';
+        p.style.padding = '1rem';
+        entriesContainer.appendChild(p);
+        cartCountEl.textContent = (JSON.parse(localStorage.getItem('orders')||'[]')).length || 0;
+        updateCartSummary();
+        return;
+      }
+      cartEntries.forEach((it, idx) => {
+        const el = document.createElement('div');
+        el.className = 'entry';
+        el.innerHTML = `<span>الطول: ${it.length} متر، الكمية: ${it.quantity}، السعر: ${it.totalPrice} د.ج</span>
+                        <div><button type="button" class="remove-btn" data-idx="${idx}"><i class="fas fa-trash"></i> حذف</button></div>`;
+        entriesContainer.appendChild(el);
+      });
+      entriesContainer.querySelectorAll('.remove-btn').forEach(btn=>{
+        btn.addEventListener('click', function(){
+          const i = Number(this.dataset.idx);
+          cartEntries.splice(i,1);
+          renderEntries();
+          updateCartSummary();
+        });
+      });
+      updateCartSummary();
+    }
+
+    function updateCartSummary(){
+      const total = cartEntries.reduce((s,it)=>s+it.totalPrice,0);
+      if (cartEntries.length) {
+        totalPriceSpan.textContent = total + ' د.ج';
+        const combinedLen = cartEntries.reduce((s,it)=>s+it.totalLen,0);
+        totalLengthEl.textContent = (combinedLen % 1 === 0 ? combinedLen.toFixed(0) : String(Math.round(combinedLen*100)/100)) + ' متر';
+      } else {
+        const lenRaw = parseLengthRaw(lengthInput.value);
+        if (lenRaw === null) {
+          totalLengthEl.textContent = '0 متر';
+          totalPriceSpan.textContent = '0 د.ج';
+        }
+      }
+      const stored = JSON.parse(localStorage.getItem('orders')||'[]').length || 0;
+      cartCountEl.textContent = stored + cartEntries.length;
+    }
+
+    addOrderBtn.addEventListener('click', function(){
+      const parsed = parseLengthRaw(lengthInput.value);
+      if (parsed === null){
+        alert('الرجاء إدخال طول صالح (مثال: 1.23) بين 1.00 و 3.00 متر.');
+        return;
+      }
+      const length = clampLengthValueOptional(parsed);
+      if (length < 1 || length > 3){
+        alert('الطول يجب أن يكون بين 1.00 و 3.00 متر.');
+        return;
+      }
+      const qty = Math.max(1, parseInt(qtyInput.value,10) || 1);
+      const totalLen = Math.round(length * qty * 100) / 100;
+      const totalPrice = Math.round(totalLen * PRICE);
+      const entry = { length, quantity: qty, totalLen, totalPrice };
+      cartEntries.push(entry);
+      renderEntries();
+      lengthInput.value = '';
+      qtyInput.value = '1';
+      updateTotals();
+      lengthInput.focus();
+    });
+
+    // confirm submit: save all cartEntries with customer info as individual orders in localStorage
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      const name = (document.getElementById('name')||{value:''}).value.trim();
+      const phone = (document.getElementById('phone')||{value:''}).value.trim();
+      const address = (document.getElementById('address')||{value:''}).value.trim();
+      const notes = (document.getElementById('notes')||{value:''}).value.trim();
+
+      if (!name) { alert('الرجاء إدخال الاسم الكامل.'); return; }
+      if (!phone) { alert('الرجاء إدخال رقم الهاتف.'); return; }
+      if (!address) { alert('الرجاء إدخال العنوان.'); return; }
+
+      if (cartEntries.length === 0){
+        const parsed = parseLengthRaw(lengthInput.value);
+        if (parsed === null){
+          alert('الرجاء إضافة طلب واحد على الأقل أو إدخال طول صالح وحفظه.');
+          return;
+        }
+        const length = clampLengthValueOptional(parsed);
+        const qty = Math.max(1, parseInt(qtyInput.value,10) || 1);
+        const totalLen = Math.round(length * qty * 100) / 100;
         const totalPrice = Math.round(totalLen * PRICE);
-        // display with two decimals for lengths
-        totalLengthEl.textContent = totalLen.toFixed(2) + ' متر';
-        totalQtyEl.textContent = qty + ' قطعة';
-        totalPriceEl.textContent = totalPrice + ' د.ج';
+        cartEntries.push({ length, quantity: qty, totalLen, totalPrice });
       }
 
-      // init inputs to correct format
-      lengthInput.value = clampLengthValue(lengthInput.value).toFixed(2);
-      qtyInput.value = Math.max(1, parseInt(qtyInput.value, 10) || 1);
-
-      // events
-      incBtn.addEventListener('click', () => { qtyInput.value = parseInt(qtyInput.value || 1, 10) + 1; updateTotals(); });
-      decBtn.addEventListener('click', () => { if (parseInt(qtyInput.value || 1, 10) > 1) qtyInput.value = parseInt(qtyInput.value || 1, 10) - 1; updateTotals(); });
-      lengthInput.addEventListener('input', () => {
-        // clamp live but do not force user while typing: apply clamp on blur and on updateTotals call
-        let v = lengthInput.value;
-        if (v === '') return;
-        v = clampLengthValue(v);
-        lengthInput.value = v.toFixed(2);
-        updateTotals();
-      });
-      qtyInput.addEventListener('input', () => {
-        if (qtyInput.value === '' || isNaN(Number(qtyInput.value))) return;
-        qtyInput.value = Math.max(1, parseInt(qtyInput.value, 10));
-        updateTotals();
-      });
-
-      // Save order to localStorage (normalized schema so admin page sees customerName)
-      purchaseForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        // collect values and validate
-        const name = (document.getElementById('name') || {value:''}).value.trim();
-        const phone = (document.getElementById('phone') || {value:''}).value.trim();
-        const address = (document.getElementById('address') || {value:''}).value.trim();
-        const notes = (document.getElementById('notes') || {value:''}).value.trim();
-
-        const length = clampLengthValue(lengthInput.value);
-        const quantity = Math.max(1, parseInt(qtyInput.value, 10) || 1);
-
-        if (!name) {
-          alert('الرجاء إدخال الاسم الكامل.');
-          return;
-        }
-        if (!phone) {
-          alert('الرجاء إدخال رقم الهاتف.');
-          return;
-        }
-
-        const totalLength = Math.round(length * quantity * 100) / 100;
-        const totalPrice = Math.round(totalLength * PRICE);
-
-        // Normalize order object (consistent keys)
-        const now = Date.now();
-        const order = {
+      const stored = JSON.parse(localStorage.getItem('orders') || '[]');
+      const newOrders = cartEntries.map(it => {
+        const now = Date.now() + Math.random();
+        return {
           id: now,
           orderId: 'RB-' + String(now).slice(-6),
           customerName: name,
@@ -281,36 +861,35 @@
           customerAddress: address,
           orderDate: new Date().toISOString().slice(0,10),
           productType: 'البوتريل المزدوج',
-          length: totalLength,
-          quantity: quantity,
+          length: it.length,
+          quantity: it.quantity,
           pricePerMeter: PRICE,
-          totalPrice: totalPrice,
+          totalPrice: it.totalPrice,
+          notes: notes,
           status: 'new',
-          paymentMethod: 'غير محدد',
-          notes: notes
+          paymentMethod: 'غير محدد'
         };
-
-        // push to localStorage
-        const orders = JSON.parse(localStorage.getItem('orders') || '[]');
-        orders.push(order);
-        localStorage.setItem('orders', JSON.stringify(orders));
-
-        alert('تم حفظ الطلب بنجاح. رقم الطلب: ' + order.orderId);
-        purchaseForm.reset();
-        lengthInput.value = '1.00';
-        qtyInput.value = '1';
-        updateTotals();
       });
 
-      // Initial totals update
+      const all = stored.concat(newOrders);
+      localStorage.setItem('orders', JSON.stringify(all));
+      alert('تم حفظ الطلبات بنجاح. عدد الطلبات: ' + newOrders.length);
+      cartEntries = [];
+      renderEntries();
+      form.reset();
+      qtyInput.value = '1';
       updateTotals();
+      cartCountEl.textContent = (JSON.parse(localStorage.getItem('orders')||'[]')).length || 0;
     });
+
+    // init
+    qtyInput.value = Math.max(1, parseInt(qtyInput.value, 10) || 1);
+    updateTotals();
+    renderEntries();
+  })();
   </script>
 </body>
 </html>
-
-
-
 
 
 
