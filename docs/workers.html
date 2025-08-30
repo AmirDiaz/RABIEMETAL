@@ -31,20 +31,24 @@
             background-color: #f8f9fa;
             color: #333;
             line-height: 1.6;
-            padding: 0;
-            margin: 0;
-            background-image: linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.95));
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            align-items: center;
+            padding: 0;
+            margin: 0;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.95));
+            width: 100%;
         }
         
         .container {
             max-width: 1400px;
+            width: 100%;
             margin: 0 auto;
             padding: 20px;
-            flex: 1;
-            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         
         /* RabieMetal Header Styling */
@@ -57,6 +61,7 @@
             box-shadow: var(--box-shadow);
             position: relative;
             overflow: hidden;
+            width: 100%;
             text-align: center;
         }
         
@@ -73,20 +78,23 @@
         
         .header-content {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             position: relative;
             z-index: 2;
-            flex-direction: column;
             text-align: center;
+            width: 100%;
         }
         
         .logo-container {
             display: flex;
+            flex-direction: column;
             align-items: center;
             gap: 15px;
-            justify-content: center;
             margin-bottom: 15px;
+            text-align: center;
+            width: 100%;
         }
         
         .logo {
@@ -108,7 +116,7 @@
         .logo-text {
             display: flex;
             flex-direction: column;
-            text-align: left;
+            text-align: center;
         }
         
         .logo-text h1 {
@@ -152,6 +160,7 @@
             grid-template-columns: 1fr 2fr;
             gap: 25px;
             margin-bottom: 30px;
+            width: 100%;
         }
         
         .card {
@@ -162,6 +171,7 @@
             margin-bottom: 25px;
             border-top: 4px solid var(--secondary);
             text-align: center;
+            width: 100%;
         }
         
         h2 {
@@ -431,20 +441,6 @@
             margin-top: 10px;
         }
         
-        /* New centering styles */
-        .centered-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-        }
-        
-        .centered-content {
-            width: 100%;
-            max-width: 1400px;
-        }
-        
         /* Responsive adjustments */
         @media (max-width: 1100px) {
             .main-content {
@@ -471,6 +467,15 @@
         }
         
         @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            header {
+                padding: 15px;
+                margin-bottom: 20px;
+            }
+            
             .header-content {
                 flex-direction: column;
                 text-align: center;
@@ -507,143 +512,193 @@
             
             h2 {
                 text-align: center;
+                flex-direction: column;
+            }
+            
+            h2 i {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            
+            .card {
+                padding: 20px 15px;
+            }
+            
+            .date-display {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            th, td {
+                padding: 10px 5px;
+            }
+            
+            .stats-filters button {
+                padding: 10px;
+                font-size: 14px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo-text h1 {
+                font-size: 1.7rem;
+            }
+            
+            .logo-text span {
+                font-size: 0.9rem;
+            }
+            
+            h2 {
+                font-size: 1.3rem;
+            }
+            
+            .shift-option {
+                padding: 15px 5px;
+            }
+            
+            .shift-option h3 {
+                font-size: 1rem;
+            }
+            
+            .stats-filters {
+                flex-direction: column;
+            }
+            
+            .stats-filters button {
+                width: 100%;
             }
         }
     </style>
 </head>
 <body>
-    <div class="centered-container">
-        <div class="centered-content">
-            <div class="container">
-                <header>
-                    <div class="header-content">
-                        <div class="logo-container">
-                            <div class="logo">
-                                <i class="fas fa-hard-hat"></i>
-                            </div>
-                            <div class="logo-text">
-                                <h1>RabieMetal</h1>
-                                <span>Worker Attendance Tracker</span>
-                            </div>
-                        </div>
-                        <div class="date-display">
-                            <i class="fas fa-calendar-alt"></i>
-                            <span id="current-date"></span>
-                        </div>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="logo-container">
+                    <div class="logo">
+                        <i class="fas fa-hard-hat"></i>
                     </div>
-                </header>
+                    <div class="logo-text">
+                        <h1>RabieMetal</h1>
+                        <span>Worker Attendance Tracker</span>
+                    </div>
+                </div>
+                <div class="date-display">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span id="current-date"></span>
+                </div>
+            </div>
+        </header>
+        
+        <div class="main-content">
+            <div class="left-column">
+                <div class="card">
+                    <h2><i class="fas fa-plus-circle"></i> Add Work Day</h2>
+                    <form id="attendance-form">
+                        <div class="form-group">
+                            <label for="worker-name">Worker Name</label>
+                            <input type="text" id="worker-name" list="worker-list" placeholder="Select or enter worker's name" required>
+                            <datalist id="worker-list">
+                                <option value="Hakim Youb">
+                                <option value="Aissa Bekkay">
+                                <option value="Lokmane Donite">
+                                <option value="Kello Abdou">
+                            </datalist>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="work-date">Date</label>
+                            <input type="date" id="work-date" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Shift Type</label>
+                            <div class="shift-options">
+                                <div class="shift-option" data-shift="morning">
+                                    <h3>Morning</h3>
+                                    <p>1500 DA</p>
+                                </div>
+                                <div class="shift-option" data-shift="evening">
+                                    <h3>Evening</h3>
+                                    <p>1000 DA</p>
+                                </div>
+                                <div class="shift-option" data-shift="both">
+                                    <h3>Both</h3>
+                                    <p>2500 DA</p>
+                                </div>
+                            </div>
+                            <input type="hidden" id="shift-type" required>
+                        </div>
+                        
+                        <button type="submit">Add Work Day</button>
+                    </form>
+                </div>
                 
-                <div class="main-content">
-                    <div class="left-column">
-                        <div class="card">
-                            <h2><i class="fas fa-plus-circle"></i> Add Work Day</h2>
-                            <form id="attendance-form">
-                                <div class="form-group">
-                                    <label for="worker-name">Worker Name</label>
-                                    <input type="text" id="worker-name" list="worker-list" placeholder="Select or enter worker's name" required>
-                                    <datalist id="worker-list">
-                                        <option value="Hakim Youb">
-                                        <option value="Aissa Bekkay">
-                                        <option value="Lokmane Donite">
-                                        <option value="Kello Abdou">
-                                    </datalist>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="work-date">Date</label>
-                                    <input type="date" id="work-date" required>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label>Shift Type</label>
-                                    <div class="shift-options">
-                                        <div class="shift-option" data-shift="morning">
-                                            <h3>Morning</h3>
-                                            <p>1500 DA</p>
-                                        </div>
-                                        <div class="shift-option" data-shift="evening">
-                                            <h3>Evening</h3>
-                                            <p>1000 DA</p>
-                                        </div>
-                                        <div class="shift-option" data-shift="both">
-                                            <h3>Both</h3>
-                                            <p>2500 DA</p>
-                                        </div>
-                                    </div>
-                                    <input type="hidden" id="shift-type" required>
-                                </div>
-                                
-                                <button type="submit">Add Work Day</button>
-                            </form>
+                <div class="card">
+                    <h2><i class="fas fa-chart-pie"></i> Quick Stats</h2>
+                    <div class="summary-cards">
+                        <div class="summary-card">
+                            <h3>Morning Shifts</h3>
+                            <p id="total-morning">0</p>
                         </div>
-                        
-                        <div class="card">
-                            <h2><i class="fas fa-chart-pie"></i> Quick Stats</h2>
-                            <div class="summary-cards">
-                                <div class="summary-card">
-                                    <h3>Morning Shifts</h3>
-                                    <p id="total-morning">0</p>
-                                </div>
-                                <div class="summary-card">
-                                    <h3>Evening Shifts</h3>
-                                    <p id="total-evening">0</p>
-                                </div>
-                                <div class="summary-card">
-                                    <h3>Both Shifts</h3>
-                                    <p id="total-both">0</p>
-                                </div>
-                                <div class="summary-card">
-                                    <h3>Total Payment</h3>
-                                    <p id="total-payment">0 DA</p>
-                                </div>
-                            </div>
+                        <div class="summary-card">
+                            <h3>Evening Shifts</h3>
+                            <p id="total-evening">0</p>
                         </div>
-                    </div>
-                    
-                    <div class="right-column">
-                        <div class="card">
-                            <div class="stats-header">
-                                <h2><i class="fas fa-history"></i> Work History</h2>
-                                <div class="stats-filters">
-                                    <button>This Week</button>
-                                    <button>This Month</button>
-                                    <button>All Time</button>
-                                </div>
-                            </div>
-                            
-                            <div class="table-container">
-                                <table id="work-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Worker</th>
-                                            <th>Date</th>
-                                            <th>Shift</th>
-                                            <th>Payment</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!-- Table rows will be added dynamically -->
-                                    </tbody>
-                                </table>
-                            </div>
+                        <div class="summary-card">
+                            <h3>Both Shifts</h3>
+                            <p id="total-both">0</p>
                         </div>
-                        
-                        <div class="card">
-                            <h2><i class="fas fa-users"></i> Worker Summaries</h2>
-                            <div id="worker-summaries">
-                                <!-- Worker summaries will be added dynamically -->
-                            </div>
+                        <div class="summary-card">
+                            <h3>Total Payment</h3>
+                            <p id="total-payment">0 DA</p>
                         </div>
                     </div>
                 </div>
+            </div>
+            
+            <div class="right-column">
+                <div class="card">
+                    <div class="stats-header">
+                        <h2><i class="fas fa-history"></i> Work History</h2>
+                        <div class="stats-filters">
+                            <button>This Week</button>
+                            <button>This Month</button>
+                            <button>All Time</button>
+                        </div>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table id="work-table">
+                            <thead>
+                                <tr>
+                                    <th>Worker</th>
+                                    <th>Date</th>
+                                    <th>Shift</th>
+                                    <th>Payment</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Table rows will be added dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
                 
-                <footer>
-                    <p>&copy; 2025 RabieMetal. جميع الحقوق محفوظة.</p>
-                    <div class="signature">RabieMetal</div>
-                </footer>
+                <div class="card">
+                    <h2><i class="fas fa-users"></i> Worker Summaries</h2>
+                    <div id="worker-summaries">
+                        <!-- Worker summaries will be added dynamically -->
+                    </div>
+                </div>
             </div>
         </div>
+        
+        <footer>
+            <p>&copy; 2025 RabieMetal. جميع الحقوق محفوظة.</p>
+            <div class="signature">RabieMetal</div>
+        </footer>
     </div>
 
     <script>
