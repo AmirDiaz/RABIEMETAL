@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RabieMetal - Worker Attendance Tracker</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- PWA meta tags -->
+    <meta name="theme-color" content="#2c3e50">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="RabieMetal">
+    <link rel="manifest" href="manifest.json">
     <style>
         :root {
             --primary: #2c3e50;
@@ -441,6 +447,34 @@
             margin-top: 10px;
         }
         
+        /* Install button styling */
+        .install-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .install-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .install-btn i {
+            font-size: 24px;
+        }
+        
         /* Responsive adjustments */
         @media (max-width: 1100px) {
             .main-content {
@@ -701,6 +735,11 @@
         </footer>
     </div>
 
+    <!-- Install button (initially hidden) -->
+    <div id="installButton" class="install-btn" style="display: none;">
+        <i class="fas fa-download"></i>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Set current date display
@@ -958,6 +997,35 @@
                     }, 300);
                 }, 3000);
             }
+            
+            // PWA Installation handling
+            let deferredPrompt;
+            const installButton = document.getElementById('installButton');
+            
+            window.addEventListener('beforeinstallprompt', (e) => {
+                // Prevent the mini-infobar from appearing on mobile
+                e.preventDefault();
+                // Stash the event so it can be triggered later
+                deferredPrompt = e;
+                // Show the install button
+                installButton.style.display = 'flex';
+                
+                installButton.addEventListener('click', () => {
+                    // Hide the install button
+                    installButton.style.display = 'none';
+                    // Show the install prompt
+                    deferredPrompt.prompt();
+                    // Wait for the user to respond to the prompt
+                    deferredPrompt.userChoice.then((choiceResult) => {
+                        if (choiceResult.outcome === 'accepted') {
+                            console.log('User accepted the install prompt');
+                        } else {
+                            console.log('User dismissed the install prompt');
+                        }
+                        deferredPrompt = null;
+                    });
+                });
+            });
             
             // Initial update
             updateTable();
