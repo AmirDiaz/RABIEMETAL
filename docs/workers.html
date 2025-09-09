@@ -6,18 +6,15 @@
     <title>RabieMetal - Worker Attendance Tracker</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- PWA meta tags -->
+    <!-- PWA Configuration -->
     <meta name="theme-color" content="#2c3e50">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="RabieMetal">
     
-    <!-- Icons for PWA -->
+    <!-- App Icons -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔨</text></svg>">
     <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔨</text></svg>">
-    
-    <!-- Manifest as data URL -->
-    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIlJhYmllTWV0YWwgQXR0ZW5kYW5jZSBUcmFja2VyIiwKICAic2hvcnRfbmFtZSI6ICJSYWJpZU1ldGFsIiwKICAiZGVzY3JpcHRpb24iOiAiV29ya2VyIEF0dGVuZGFuY2UgVHJhY2tlciBhcHAgZm9yIFJhYmllTWV0YWwiLAogICJzdGFydF91cmwiICIuIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjMmMzZTUwIiwKICAidGhlbWVfY29sb3IiOiAiIzJjM2U1MCIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImRhdGE6aW1hZ2Uvc3ZnK3htbDtiYXNlNjQsUEhOMlp5QjRiV3h1Y3owaWFIUjBjRG92TDNkM2R5NTNNeTV2Y21jdk1qQXdNQzl6ZG1jaUlIWnBaWGRDYjNnOUlqQWdNQ0F6TlRBZ016VXdJaUJvWldsbmFIUTlJaklpSUhodGJHNXpPbk4wVW1WbVpYSmxibU5sSWo0S0lDQWdJRHh6ZEhsc1pUNG1JM2hoY3lCMGNtRnVjMlp2Y20wOUltMWhhV3d1YzNSdmNtVTZJR05oYkdNaUlHWnBiR3c5SW01dmJtVWlJSFpwWlhkQ2IzZzlJakFnTUNBek5UQWdNelV3SWlCNFBTQTRJREFnY0Q0OEwzUmxlSFErUEM5emRIbHNaVDQ4TDNOMlp6ND0iLAogICAgICAic2l6ZXMiOiAiMTkyeDE5MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH0sCiAgICB7CiAgICAgICJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCNGJXeHVjejBpYUhSMGNEb3ZMM2QzZHk1M015NXZjbWN2TWpBd01DOXpkbWNpSUhacFpYZENiM2c5SWpBZ01DQXpOVEFnTXpVd0lpQm9aV2xuYUhROUlqSWlJSGh0Ykc1ek9uTjBVbVZtWlhKbGJtTmxJajRLSUNBZ0lEeHpkSGxzWlQ0bUkzaGhjeUIwY21GdWMyWnZjbTA5SW0xaGFXd3VjM1J2Y21VNklHTmhiR01pSUdacGJHdzlJbTV2Ym1VaUlIWnBaWGRDYjNnOUlqQWdNQ0F6TlRBZ016VXdJaUI0UFNBNElEQWdjRDQ4TDNSbGVIUStQQzl6ZEhsc1pUNDhMM04yWno0PSIsCiAgICAgICJzaXplcyI6ICI1MTJ4NTEyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIgogICAgfQogIF0KfQ==">
     
     <style>
         :root {
@@ -65,7 +62,7 @@
             align-items: center;
         }
         
-        /* RabieMetal Header Styling */
+        /* Header Styling */
         header {
             background: linear-gradient(135deg, var(--primary) 0%, #1a2530 100%);
             color: white;
@@ -156,17 +153,6 @@
             gap: 10px;
             justify-content: center;
             margin-top: 10px;
-        }
-        
-        h1 {
-            font-size: 2.2rem;
-            margin-bottom: 5px;
-            font-weight: 600;
-        }
-        
-        .description {
-            font-size: 1.1rem;
-            opacity: 0.9;
         }
         
         .main-content {
@@ -308,15 +294,6 @@
             background-color: #f9fbfd;
         }
         
-        .total-row {
-            font-weight: bold;
-            background-color: #f0f7ff;
-        }
-        
-        .total-row td {
-            border-top: 2px solid var(--secondary);
-        }
-        
         .payment {
             color: var(--success);
             font-weight: 600;
@@ -367,10 +344,6 @@
             font-size: 24px;
             font-weight: bold;
             color: var(--secondary);
-        }
-        
-        .worker-summary {
-            margin-top: 30px;
         }
         
         .worker-card {
@@ -809,6 +782,33 @@
     </div>
 
     <script>
+        // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                // Create a service worker from a data URL
+                const serviceWorkerCode = `
+                    self.addEventListener('install', function(event) {
+                        event.waitUntil(self.skipWaiting());
+                    });
+                    
+                    self.addEventListener('activate', function(event) {
+                        event.waitUntil(self.clients.claim());
+                    });
+                `;
+                
+                const blob = new Blob([serviceWorkerCode], { type: 'application/javascript' });
+                const workerURL = URL.createObjectURL(blob);
+                
+                navigator.serviceWorker.register(workerURL)
+                    .then(function(registration) {
+                        console.log('ServiceWorker registration successful');
+                    })
+                    .catch(function(err) {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             // Set current date display
             const now = new Date();
