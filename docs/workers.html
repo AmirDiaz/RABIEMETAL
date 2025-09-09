@@ -6,15 +6,18 @@
     <title>RabieMetal - Worker Attendance Tracker</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- App Icons -->
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23e74c3c'/%3E%3Ctext x='50' y='65' text-anchor='middle' fill='white' font-size='50' font-weight='bold'%3ER%3C/text%3E%3C/svg%3E">
-    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%232c3e50'/%3E%3Ctext x='50' y='65' text-anchor='middle' fill='white' font-size='50' font-weight='bold'%3ER%3C/text%3E%3C/svg%3E">
-    
     <!-- PWA meta tags -->
     <meta name="theme-color" content="#2c3e50">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="RabieMetal">
+    
+    <!-- Icons for PWA -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔨</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔨</text></svg>">
+    
+    <!-- Manifest as data URL -->
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIlJhYmllTWV0YWwgQXR0ZW5kYW5jZSBUcmFja2VyIiwKICAic2hvcnRfbmFtZSI6ICJSYWJpZU1ldGFsIiwKICAiZGVzY3JpcHRpb24iOiAiV29ya2VyIEF0dGVuZGFuY2UgVHJhY2tlciBhcHAgZm9yIFJhYmllTWV0YWwiLAogICJzdGFydF91cmwiICIuIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjMmMzZTUwIiwKICAidGhlbWVfY29sb3IiOiAiIzJjM2U1MCIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImRhdGE6aW1hZ2Uvc3ZnK3htbDtiYXNlNjQsUEhOMlp5QjRiV3h1Y3owaWFIUjBjRG92TDNkM2R5NTNNeTV2Y21jdk1qQXdNQzl6ZG1jaUlIWnBaWGRDYjNnOUlqQWdNQ0F6TlRBZ016VXdJaUJvWldsbmFIUTlJaklpSUhodGJHNXpPbk4wVW1WbVpYSmxibU5sSWo0S0lDQWdJRHh6ZEhsc1pUNG1JM2hoY3lCMGNtRnVjMlp2Y20wOUltMWhhV3d1YzNSdmNtVTZJR05oYkdNaUlHWnBiR3c5SW01dmJtVWlJSFpwWlhkQ2IzZzlJakFnTUNBek5UQWdNelV3SWlCNFBTQTRJREFnY0Q0OEwzUmxlSFErUEM5emRIbHNaVDQ4TDNOMlp6ND0iLAogICAgICAic2l6ZXMiOiAiMTkyeDE5MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH0sCiAgICB7CiAgICAgICJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCNGJXeHVjejBpYUhSMGNEb3ZMM2QzZHk1M015NXZjbWN2TWpBd01DOXpkbWNpSUhacFpYZENiM2c5SWpBZ01DQXpOVEFnTXpVd0lpQm9aV2xuYUhROUlqSWlJSGh0Ykc1ek9uTjBVbVZtWlhKbGJtTmxJajRLSUNBZ0lEeHpkSGxzWlQ0bUkzaGhjeUIwY21GdWMyWnZjbTA5SW0xaGFXd3VjM1J2Y21VNklHTmhiR01pSUdacGJHdzlJbTV2Ym1VaUlIWnBaWGRDYjNnOUlqQWdNQ0F6TlRBZ016VXdJaUI0UFNBNElEQWdjRDQ4TDNSbGVIUStQQzl6ZEhsc1pUNDhMM04yWno0PSIsCiAgICAgICJzaXplcyI6ICI1MTJ4NTEyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIgogICAgfQogIF0KfQ==">
     
     <style>
         :root {
@@ -480,6 +483,51 @@
             font-size: 24px;
         }
         
+        /* Installation prompt */
+        .install-prompt {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 15px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .install-prompt p {
+            margin: 0;
+            font-weight: 500;
+        }
+        
+        .install-prompt-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .install-prompt-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .install-prompt-install {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .install-prompt-cancel {
+            background: #eee;
+            color: #666;
+        }
+        
         /* Responsive adjustments */
         @media (max-width: 1100px) {
             .main-content {
@@ -502,6 +550,12 @@
             .stats-filters {
                 width: 100%;
                 justify-content: center;
+            }
+            
+            .install-prompt {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
             }
         }
         
@@ -743,6 +797,15 @@
     <!-- Install button (initially hidden) -->
     <div id="installButton" class="install-btn" style="display: none;">
         <i class="fas fa-download"></i>
+    </div>
+
+    <!-- Install prompt (initially hidden) -->
+    <div id="installPrompt" class="install-prompt" style="display: none;">
+        <p>Install RabieMetal App for better experience</p>
+        <div class="install-prompt-buttons">
+            <button id="installCancel" class="install-prompt-btn install-prompt-cancel">Not Now</button>
+            <button id="installApp" class="install-prompt-btn install-prompt-install">Install</button>
+        </div>
     </div>
 
     <script>
@@ -1006,14 +1069,25 @@
             // PWA Installation handling
             let deferredPrompt;
             const installButton = document.getElementById('installButton');
+            const installPrompt = document.getElementById('installPrompt');
+            const installAppBtn = document.getElementById('installApp');
+            const installCancelBtn = document.getElementById('installCancel');
             
             window.addEventListener('beforeinstallprompt', (e) => {
                 // Prevent the mini-infobar from appearing on mobile
                 e.preventDefault();
                 // Stash the event so it can be triggered later
                 deferredPrompt = e;
-                // Show the install button
+                
+                // Show install button and prompt
                 installButton.style.display = 'flex';
+                
+                // Show prompt after 5 seconds
+                setTimeout(() => {
+                    if (!localStorage.getItem('installDismissed')) {
+                        installPrompt.style.display = 'flex';
+                    }
+                }, 5000);
                 
                 installButton.addEventListener('click', () => {
                     // Hide the install button
@@ -1030,6 +1104,31 @@
                         deferredPrompt = null;
                     });
                 });
+                
+                installAppBtn.addEventListener('click', () => {
+                    installPrompt.style.display = 'none';
+                    deferredPrompt.prompt();
+                    deferredPrompt.userChoice.then((choiceResult) => {
+                        if (choiceResult.outcome === 'accepted') {
+                            console.log('User accepted the install prompt');
+                        } else {
+                            console.log('User dismissed the install prompt');
+                        }
+                        deferredPrompt = null;
+                    });
+                });
+                
+                installCancelBtn.addEventListener('click', () => {
+                    installPrompt.style.display = 'none';
+                    localStorage.setItem('installDismissed', 'true');
+                });
+            });
+            
+            // Check if app is already installed
+            window.addEventListener('appinstalled', () => {
+                console.log('PWA was installed');
+                installButton.style.display = 'none';
+                installPrompt.style.display = 'none';
             });
             
             // Initial update
